@@ -206,34 +206,28 @@ nav {
   z-index: 3;
 }
 
-.ribbon-wrap {
+.ribbon-canvas-wrap {
   position: relative;
-  width: 100%;
-  margin-top: -28px;
-}
-
-.ribbon-filter-defs {
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
-
-.ribbon-img {
-  display: block;
-  width: 110%;
-  max-width: none;
-  margin-left: -5%;
-  height: auto;
-  transform: rotate(-4deg);
-  transform-origin: center;
-  filter: url(#ribbonWave);
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  height: 440px;
+  margin-top: -56px;
   pointer-events: none;
-  user-select: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ribbon-img { filter: none; }
+.ribbon-fallback {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(120% 80% at 30% 45%, rgba(94, 141, 230, 0.45) 0%, rgba(94, 141, 230, 0) 55%),
+    radial-gradient(120% 80% at 65% 60%, rgba(241, 220, 167, 0.55) 0%, rgba(241, 220, 167, 0) 58%),
+    radial-gradient(140% 90% at 50% 50%, rgba(252, 250, 245, 0.6) 0%, rgba(252, 250, 245, 0) 60%);
+  filter: blur(28px);
+  transform: rotate(-4deg) scale(1.1);
+  opacity: 0.9;
 }
 
 .ribbon-logos {
@@ -242,7 +236,7 @@ nav {
   align-items: center;
   justify-content: center;
   gap: var(--spacing-xl);
-  margin-top: var(--spacing-md);
+  margin-top: -40px;
   position: relative;
   z-index: 2;
 }
@@ -262,6 +256,7 @@ nav {
 }
 
 @media (max-width: 768px) {
-  .ribbon-logos { gap: var(--spacing-lg); margin-top: -8px; }
+  .ribbon-canvas-wrap { height: 280px; margin-top: -32px; }
+  .ribbon-logos { gap: var(--spacing-lg); margin-top: -16px; }
   .ribbon-logo { font-size: 17px; }
 }

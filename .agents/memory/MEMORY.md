@@ -4,3 +4,4 @@
 - [Kairo pagination helpers](kairo-pagination.md) — paginationArgs + paginationMeta live in backend/src/lib/db.ts
 - [Kairo auth context workspaceSlug](kairo-auth-context.md) — auth.jsx exposes BOTH activeSlug AND workspaceSlug (alias); pages must destructure workspaceSlug
 - [Kairo CSS classes](kairo-css-classes.md) — modal forms need db-form-group/label/input/required/hint and db-modal-close; all defined in dashboard.css after line 985
+- [WebGL/R3F preview quirk](kairo-webgl-preview.md) — Three.js Canvas blanks the page in the GPU-less agent preview; always guard with webglSupported() + error boundary fallback
