@@ -1,0 +1,143 @@
+Build a complete landing page for Kairo.
+
+Kairo is an AI-powered Product Intelligence Operating System that helps product teams simulate decisions, predict outcomes, identify risks, understand users, and validate ideas before building them.
+
+IMPORTANT:
+
+The design must follow the same premium design philosophy, layout structure, spacing, storytelling flow, typography hierarchy, and visual quality as Handhold.io.
+
+Do NOT create a generic AI SaaS website.
+
+Do NOT create a dashboard-heavy landing page.
+
+Do NOT use neon colors, cyberpunk effects, glowing orbs, excessive gradients, glassmorphism overload, or AI-generated startup aesthetics.
+
+The website should feel handcrafted by elite product designers.
+
+Design Style:
+
+* Inspired by Handhold.io
+* Editorial typography
+* Massive whitespace
+* Premium SaaS feel
+* Minimal visual noise
+* Elegant animations
+* Sophisticated product storytelling
+* Apple-level design quality
+
+Colors:
+
+Background: warm off-white (#F6F5F2)
+
+Cards: white
+
+Primary text: near black (#111111)
+
+Secondary text: gray (#666666)
+
+Borders: subtle neutral gray
+
+Accent color: black only
+
+Use color only inside illustrations and product visuals.
+
+Typography:
+
+* Instrument Serif for major headlines
+* Inter for body content
+
+Layout Structure:
+
+1. Hero Section
+
+Headline:
+"The Intelligence OS for Product Teams"
+
+Subheadline:
+"Simulate product decisions, predict outcomes, uncover risks, and build products with confidence."
+
+Primary CTA:
+Start Free
+
+Secondary CTA:
+Watch Demo
+
+Hero visual:
+Interactive Product Intelligence Ecosystem showing Product Core connected to Users, Revenue, Retention, Roadmap, Features, and Insights.
+
+2. Interactive Product Brain Demo
+
+Create a beautiful AI conversation interface.
+
+User asks:
+"Should we launch AI flashcards?"
+
+Kairo responds with:
+Retention impact, risks, confidence score, and recommendation.
+
+3. Product Brain
+
+Explain how Kairo predicts outcomes before development begins.
+
+Show a premium analytics and prediction interface.
+
+4. AI Boardroom
+
+Show multiple AI stakeholders debating a feature idea.
+
+Founder, CTO, Growth PM, UX Researcher, and Finance Lead.
+
+5. User Emotion Simulator
+
+Show emotional journey prediction across onboarding and product usage.
+
+6. Product Time Machine
+
+Visualize future outcomes across 30 days, 90 days, 1 year, and 3 years.
+
+7. Digital User City
+
+Visualize users as a living ecosystem showing active users, power users, and churn risks.
+
+8. Competitor Intelligence
+
+Show competitor comparison and market analysis.
+
+9. Feature Impact Sandbox
+
+Show how features affect retention, revenue, and engagement.
+
+10. Decision Workflow
+
+Visualize:
+Idea → Simulation → Debate → Risk Analysis → Launch
+
+11. Testimonials
+
+3 realistic customer testimonials.
+
+12. FAQ
+
+Common product questions.
+
+13. Final CTA
+
+Headline:
+"Every great product starts with a decision."
+
+Subheadline:
+"Make better ones with Kairo."
+
+Technical Requirements:
+
+* Fully responsive
+* Modern animations
+* Smooth scrolling
+* Professional transitions
+* Clean component architecture
+* Production-ready UI
+* Beautiful section transitions
+* High-end product mockups
+* Realistic SaaS screenshots
+
+The final website should look like a venture-backed startup worth millions of dollars and should feel comparable in quality to Handhold.io, Linear, Notion, and Apple.
