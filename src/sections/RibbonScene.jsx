@@ -215,12 +215,12 @@ function Scene({ mouse }) {
     const t = state.clock.elapsedTime;
     if (group.current) {
       group.current.position.y = Math.sin(t * 0.20) * 0.10;
-      group.current.rotation.z = -0.03 + Math.sin(t * 0.12) * 0.018;
+      group.current.rotation.z = -0.10 + Math.sin(t * 0.12) * 0.02;
     }
   });
 
   return (
-    <group ref={group} rotation={[-0.08, 0, -0.03]}>
+    <group ref={group} rotation={[-0.08, 0, -0.10]}>
       {STRANDS.map((cfg) => (
         <Strand key={cfg.seed} cfg={cfg} mouse={mouse} />
       ))}

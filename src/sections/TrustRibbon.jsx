@@ -21,8 +21,6 @@ class RibbonBoundary extends Component {
 }
 
 export default function TrustRibbon() {
-  const logos = ['aikido', 'Parim', 'LIVEFORCE', 'finbite', 'Parcel Tracker'];
-
   return (
     <section className="ribbon-section">
       <div className="container">
@@ -50,14 +48,6 @@ export default function TrustRibbon() {
             <RibbonScene />
           </Suspense>
         </RibbonBoundary>
-      </div>
-
-      <div className="container">
-        <div className="ribbon-logos">
-          {logos.map((name) => (
-            <span key={name} className="ribbon-logo serif">{name}</span>
-          ))}
-        </div>
       </div>
     </section>
   );
