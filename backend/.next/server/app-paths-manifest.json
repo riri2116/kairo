@@ -1,7 +1,1 @@
-{
-  "/api/journeys/route": "app/api/journeys/route.js",
-  "/api/journeys/[id]/route": "app/api/journeys/[id]/route.js",
-  "/api/emotion/metrics/route": "app/api/emotion/metrics/route.js",
-  "/api/auth/register/route": "app/api/auth/register/route.js",
-  "/api/auth/token/route": "app/api/auth/token/route.js"
-}
+{}

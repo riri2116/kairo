@@ -1,13 +1,14 @@
 /**
  * Emotion Simulator AI layer.
  *
- * Performs REAL analysis of a product journey with GPT-4o — no mock data and no
- * random/placeholder psychology. Given a journey and its ordered steps, it
+ * Performs REAL analysis of a product journey with Google Gemini — no mock data
+ * and no random/placeholder psychology. Given a journey and its ordered steps, it
  * predicts the likely emotional state at each step, scores friction / drop-off /
  * confidence, surfaces UX risks and optimization opportunities, and proposes an
  * optimized version of the journey for comparison.
  *
- * Requires OPENAI_API_KEY. Errors (missing key, quota, etc.) propagate to the
+ * Uses the Gemini Developer API via @google/genai (blueprint: javascript_gemini).
+ * Requires GEMINI_API_KEY. Errors (missing key, quota, etc.) propagate to the
  * route so they can be surfaced to the user — we never silently fabricate output.
  */
 
@@ -231,28 +232,28 @@ Provide one timeline entry per input step (same order). Provide 2-5 risks and 2-
 export async function runEmotionAnalysis(
   journey: JourneyForAnalysis
 ): Promise<EmotionAnalysisResult> {
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error("OPENAI_API_KEY is not set");
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error("GEMINI_API_KEY is not set");
   }
   if (!journey.steps || journey.steps.length === 0) {
     throw new Error("Journey has no steps to analyze");
   }
 
-  const { default: OpenAI } = await import("openai");
-  const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  // Gemini Developer API — blueprint: javascript_gemini (@google/genai)
+  const { GoogleGenAI } = await import("@google/genai");
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-  const completion = await client.chat.completions.create({
-    model: "gpt-4o",
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      { role: "user", content: buildUserPrompt(journey) },
-    ],
-    temperature: 0.5,
-    max_tokens: 3000,
-    response_format: { type: "json_object" },
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-pro",
+    config: {
+      systemInstruction: SYSTEM_PROMPT,
+      responseMimeType: "application/json",
+      temperature: 0.5,
+    },
+    contents: buildUserPrompt(journey),
   });
 
-  const raw = JSON.parse(completion.choices[0]?.message?.content ?? "{}");
+  const raw = JSON.parse(response.text ?? "{}");
 
   // ── normalize timeline (align to input steps, fill any gaps) ────────────────
   const rawTimeline: any[] = Array.isArray(raw.timeline) ? raw.timeline : [];

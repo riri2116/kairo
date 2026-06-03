@@ -101,14 +101,17 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
         data: { status: SimulationStatus.FAILED },
       });
 
-      const code = aiError?.code ?? aiError?.type ?? "ai_error";
+      const rawMsg = String(aiError?.message ?? "");
+      const code = aiError?.code ?? aiError?.status ?? aiError?.type ?? "ai_error";
       const status = aiError?.status ?? 500;
+      const isQuota = status === 429 || /quota|rate.?limit|resource.?exhausted/i.test(rawMsg);
+      const isAuth = status === 401 || status === 403 || /api.?key|permission|unauthenticated|invalid.?key/i.test(rawMsg);
       const msg =
-        code === "insufficient_quota"
-          ? "OpenAI quota exceeded — please add billing credits to your OpenAI account."
-          : code === "invalid_api_key"
-          ? "Invalid OpenAI API key — please check your OPENAI_API_KEY secret."
-          : aiError?.message ?? "Emotion analysis failed. Please try again.";
+        isQuota
+          ? "Gemini quota exceeded — please check your Google AI Studio usage limits."
+          : isAuth || rawMsg.includes("GEMINI_API_KEY is not set")
+          ? "Gemini API key missing or invalid — please check your GEMINI_API_KEY secret."
+          : rawMsg || "Emotion analysis failed. Please try again.";
 
       console.error("[Emotion AI Error]", aiError?.message ?? aiError);
       return NextResponse.json({ success: false, error: msg, code }, { status: status === 429 ? 429 : 502 });
