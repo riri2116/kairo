@@ -131,6 +131,23 @@ export const boardroomApi = {
   delete: (id) => api.delete(`/boardroom/${id}`),
 };
 
+// ─── Emotion Simulator ────────────────────────────────────────────────────────
+
+export const emotionApi = {
+  listJourneys: (workspaceSlug, { page = 1, limit = 50, type } = {}) => {
+    const params = new URLSearchParams({ workspaceSlug, page, limit });
+    if (type) params.set('type', type);
+    return api.get(`/journeys?${params}`);
+  },
+  getJourney:    (id) => api.get(`/journeys/${id}`),
+  createJourney: (workspaceSlug, data) => api.post('/journeys', { workspaceSlug, ...data }),
+  updateJourney: (id, data) => api.patch(`/journeys/${id}`, data),
+  deleteJourney: (id) => api.delete(`/journeys/${id}`),
+  analyze:       (journeyId) => api.post(`/journeys/${journeyId}/analyze`),
+  deleteAnalysis:(id) => api.delete(`/emotion/analyses/${id}`),
+  metrics:       (workspaceSlug) => api.get(`/emotion/metrics?workspaceSlug=${encodeURIComponent(workspaceSlug)}`),
+};
+
 // ─── Competitors ──────────────────────────────────────────────────────────────
 
 export const competitorsApi = {

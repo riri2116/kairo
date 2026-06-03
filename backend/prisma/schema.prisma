@@ -227,6 +227,8 @@ model Workspace {
   featureSandboxes     FeatureSandbox[]
   roadmaps             Roadmap[]
   requirements         ProductRequirement[]
+  journeys             Journey[]
+  emotionAnalyses      EmotionAnalysis[]
 
   @@index([slug])
   @@index([deletedAt])
@@ -284,6 +286,8 @@ model Product {
   roadmaps           Roadmap[]
   requirements       ProductRequirement[]
   brainAnalyses      ProductBrainAnalysis[]
+  journeys           Journey[]
+  emotionAnalyses    EmotionAnalysis[]
 
   @@index([workspaceId])
   @@index([stage])
@@ -610,4 +614,150 @@ model Notification {
   @@index([workspaceId])
   @@index([deletedAt])
   @@map("notifications")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Emotion Simulator — journey emotional-experience analysis
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum JourneyType {
+  ONBOARDING
+  CHECKOUT
+  FEATURE_DISCOVERY
+  SUBSCRIPTION_UPGRADE
+  PRODUCT_ACTIVATION
+  CUSTOM
+}
+
+enum EmotionType {
+  EXCITED
+  CURIOUS
+  CONFIDENT
+  CONFUSED
+  FRUSTRATED
+  OVERWHELMED
+  DELIGHTED
+}
+
+enum OptimizationCategory {
+  SIMPLIFICATION
+  ONBOARDING
+  GUIDANCE
+  FLOW_IMPROVEMENT
+}
+
+model Journey {
+  id          String      @id @default(uuid()) @db.Uuid
+  workspaceId String      @db.Uuid
+  productId   String?     @db.Uuid
+  name        String
+  type        JourneyType @default(CUSTOM)
+  description String?     @db.Text
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  workspace Workspace         @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  product   Product?          @relation(fields: [productId],   references: [id], onDelete: SetNull)
+  steps     JourneyStep[]
+  analyses  EmotionAnalysis[]
+
+  @@index([workspaceId])
+  @@index([productId])
+  @@index([type])
+  @@index([deletedAt])
+  @@map("journeys")
+}
+
+model JourneyStep {
+  id          String  @id @default(uuid()) @db.Uuid
+  journeyId   String  @db.Uuid
+  order       Int
+  title       String
+  description String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  journey Journey @relation(fields: [journeyId], references: [id], onDelete: Cascade)
+
+  @@index([journeyId])
+  @@map("journey_steps")
+}
+
+model EmotionAnalysis {
+  id          String           @id @default(uuid()) @db.Uuid
+  workspaceId String           @db.Uuid
+  journeyId   String           @db.Uuid
+  productId   String?          @db.Uuid
+  status      SimulationStatus @default(PENDING)
+
+  // Aggregate dashboard metrics (0–100)
+  avgFrictionScore    Float?
+  dropOffRisk         Float?
+  confidenceScore     Float?
+  delightScore        Float?
+  activationPotential Float?
+  overallRisk         RiskLevel?
+
+  summary          String? @db.Text
+  // Per-step emotional timeline snapshot (captured at analysis time)
+  timeline         Json?
+  // Optimized journey proposal for current-vs-optimized comparison
+  optimizedJourney Json?
+  rawResponse      Json?
+
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  workspace   Workspace                @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  journey     Journey                  @relation(fields: [journeyId],   references: [id], onDelete: Cascade)
+  product     Product?                 @relation(fields: [productId],   references: [id], onDelete: SetNull)
+  risks       UXRisk[]
+  suggestions OptimizationSuggestion[]
+
+  @@index([workspaceId])
+  @@index([journeyId])
+  @@index([productId])
+  @@index([status])
+  @@index([deletedAt])
+  @@map("emotion_analyses")
+}
+
+model UXRisk {
+  id            String    @id @default(uuid()) @db.Uuid
+  analysisId    String    @db.Uuid
+  area          String
+  level         RiskLevel @default(MEDIUM)
+  description   String    @db.Text
+  stepReference String?
+
+  createdAt DateTime @default(now())
+
+  analysis EmotionAnalysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([analysisId])
+  @@index([level])
+  @@map("ux_risks")
+}
+
+model OptimizationSuggestion {
+  id             String               @id @default(uuid()) @db.Uuid
+  analysisId     String               @db.Uuid
+  category       OptimizationCategory @default(FLOW_IMPROVEMENT)
+  title          String
+  description    String               @db.Text
+  expectedImpact String?
+  priority       Priority             @default(MEDIUM)
+
+  createdAt DateTime @default(now())
+
+  analysis EmotionAnalysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([analysisId])
+  @@index([category])
+  @@map("optimization_suggestions")
 }

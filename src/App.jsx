@@ -25,6 +25,7 @@ import RegisterPage from './dashboard/pages/RegisterPage';
 import OverviewPage from './dashboard/pages/OverviewPage';
 import ProductBrainPage from './dashboard/pages/ProductBrainPage';
 import AIBoardroomPage from './dashboard/pages/AIBoardroomPage';
+import EmotionSimulatorPage from './dashboard/pages/EmotionSimulatorPage';
 import CompetitorPage from './dashboard/pages/CompetitorPage';
 import FeatureSandboxPage from './dashboard/pages/FeatureSandboxPage';
 import RoadmapsPage from './dashboard/pages/RoadmapsPage';
@@ -78,6 +79,7 @@ export default function App() {
             <Route path="products/:id"          element={<ProductDetailPage />} />
             <Route path="product-brain"         element={<ProductBrainPage />} />
             <Route path="boardroom"             element={<AIBoardroomPage />} />
+            <Route path="emotion-simulator"     element={<EmotionSimulatorPage />} />
             <Route path="competitors"           element={<CompetitorPage />} />
             <Route path="sandbox"               element={<FeatureSandboxPage />} />
             <Route path="roadmaps"              element={<RoadmapsPage />} />

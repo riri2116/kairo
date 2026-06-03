@@ -1,0 +1,136 @@
+Add a new dashboard module called:
+
+Emotion Simulator
+
+Place it below AI Boardroom in the sidebar.
+
+This module should only be accessible after login.
+
+PURPOSE
+
+Emotion Simulator should not guess random emotions.
+
+Instead it should analyze user journeys and identify likely emotional states during product interactions.
+
+The goal is to help product teams understand where users become:
+
+* Excited
+* Curious
+* Confident
+* Confused
+* Frustrated
+* Overwhelmed
+* Delighted
+
+FEATURES
+
+1. Journey Builder
+
+Allow users to create journeys:
+
+Examples:
+
+* User Onboarding
+* Checkout Flow
+* Feature Discovery
+* Subscription Upgrade
+* Product Activation
+
+Create journey steps.
+
+2. Emotion Timeline
+
+Display a visual timeline.
+
+Each step contains:
+
+* Expected Emotion
+* Confidence Score
+* Friction Level
+* Drop-off Risk
+
+Use a modern timeline UI.
+
+3. Friction Detection
+
+Highlight:
+
+* Complex screens
+* Long processes
+* Too many decisions
+* Potential confusion points
+
+4. UX Risk Report
+
+Generate:
+
+* High Risk Areas
+* Medium Risk Areas
+* Low Risk Areas
+
+5. Opportunity Detection
+
+Suggest:
+
+* Simplifications
+* Better onboarding
+* Additional guidance
+* Improved user flow
+
+6. Journey Comparison
+
+Compare:
+
+Current Journey
+
+vs
+
+Optimized Journey
+
+7. Dashboard Metrics
+
+Show:
+
+* Average Friction Score
+* Drop-off Risk
+* Confidence Score
+* Delight Score
+* Activation Potential
+
+VISUAL DESIGN
+
+Do not use emojis.
+
+Do not make it childish.
+
+Use:
+
+* Journey Maps
+* Heatmaps
+* Timelines
+* Friction Indicators
+* Flow Visualizations
+
+DATABASE
+
+Create:
+
+EmotionAnalysis
+Journey
+JourneyStep
+UXRisk
+OptimizationSuggestion
+
+Store history.
+
+Allow editing.
+
+Allow exporting reports.
+
+UI GOAL
+
+The module should feel like a professional UX Research and Product Intelligence tool used by product teams at companies like Notion, Linear, Stripe, and Airbnb.
+
+Avoid fake psychology.
+
+Focus on user journeys, friction, and product experience.
