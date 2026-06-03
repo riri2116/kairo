@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
     setActiveSlug(slug);
   }, []);
 
-  const value = { user, workspaces, activeSlug, isAuthenticated, loading, error, login, logout, switchWorkspace };
+  const value = { user, workspaces, activeSlug, workspaceSlug: activeSlug, isAuthenticated, loading, error, login, logout, switchWorkspace };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

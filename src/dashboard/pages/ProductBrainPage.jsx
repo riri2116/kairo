@@ -183,8 +183,8 @@ function SubmitModal({ onClose, onSubmit, loading }) {
               <div className="brain-running-state">
                 <Loader2 size={20} className="brain-spin" color="#6366f1" />
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>Analyzing with GPT-4o…</div>
-                  <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>This usually takes 5–15 seconds</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>Running AI analysis…</div>
+                  <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>This usually takes a few seconds</div>
                 </div>
               </div>
             )}

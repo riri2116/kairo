@@ -966,10 +966,46 @@
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
-  padding-top: 8px;
+  padding: 14px 24px 20px;
   border-top: 1px solid #F0EFEB;
-  margin-top: 4px;
+  flex-shrink: 0;
 }
+.db-modal-close {
+  background: none; border: none;
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #aaa; cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.db-modal-close:hover { background: #F6F5F2; color: #555; }
+
+/* ─── Form elements ─────────────────────────────────────────────────────────── */
+.db-form-group { display: flex; flex-direction: column; gap: 6px; }
+.db-form-label {
+  font-size: 12px; font-weight: 600; color: #444;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.db-form-required { color: #ef4444; margin-left: 2px; }
+.db-form-hint { font-weight: 400; color: #aaa; text-transform: none; letter-spacing: 0; }
+.db-form-input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid #E5E4E0;
+  border-radius: 9px;
+  font-size: 13.5px;
+  color: #111;
+  background: #fff;
+  outline: none;
+  font-family: 'Inter', system-ui, sans-serif;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+  appearance: none;
+}
+.db-form-input:focus { border-color: #888; }
+.db-form-input::placeholder { color: #bbb; }
+.db-form-input:disabled { background: #FAFAF8; color: #aaa; cursor: not-allowed; }
+textarea.db-form-input { line-height: 1.55; resize: vertical; }
+select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 32px; }
 
 /* ─── Dropdown ─────────────────────────────────────────────────────────────── */
 .db-dropdown {
@@ -1346,7 +1382,7 @@
 
 /* ─── Boardroom Transcript ─────────────────────────────────────────────────── */
 .brd-transcript { display: flex; flex-direction: column; gap: 14px; }
-.brd-message { display: flex; gap: 12; align-items: flex-start; }
+.brd-message { display: flex; gap: 12px; align-items: flex-start; }
 .brd-avatar {
   width: 36px; height: 36px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
@@ -1354,7 +1390,7 @@
   letter-spacing: 0.02em;
 }
 .brd-bubble { flex: 1; background: #fff; border: 1px solid #ECEAE7; border-radius: 10px; padding: 12px 14px; }
-.brd-persona { display: flex; align-items: center; gap: 8; margin-bottom: 7px; flex-wrap: wrap; }
+.brd-persona { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; flex-wrap: wrap; }
 .brd-name { font-size: 13px; font-weight: 640; color: #111; }
 .brd-role { font-size: 11.5px; color: #aaa; }
 .brd-stance { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 100px; letter-spacing: 0.03em; }

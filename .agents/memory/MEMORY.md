@@ -2,3 +2,5 @@
 - [Kairo schema workspace-id pattern](kairo-schema-workspaceid.md) — boardroom/competitors/sandboxes/roadmaps/requirements all have optional workspaceId added via migration; productId also optional
 - [Kairo auth endpoint](kairo-auth.md) — login is POST /api/auth/token (not /api/auth/login which is NextAuth-reserved); Bearer JWT stored as kairo_token
 - [Kairo pagination helpers](kairo-pagination.md) — paginationArgs + paginationMeta live in backend/src/lib/db.ts
+- [Kairo auth context workspaceSlug](kairo-auth-context.md) — auth.jsx exposes BOTH activeSlug AND workspaceSlug (alias); pages must destructure workspaceSlug
+- [Kairo CSS classes](kairo-css-classes.md) — modal forms need db-form-group/label/input/required/hint and db-modal-close; all defined in dashboard.css after line 985
