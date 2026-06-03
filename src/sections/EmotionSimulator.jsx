@@ -23,6 +23,23 @@ function toSVGPath(pts) {
 
 const pathD = toSVGPath(stages);
 
+// Continuous "breathing" frames — small offsets around the base emotional arc
+// so the line keeps drifting up and down while preserving its shape.
+const STAGE_X = stages.map(s => s.x);
+const FRAME_YS = [
+  stages.map(s => s.y),          // base
+  [58, 27, 80, 13, 33],
+  [66, 37, 70, 23, 23],
+  [60, 30, 78, 16, 30],
+];
+const buildPath = ys => toSVGPath(STAGE_X.map((x, i) => ({ x, y: ys[i] })));
+// Loop the first frame onto the end for a seamless cycle.
+const LOOP_YS    = [...FRAME_YS, FRAME_YS[0]];
+const LINE_FRAMES = LOOP_YS.map(buildPath);
+const AREA_FRAMES = LOOP_YS.map(ys => buildPath(ys) + ' L 85 100 L 5 100 Z');
+const POINT_CY    = stages.map((_, i) => LOOP_YS.map(ys => ys[i]));
+const MORPH_DURATION = 9;
+
 const GLYPH_DASHES = [
   { x: 40.5, y: 6 },
   { x: 22.5, y: 18 }, { x: 40.5, y: 18 }, { x: 58.5, y: 18 },
@@ -136,23 +153,29 @@ export default function EmotionSimulator() {
 
                   {/* Filled area */}
                   <motion.path
-                    d={pathD + ' L 85 100 L 5 100 Z'}
+                    d={AREA_FRAMES[0]}
                     fill="rgba(0,0,0,0.03)"
                     initial={{ opacity: 0 }}
-                    animate={inView ? { opacity: 1 } : {}}
-                    transition={{ duration: 1.5, delay: 0.4 }}
+                    animate={inView ? { opacity: 1, d: AREA_FRAMES } : {}}
+                    transition={{
+                      opacity: { duration: 1.5, delay: 0.4 },
+                      d: { duration: MORPH_DURATION, repeat: Infinity, ease: 'easeInOut', delay: 2.2 },
+                    }}
                   />
 
                   {/* Main line */}
                   <motion.path
-                    d={pathD}
+                    d={LINE_FRAMES[0]}
                     fill="none"
                     stroke="var(--text-primary)"
                     strokeWidth="1.8"
                     strokeLinecap="round"
                     initial={{ pathLength: 0 }}
-                    animate={inView ? { pathLength: 1 } : { pathLength: 0 }}
-                    transition={{ duration: 2.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    animate={inView ? { pathLength: 1, d: LINE_FRAMES } : { pathLength: 0 }}
+                    transition={{
+                      pathLength: { duration: 2.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] },
+                      d: { duration: MORPH_DURATION, repeat: Infinity, ease: 'easeInOut', delay: 2.2 },
+                    }}
                   />
 
                   {/* Points */}
@@ -166,8 +189,11 @@ export default function EmotionSimulator() {
                       stroke="var(--text-primary)"
                       strokeWidth="1.5"
                       initial={{ scale: 0 }}
-                      animate={inView ? { scale: 1 } : { scale: 0 }}
-                      transition={{ duration: 0.4, delay: 0.6 + i * 0.35 }}
+                      animate={inView ? { scale: 1, cy: POINT_CY[i] } : { scale: 0 }}
+                      transition={{
+                        scale: { duration: 0.4, delay: 0.6 + i * 0.35 },
+                        cy: { duration: MORPH_DURATION, repeat: Infinity, ease: 'easeInOut', delay: 2.2 },
+                      }}
                     />
                   ))}
                 </svg>
