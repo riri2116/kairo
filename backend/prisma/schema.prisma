@@ -1,0 +1,476 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum WorkspaceRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum WorkspacePlan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum ProductStage {
+  IDEA
+  DISCOVERY
+  DEVELOPMENT
+  BETA
+  LAUNCHED
+  SCALING
+}
+
+enum SimulationStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum SessionStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum SandboxStatus {
+  DRAFT
+  SIMULATING
+  COMPLETED
+  ARCHIVED
+}
+
+enum PredictionType {
+  USER_GROWTH
+  REVENUE
+  RETENTION
+  CHURN
+  ENGAGEMENT
+  MARKET_FIT
+}
+
+enum PredictionHorizon {
+  THIRTY_DAYS
+  NINETY_DAYS
+  ONE_YEAR
+  THREE_YEARS
+}
+
+enum RoadmapStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum RoadmapItemStatus {
+  PLANNED
+  IN_PROGRESS
+  COMPLETED
+  BLOCKED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum RequirementType {
+  FEATURE
+  BUG_FIX
+  IMPROVEMENT
+  TECHNICAL_DEBT
+  RESEARCH
+}
+
+enum RequirementStatus {
+  DRAFT
+  REVIEW
+  APPROVED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+enum NotificationType {
+  SIMULATION_COMPLETE
+  PREDICTION_UPDATED
+  BOARDROOM_READY
+  COMPETITOR_ALERT
+  TEAM_INVITATION
+  SYSTEM
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// User
+// ─────────────────────────────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique
+  name         String?
+  avatarUrl    String?
+  passwordHash String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  memberships   WorkspaceMember[]
+  notifications Notification[]
+
+  @@index([email])
+  @@index([deletedAt])
+  @@map("users")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Workspace
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Workspace {
+  id      String        @id @default(uuid()) @db.Uuid
+  name    String
+  slug    String        @unique
+  logoUrl String?
+  plan    WorkspacePlan @default(FREE)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  members  WorkspaceMember[]
+  products Product[]
+
+  @@index([slug])
+  @@index([deletedAt])
+  @@map("workspaces")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WorkspaceMember — join table for multi-tenancy + RBAC
+// ─────────────────────────────────────────────────────────────────────────────
+
+model WorkspaceMember {
+  id          String        @id @default(uuid()) @db.Uuid
+  userId      String        @db.Uuid
+  workspaceId String        @db.Uuid
+  role        WorkspaceRole @default(MEMBER)
+
+  joinedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workspaceId])
+  @@index([workspaceId])
+  @@index([userId])
+  @@map("workspace_members")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Product
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Product {
+  id          String       @id @default(uuid()) @db.Uuid
+  workspaceId String       @db.Uuid
+  name        String
+  description String?
+  industry    String?
+  stage       ProductStage @default(IDEA)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  workspace          Workspace            @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  simulations        Simulation[]
+  predictions        Prediction[]
+  boardroomSessions  BoardroomSession[]
+  competitorAnalyses CompetitorAnalysis[]
+  featureSandboxes   FeatureSandbox[]
+  roadmaps           Roadmap[]
+  requirements       ProductRequirement[]
+
+  @@index([workspaceId])
+  @@index([stage])
+  @@index([deletedAt])
+  @@map("products")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Simulation
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Simulation {
+  id              String           @id @default(uuid()) @db.Uuid
+  productId       String           @db.Uuid
+  name            String
+  question        String
+  status          SimulationStatus @default(PENDING)
+  confidence      Float?
+  retentionImpact Float?
+  riskScore       RiskLevel?
+  result          Json?
+  runAt           DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([status])
+  @@index([deletedAt])
+  @@map("simulations")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BoardroomSession
+// ─────────────────────────────────────────────────────────────────────────────
+
+model BoardroomSession {
+  id         String        @id @default(uuid()) @db.Uuid
+  productId  String        @db.Uuid
+  topic      String
+  summary    String?
+  consensus  String?
+  status     SessionStatus @default(PENDING)
+  votes      Json?
+  transcript Json?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([status])
+  @@index([deletedAt])
+  @@map("boardroom_sessions")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CompetitorAnalysis
+// ─────────────────────────────────────────────────────────────────────────────
+
+model CompetitorAnalysis {
+  id             String   @id @default(uuid()) @db.Uuid
+  productId      String   @db.Uuid
+  competitorName String
+  competitorUrl  String?
+  strengths      String[]
+  weaknesses     String[]
+  opportunities  String[]
+  threats        String[]
+  score          Int?
+  rawData        Json?
+  analyzedAt     DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([deletedAt])
+  @@map("competitor_analyses")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FeatureSandbox
+// ─────────────────────────────────────────────────────────────────────────────
+
+model FeatureSandbox {
+  id                String        @id @default(uuid()) @db.Uuid
+  productId         String        @db.Uuid
+  featureName       String
+  description       String?
+  retentionImpact   Float?
+  revenueImpact     Float?
+  engagementImpact  Float?
+  effortEstimateDays Int?
+  riskLevel         RiskLevel?
+  status            SandboxStatus @default(DRAFT)
+  parameters        Json?
+  results           Json?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([status])
+  @@index([deletedAt])
+  @@map("feature_sandboxes")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Prediction
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Prediction {
+  id             String            @id @default(uuid()) @db.Uuid
+  productId      String            @db.Uuid
+  title          String
+  type           PredictionType
+  confidence     Float
+  horizon        PredictionHorizon
+  predictedValue Json?
+  actualValue    Json?
+  accuracy       Float?
+  metadata       Json?
+  resolvedAt     DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([type])
+  @@index([horizon])
+  @@index([deletedAt])
+  @@map("predictions")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Roadmap
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Roadmap {
+  id          String        @id @default(uuid()) @db.Uuid
+  productId   String        @db.Uuid
+  title       String
+  description String?
+  quarter     String?
+  status      RoadmapStatus @default(DRAFT)
+  goals       String[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  product Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  items   RoadmapItem[]
+
+  @@index([productId])
+  @@index([status])
+  @@index([deletedAt])
+  @@map("roadmaps")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RoadmapItem
+// ─────────────────────────────────────────────────────────────────────────────
+
+model RoadmapItem {
+  id          String            @id @default(uuid()) @db.Uuid
+  roadmapId   String            @db.Uuid
+  title       String
+  description String?
+  priority    Priority          @default(MEDIUM)
+  status      RoadmapItemStatus @default(PLANNED)
+  dueDate     DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  roadmap Roadmap @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
+
+  @@index([roadmapId])
+  @@index([priority])
+  @@index([status])
+  @@index([deletedAt])
+  @@map("roadmap_items")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ProductRequirement
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ProductRequirement {
+  id                 String            @id @default(uuid()) @db.Uuid
+  productId          String            @db.Uuid
+  title              String
+  description        String
+  type               RequirementType   @default(FEATURE)
+  priority           Priority          @default(MEDIUM)
+  status             RequirementStatus @default(DRAFT)
+  acceptanceCriteria String[]
+  tags               String[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([type])
+  @@index([priority])
+  @@index([status])
+  @@index([deletedAt])
+  @@map("product_requirements")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Notification
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Notification {
+  id          String           @id @default(uuid()) @db.Uuid
+  userId      String           @db.Uuid
+  workspaceId String?          @db.Uuid
+  type        NotificationType
+  title       String
+  message     String
+  read        Boolean          @default(false)
+  readAt      DateTime?
+  actionUrl   String?
+  metadata    Json?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([read])
+  @@index([workspaceId])
+  @@index([deletedAt])
+  @@map("notifications")
+}
