@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader, Eye, EyeOff } from 'lucide-react';
+import { Loader, Eye, EyeOff, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../lib/auth';
 
 export default function LoginPage() {
@@ -12,6 +12,17 @@ export default function LoginPage() {
   const [showPass, setShowPass]   = useState(false);
   const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState('');
+  const [theme, setTheme]         = useState(() => {
+    try { return localStorage.getItem('kairo-login-theme') || 'light'; } catch { return 'light'; }
+  });
+
+  function toggleTheme() {
+    setTheme(t => {
+      const next = t === 'light' ? 'dark' : 'light';
+      try { localStorage.setItem('kairo-login-theme', next); } catch { /* ignore */ }
+      return next;
+    });
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -29,75 +40,90 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="db-login-page">
-      <div className="db-login-card">
-        {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32 }}>
-          <div style={{ width: 32, height: 32, background: '#111', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <span style={{ fontFamily: 'Instrument Serif, serif', fontSize: 18, color: '#fff', lineHeight: 1 }}>K</span>
-          </div>
-          <span style={{ fontFamily: 'Instrument Serif, serif', fontSize: 22, color: '#111' }}>Kairo</span>
+    <div className={`login-shell ${theme}`}>
+      <button
+        type="button"
+        className="login-toggle"
+        onClick={toggleTheme}
+        aria-label={theme === 'light' ? 'Switch to night mode' : 'Switch to day mode'}
+      >
+        {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
+        <span>{theme === 'light' ? 'Night' : 'Day'}</span>
+      </button>
+
+      {/* Brand side */}
+      <div className="login-brand">
+        <span className="login-brand-orb o1" />
+        <span className="login-brand-orb o2" />
+        <span className="login-brand-orb o3" />
+        <div className="login-brand-content">
+          <div className="login-brand-mark">K</div>
+          <h2 className="login-brand-title">Product intelligence,<br />before you build.</h2>
+          <p className="login-brand-sub">
+            Kairo simulates user reactions, market shifts, and feature impact — so every
+            decision is tested before a single line of code ships.
+          </p>
         </div>
+      </div>
 
-        <h1 style={{ fontFamily: 'Instrument Serif, serif', fontSize: 26, fontWeight: 400, color: '#111', marginBottom: 6, letterSpacing: '-0.02em' }}>
-          Sign in to your workspace
-        </h1>
-        <p style={{ fontSize: 13.5, color: '#888', marginBottom: 28, lineHeight: 1.5 }}>
-          Enter your credentials to access the dashboard.
-        </p>
+      {/* Form side */}
+      <div className="login-panel">
+        <div className="db-login-card">
+          <h1 className="login-card-title">Sign in to your workspace</h1>
+          <p className="login-card-sub">Welcome back. Enter your credentials to continue.</p>
 
-        {error && (
-          <div className="db-alert db-alert-error" style={{ marginBottom: 20 }}>
-            {error}
-          </div>
-        )}
+          {error && (
+            <div className="db-alert db-alert-error" style={{ marginBottom: 20 }}>
+              {error}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div className="db-field">
-            <label className="db-label">Email</label>
-            <input
-              className="db-input"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              autoFocus
-              autoComplete="email"
-            />
-          </div>
-
-          <div className="db-field">
-            <label className="db-label">Password</label>
-            <div style={{ position: 'relative' }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div className="db-field">
+              <label className="db-label">Email</label>
               <input
                 className="db-input"
-                type={showPass ? 'text' : 'password'}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="••••••••"
-                autoComplete="current-password"
-                style={{ paddingRight: 40 }}
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                autoFocus
+                autoComplete="email"
               />
-              <button
-                type="button"
-                onClick={() => setShowPass(s => !s)}
-                style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#aaa', display: 'flex', alignItems: 'center', padding: 0 }}
-              >
-                {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
-              </button>
             </div>
+
+            <div className="db-field">
+              <label className="db-label">Password</label>
+              <div style={{ position: 'relative' }}>
+                <input
+                  className="db-input"
+                  type={showPass ? 'text' : 'password'}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  autoComplete="current-password"
+                  style={{ paddingRight: 40 }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPass(s => !s)}
+                  className="login-eye"
+                  aria-label={showPass ? 'Hide password' : 'Show password'}
+                >
+                  {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" className="db-btn-primary" disabled={loading} style={{ width: '100%', marginTop: 4, justifyContent: 'center' }}>
+              {loading ? <><Loader size={14} className="db-spin" /> Signing in…</> : 'Sign in'}
+            </button>
+          </form>
+
+          <div className="login-card-foot">
+            Don't have an account?{' '}
+            <a href="/dashboard/register">Create one</a>
           </div>
-
-          <button type="submit" className="db-btn-primary" disabled={loading} style={{ width: '100%', marginTop: 4, justifyContent: 'center' }}>
-            {loading ? <><Loader size={14} className="db-spin" /> Signing in…</> : 'Sign in'}
-          </button>
-        </form>
-
-        <div style={{ marginTop: 20, textAlign: 'center', fontSize: 12.5, color: '#bbb' }}>
-          Don't have an account?{' '}
-          <a href="/dashboard/register" style={{ color: '#111', textDecoration: 'underline', fontWeight: 500 }}>
-            Create one
-          </a>
         </div>
       </div>
     </div>

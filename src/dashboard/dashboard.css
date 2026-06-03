@@ -1111,14 +1111,6 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
 .db-spin { animation: db-spin 0.75s linear infinite; }
 
 /* ─── Login page ───────────────────────────────────────────────────────────── */
-.db-login-page {
-  min-height: 100vh;
-  background: #F6F5F2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
 .db-login-card {
   background: #fff;
   border: 1px solid #E5E4E0;
@@ -1129,11 +1121,183 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   box-shadow: 0 8px 40px rgba(0,0,0,0.07);
 }
 
+/* ─── Creative split login + day/night theme ──────────────────────────────── */
+.login-shell {
+  min-height: 100vh;
+  display: flex;
+  position: relative;
+  transition: background 0.5s ease;
+}
+.login-shell.light { background: #F6F5F2; }
+.login-shell.dark  { background: #0e0f13; }
+
+.login-toggle {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 500;
+  border: 1px solid;
+  backdrop-filter: blur(8px);
+  transition: transform 0.25s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+.login-toggle:hover { transform: translateY(-1px); }
+.login-shell.light .login-toggle { background: rgba(255,255,255,0.7); border-color: #E5E4E0; color: #444; }
+.login-shell.dark  .login-toggle { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.16); color: #e8e8ea; }
+
+/* Brand side */
+.login-brand {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 64px;
+  transition: background 0.5s ease;
+}
+.login-shell.light .login-brand { background: linear-gradient(150deg, #e9f0fb 0%, #f4ecdd 62%, #faf5ec 100%); }
+.login-shell.dark  .login-brand { background: linear-gradient(150deg, #161d2c 0%, #221d15 68%, #111217 100%); }
+
+.login-brand-content { position: relative; z-index: 2; max-width: 460px; }
+
+.login-brand-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Instrument Serif', serif;
+  font-size: 24px;
+  margin-bottom: 34px;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+.login-shell.light .login-brand-mark { background: #111; color: #fff; }
+.login-shell.dark  .login-brand-mark { background: #fff; color: #111; }
+
+.login-brand-title {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(30px, 3vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  transition: color 0.4s ease;
+}
+.login-shell.light .login-brand-title { color: #1a1a1a; }
+.login-shell.dark  .login-brand-title { color: #f3f3f5; }
+
+.login-brand-sub {
+  font-size: 15.5px;
+  line-height: 1.7;
+  max-width: 410px;
+  margin: 0;
+  transition: color 0.4s ease;
+}
+.login-shell.light .login-brand-sub { color: #6a6a66; }
+.login-shell.dark  .login-brand-sub { color: #9a9ba2; }
+
+.login-brand-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: loginFloat 9s ease-in-out infinite;
+}
+.login-brand-orb.o1 { width: 190px; height: 190px; top: 12%; right: 13%; background: radial-gradient(circle at 32% 28%, #ffffff 0%, #cdd9f5 48%, #aebff0 100%); animation-delay: 0s; }
+.login-brand-orb.o2 { width: 124px; height: 124px; bottom: 16%; right: 30%; background: radial-gradient(circle at 34% 30%, #fff6e6 0%, #f3d79a 55%, #e7bf6f 100%); animation-delay: 1s; }
+.login-brand-orb.o3 { width: 92px;  height: 92px;  bottom: 26%; right: 7%;  background: radial-gradient(circle at 35% 30%, #e9fbf2 0%, #9fe6c8 55%, #5fcfa6 100%); animation-delay: 1.8s; }
+.login-shell.dark .login-brand-orb { opacity: 0.55; }
+
+@keyframes loginFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+
+/* Form side */
+.login-panel {
+  width: 480px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.login-card-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+  transition: color 0.4s ease;
+}
+.login-card-sub { font-size: 13.5px; margin-bottom: 28px; line-height: 1.5; transition: color 0.4s ease; }
+
+.login-card-foot { margin-top: 20px; text-align: center; font-size: 12.5px; transition: color 0.4s ease; }
+.login-card-foot a { text-decoration: underline; font-weight: 500; }
+
+.login-eye {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.login-shell.light .login-card-title { color: #111; }
+.login-shell.light .login-card-sub  { color: #888; }
+.login-shell.light .login-card-foot { color: #bbb; }
+.login-shell.light .login-card-foot a { color: #111; }
+
+/* Dark theme — card + form fields */
+.login-shell.dark .db-login-card {
+  background: #16181d;
+  border-color: #292c33;
+  box-shadow: 0 8px 50px rgba(0,0,0,0.5);
+}
+.login-shell.dark .login-card-title { color: #f2f2f4; }
+.login-shell.dark .login-card-sub  { color: #9a9ba2; }
+.login-shell.dark .login-card-foot { color: #6e7079; }
+.login-shell.dark .login-card-foot a { color: #f2f2f4; }
+.login-shell.dark .db-label { color: #b8bac1; }
+.login-shell.dark .db-input {
+  background: #1e2128;
+  border-color: #313640;
+  color: #ececee;
+}
+.login-shell.dark .db-input::placeholder { color: #6b6f78; }
+.login-shell.dark .db-input:focus { border-color: #8fa6e0; }
+.login-shell.dark .db-btn-primary { background: #fff; color: #111; border-color: #fff; }
+.login-shell.dark .db-btn-primary:hover:not(:disabled) { background: #e8e8ec; }
+.login-shell.dark .login-eye { color: #777b84; }
+
+@media (max-width: 900px) {
+  .login-brand { display: none; }
+  .login-panel { width: 100%; }
+}
+
 @media (max-width: 480px) {
   .db-login-card { padding: 28px 20px; }
   .db-modal { border-radius: 0; max-height: 100vh; }
   .db-modal-overlay { padding: 0; align-items: flex-end; }
   .db-field-row { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-brand-orb { animation: none; }
 }
 
 /* ─── Product Brain ────────────────────────────────────────────────────────── */
