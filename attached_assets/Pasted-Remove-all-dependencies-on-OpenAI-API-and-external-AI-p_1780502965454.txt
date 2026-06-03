@@ -1,0 +1,136 @@
+Remove all dependencies on OpenAI API and external AI providers for now.
+
+Do not stop development because of missing API credits.
+
+Switch Kairo into Demo Mode.
+
+Requirements:
+
+Use realistic mock responses throughout the application.
+
+Keep all features functional from a user experience perspective.
+
+Do NOT remove features.
+
+Instead simulate realistic outputs.
+
+Implement the following modules:
+
+1. Product Brain
+
+When users submit ideas, return realistic analysis data from predefined datasets.
+
+Example:
+
+Retention Impact: Medium
+
+Revenue Impact: High
+
+Risk Level: Low
+
+Complexity: Medium
+
+Recommendation:
+Launch MVP first and validate demand.
+
+Store all analyses in PostgreSQL.
+
+2. AI Boardroom
+
+Create predefined responses from:
+
+* Founder
+* CTO
+* Growth PM
+* UX Researcher
+* Finance Lead
+
+Generate realistic discussions using templates and randomized variations.
+
+Store boardroom sessions in database.
+
+3. Competitor Intelligence
+
+Allow users to:
+
+* Add competitors
+* Compare features
+* Compare pricing
+* Compare positioning
+
+Use mock competitor insights.
+
+Store comparisons in database.
+
+4. Feature Impact Sandbox
+
+Allow users to create feature ideas.
+
+Score features based on:
+
+* Business Value
+* User Value
+* Complexity
+* Risk
+
+Generate impact scores locally.
+
+No AI required.
+
+5. Roadmap Strategist
+
+Allow users to:
+
+* Create quarterly roadmaps
+* Assign priorities
+* Define milestones
+
+Generate roadmap suggestions using rule-based logic.
+
+Store in PostgreSQL.
+
+6. Product Requirements Generator
+
+Generate structured PRD templates.
+
+Output:
+
+* Problem Statement
+* Target User
+* User Stories
+* Acceptance Criteria
+* Success Metrics
+* Risks
+
+Use predefined templates.
+
+Store PRDs in database.
+
+Database Requirements:
+
+* PostgreSQL
+* Prisma ORM
+* Proper relations
+* CRUD APIs
+* History tracking
+* User ownership
+* Workspace ownership
+
+Dashboard Requirements:
+
+Build complete dashboard pages for all modules.
+
+Every page should be functional and connected to the database.
+
+UI Requirements:
+
+* Premium SaaS design
+* Clean dashboard
+* Responsive layout
+* Professional product management tool appearance
+
+Do not show any OpenAI API errors.
+
+Do not ask for API keys.
+
+The application must be fully usable in Demo Mode until AI integration is added later.
