@@ -20,13 +20,10 @@ const vertexShader = /* glsl */ `
   uniform float uAmp;
   uniform float uSpeed;
   uniform float uSeed;
-  uniform float uTwist;
-  uniform float uFold;
-  uniform float uBaseZ;
+  uniform float uThick;
 
   varying vec2  vUv;
-  varying vec3  vNormal;
-  varying vec3  vView;
+  varying float vSlope;
 
   vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
   vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
@@ -74,111 +71,93 @@ const vertexShader = /* glsl */ `
     return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
   }
 
-  // long, non-repetitive flowing centre-line (layered low-freq noise, no plain sine)
-  float flow(float x, float t){
-    float a = snoise(vec3(x * 0.052 - t * 0.030, uSeed,        0.0)) * 1.70;
-    float b = snoise(vec3(x * 0.110 + t * 0.050, uSeed + 3.0,  0.0)) * 0.85;
-    float c = snoise(vec3(x * 0.205 + t * 0.070, uSeed + 7.0,  0.0)) * 0.30;
+  // vertical centre-line of the strand as a function of length
+  float centre(float x, float t) {
+    float a = snoise(vec3(x * 0.20 + t * 0.30, uSeed, 0.0));
+    float b = snoise(vec3(x * 0.42 - t * 0.22, uSeed + 4.0, 0.0)) * 0.40;
+    float c = snoise(vec3(x * 0.78 + t * 0.16, uSeed + 9.0, 0.0)) * 0.16;
     return (a + b + c) * uAmp;
   }
 
-  // slow twist of the ribbon about its long axis -> real fabric folds
-  float twistAngle(float x, float t){
-    return snoise(vec3(x * 0.085 + t * 0.045, uSeed + 11.0, 0.0)) * uTwist;
-  }
-
-  // depth undulation
-  float foldZ(float x, float t){
-    return snoise(vec3(x * 0.070 + t * 0.038, uSeed + 5.0, 0.0)) * uFold;
-  }
-
-  // full 3D position of a point at length x, width-coord w
-  vec3 displace(float x, float w, float t){
-    float cy  = flow(x, t);
-    float ang = twistAngle(x, t);
-    float ly  = w * cos(ang);
-    float lz  = w * sin(ang);
-    float z   = uBaseZ + foldZ(x, t) + lz;
-    return vec3(x, cy + ly, z);
-  }
-
-  void main(){
+  void main() {
     vUv = uv;
-    float t = uTime * uSpeed;
+    vec3 pos = position;
+    float t = uTime * uSpeed + uSeed;
 
-    float x = position.x;
-    float w = position.y;
-    float e = 0.05;
+    // taper the strand thickness along its length so it reads like silk
+    float taper = 0.55 + 0.45 * snoise(vec3(pos.x * 0.22 + t * 0.2, uSeed + 8.0, 0.0));
+    pos.y *= uThick * clamp(taper, 0.25, 1.0);
 
-    vec3 P  = displace(x, w, t);
-    vec3 Px = displace(x + e, w, t);
-    vec3 Pw = displace(x, w + e, t);
-    vec3 N  = normalize(cross(Px - P, Pw - P));
+    // sweep the whole strand along a flowing vertical path
+    float c0 = centre(pos.x, t);
+    pos.y += c0;
 
-    // gentle, slow mouse parallax (whole sheet drifts)
-    P.y += uMouse.y * 0.22;
-    P.x += uMouse.x * 0.14;
+    // slope of the path -> used for shading the sheen
+    float c1 = centre(pos.x + 0.25, t);
+    vSlope = (c1 - c0) * 4.0;
 
-    vec4 mv = modelViewMatrix * vec4(P, 1.0);
-    vView   = normalize(-mv.xyz);
-    vNormal = normalize(normalMatrix * N);
+    // depth + silk fold (twist) in z
+    float fold = snoise(vec3(pos.x * 0.30 + t * 0.25, uSeed + 2.0, 0.0));
+    pos.z += fold * 0.6 + sin(pos.x * 0.4 + t * 0.8) * 0.25;
 
-    gl_Position = projectionMatrix * mv;
+    // gentle mouse parallax
+    pos.y += uMouse.y * 0.30 * sin(pos.x * 0.25 + t);
+    pos.z += uMouse.x * 0.30 * cos(pos.x * 0.20 + t);
+
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
   }
 `;
 
 const fragmentShader = /* glsl */ `
   precision highp float;
 
-  uniform vec3  uColor;
-  uniform vec3  uSheen;
+  uniform vec3  uColorA;
+  uniform vec3  uColorB;
+  uniform vec3  uColorC;
   uniform float uOpacity;
   uniform float uTime;
+  uniform float uSpeed;
+  uniform float uSeed;
 
   varying vec2  vUv;
-  varying vec3  vNormal;
-  varying vec3  vView;
+  varying float vSlope;
 
   float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 
-  void main(){
-    vec3 N = normalize(vNormal);
-    vec3 V = normalize(vView);
-    // silk is two-sided: orient the normal toward the camera
-    if (dot(N, V) < 0.0) N = -N;
+  void main() {
+    float across = vUv.y;            // 0..1 across the strand thickness
+    float along  = vUv.x;            // 0..1 along the strand length
+    float t = uTime * uSpeed + uSeed;
 
-    // key light high-right, soft fill
-    vec3 L = normalize(vec3(0.35, 0.62, 0.70));
-    float diff = max(dot(N, L), 0.0);
+    // base gradient across the strand width
+    vec3 col = mix(uColorA, uColorB, smoothstep(0.0, 1.0, across));
 
-    // crisp specular silk highlight
-    vec3  H    = normalize(L + V);
-    float spec = pow(max(dot(N, H), 0.0), 30.0);
+    // bright travelling silk sheen (the white highlight line)
+    float sheenPos = 0.5 + 0.34 * sin(along * 5.5 + t * 0.9);
+    sheenPos += vSlope * 0.12;
+    float sheen = smoothstep(0.16, 0.0, abs(across - sheenPos));
+    col = mix(col, uColorC, sheen * 0.9);
 
-    // folds turned away from the light read as soft self-shadow
-    float shade = 0.50 + 0.60 * diff;
-    vec3  col   = uColor * shade;
-    col += uSheen * spec * 0.65;
+    // gentle roundness shading (low contrast so strands blend in tone)
+    float shade = mix(0.94, 1.04, smoothstep(0.0, 0.7, across));
+    col *= shade;
 
-    // grazing-angle satin sheen at the silhouette of each fold
-    float graze = pow(1.0 - max(dot(N, V), 0.0), 2.6);
-    col += uSheen * graze * 0.14;
+    // soft feathered edges so neighbouring strands melt into one another
+    float edge = smoothstep(0.0, 0.42, across) * smoothstep(1.0, 0.58, across);
+    // dissolve the very ends into the page
+    float ends = smoothstep(0.0, 0.05, along) * smoothstep(1.0, 0.95, along);
 
-    // premium fine grain (fabric weave), animated subtly
-    float grain = (hash(vUv * vec2(900.0, 520.0) + floor(uTime * 14.0)) - 0.5) * 0.030;
-    col += grain;
-
-    // SHARP edges across the width; only the very ends fade off-frame
-    float edge = smoothstep(0.0, 0.030, vUv.y) * smoothstep(1.0, 0.970, vUv.y);
-    float ends = smoothstep(0.0, 0.05, vUv.x) * smoothstep(1.0, 0.95, vUv.x);
+    // very subtle film grain
+    float g = (hash(vUv * vec2(640.0, 360.0) + floor(uTime * 18.0)) * 2.0 - 1.0) * 0.022;
+    col += g;
 
     float alpha = uOpacity * edge * ends;
-    if (alpha < 0.004) discard;
+    if (alpha < 0.003) discard;
     gl_FragColor = vec4(col, alpha);
   }
 `;
 
-function Ribbon({ cfg, mouse }) {
+function Strand({ cfg, mouse }) {
   const matRef = useRef();
   const uniforms = useMemo(
     () => ({
@@ -187,11 +166,10 @@ function Ribbon({ cfg, mouse }) {
       uAmp: { value: cfg.amp },
       uSpeed: { value: cfg.speed },
       uSeed: { value: cfg.seed },
-      uTwist: { value: cfg.twist },
-      uFold: { value: cfg.fold },
-      uBaseZ: { value: cfg.baseZ },
-      uColor: { value: new THREE.Color(cfg.color) },
-      uSheen: { value: new THREE.Color(cfg.sheen) },
+      uThick: { value: cfg.thick },
+      uColorA: { value: new THREE.Color(cfg.a) },
+      uColorB: { value: new THREE.Color(cfg.b) },
+      uColorC: { value: new THREE.Color(cfg.c) },
       uOpacity: { value: cfg.opacity },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -201,12 +179,12 @@ function Ribbon({ cfg, mouse }) {
   useFrame((state) => {
     const u = matRef.current.uniforms;
     u.uTime.value = state.clock.elapsedTime;
-    u.uMouse.value.lerp(mouse.current, 0.025);
+    u.uMouse.value.lerp(mouse.current, 0.035);
   });
 
   return (
-    <mesh position={[0, cfg.y, 0]} renderOrder={cfg.order}>
-      <planeGeometry args={[40, cfg.width, 300, 24]} />
+    <mesh position={[0, cfg.y, cfg.z]} renderOrder={cfg.order}>
+      <planeGeometry args={[34, 2.2, 320, 16]} />
       <shaderMaterial
         ref={matRef}
         vertexShader={vertexShader}
@@ -214,21 +192,21 @@ function Ribbon({ cfg, mouse }) {
         uniforms={uniforms}
         transparent
         depthWrite={false}
-        depthTest={true}
+        depthTest={false}
         side={THREE.DoubleSide}
       />
     </mesh>
   );
 }
 
-// three distinct depth layers — colours kept separate (no muddy blend)
-const RIBBONS = [
-  // BACKGROUND — soft blue, deepest, broadest & slowest
-  { color: '#3F73E6', sheen: '#CFE0FF', baseZ: -3.2, y: 0.55,  width: 3.6, amp: 1.75, twist: 1.45, fold: 0.85, speed: 0.045, opacity: 0.60, seed: 12.0, order: 0 },
-  // MIDDLE — warm gold
-  { color: '#E0A53A', sheen: '#FFF0C6', baseZ: -1.1, y: -0.35, width: 3.1, amp: 1.45, twist: 1.65, fold: 0.70, speed: 0.058, opacity: 0.74, seed: 5.0,  order: 1 },
-  // FOREGROUND — off-white, crispest & most opaque
-  { color: '#F2EEE4', sheen: '#FFFFFF', baseZ: 1.1,  y: 0.10,  width: 2.7, amp: 1.20, twist: 1.85, fold: 0.60, speed: 0.070, opacity: 0.88, seed: 21.0, order: 2 },
+// vivid-but-elegant silk palette: soft blue / warm gold-cream / bright off-white
+const STRANDS = [
+  { a: '#EBDFBE', b: '#F6ECCF', c: '#FFFFFF', y: 0.0,   z: -2.0, thick: 0.78, amp: 0.40, opacity: 0.45, speed: 0.10, seed: 34.0, order: 0 },
+  { a: '#E7B84A', b: '#F6DF9E', c: '#FFFFFF', y: -0.08, z: -1.2, thick: 0.62, amp: 0.45, opacity: 0.7,  speed: 0.12, seed: 2.0,  order: 1 },
+  { a: '#2E6BE6', b: '#8FB2F3', c: '#FFFFFF', y: 0.05,  z: -0.5, thick: 0.50, amp: 0.50, opacity: 0.78, speed: 0.15, seed: 7.0,  order: 2 },
+  { a: '#EFEFFA', b: '#FFFFFF', c: '#FFFFFF', y: 0.0,   z: 0.2,  thick: 0.30, amp: 0.54, opacity: 0.62, speed: 0.18, seed: 13.0, order: 3 },
+  { a: '#3B73E8', b: '#A6C2F6', c: '#FFFFFF', y: 0.09,  z: 0.6,  thick: 0.40, amp: 0.48, opacity: 0.75, speed: 0.17, seed: 29.0, order: 4 },
+  { a: '#E8C25A', b: '#F8E7AE', c: '#FFFFFF', y: -0.10, z: 0.9,  thick: 0.36, amp: 0.44, opacity: 0.72, speed: 0.14, seed: 21.0, order: 5 },
 ];
 
 function Scene({ mouse }) {
@@ -237,16 +215,15 @@ function Scene({ mouse }) {
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (group.current) {
-      // very slow, luxury drift — no shake, no obvious loop
-      group.current.position.y = Math.sin(t * 0.13) * 0.10;
-      group.current.rotation.z = -0.07 + Math.sin(t * 0.08) * 0.015;
+      group.current.position.y = Math.sin(t * 0.20) * 0.10;
+      group.current.rotation.z = -0.10 + Math.sin(t * 0.12) * 0.02;
     }
   });
 
   return (
-    <group ref={group} rotation={[-0.06, 0, -0.07]}>
-      {RIBBONS.map((cfg) => (
-        <Ribbon key={cfg.seed} cfg={cfg} mouse={mouse} />
+    <group ref={group} rotation={[-0.08, 0, -0.10]}>
+      {STRANDS.map((cfg) => (
+        <Strand key={cfg.seed} cfg={cfg} mouse={mouse} />
       ))}
     </group>
   );
@@ -276,7 +253,7 @@ export default function RibbonScene() {
     <Canvas
       dpr={[1, 2]}
       gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
-      camera={{ position: [0, 0, 9], fov: 34 }}
+      camera={{ position: [0, 0, 8], fov: 30 }}
       style={{ width: '100%', height: '100%' }}
       onCreated={({ gl }) => {
         gl.outputColorSpace = THREE.SRGBColorSpace;

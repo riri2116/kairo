@@ -14,7 +14,7 @@ export default function Boardroom() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section ref={ref} style={{ padding: '140px 0', background: 'var(--bg)' }}>
+    <section id="use-cases" ref={ref} style={{ padding: '140px 0', background: 'var(--bg)', scrollMarginTop: '90px' }}>
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 40px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '100px', alignItems: 'start' }}>
 
         {/* Left: Copy */}

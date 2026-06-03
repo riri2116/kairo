@@ -8,7 +8,6 @@ export default function Navigation() {
         <div className="nav-links hide-mobile">
           <a href="#product">Product</a>
           <a href="#use-cases">Use Cases</a>
-          <a href="#pricing">Pricing</a>
         </div>
         <div className="flex items-center gap-md">
           <a href="/dashboard/login" className="btn btn-ghost hide-mobile">Log in</a>
