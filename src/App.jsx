@@ -5,6 +5,7 @@ import { AuthProvider } from './dashboard/lib/auth';
 import Navigation from './sections/Navigation';
 import Hero from './sections/Hero';
 import AITerminal from './sections/AITerminal';
+import AIDemo from './sections/AIDemo';
 import ProductBrain from './sections/ProductBrain';
 import Boardroom from './sections/Boardroom';
 import EmotionSimulator from './sections/EmotionSimulator';
@@ -39,6 +40,7 @@ function LandingPage() {
       <main>
         <Hero />
         <TrustRibbon />
+        <AIDemo />
         <AITerminal />
         <ProductBrain />
         <Boardroom />
