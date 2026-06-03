@@ -212,14 +212,17 @@ nav {
   margin-top: -28px;
 }
 
-.ribbon-svg {
+.ribbon-img {
   display: block;
-  width: 100%;
-  height: 260px;
-  overflow: visible;
+  width: 110%;
+  max-width: none;
+  margin-left: -5%;
+  height: auto;
   transform: rotate(-4deg);
   transform-origin: center;
   animation: ribbonFloat 6s ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
 }
 
 @keyframes ribbonFloat {
@@ -232,7 +235,7 @@ nav {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ribbon-svg { animation: none; }
+  .ribbon-img { animation: none; }
 }
 
 .ribbon-logos {
@@ -241,7 +244,7 @@ nav {
   align-items: center;
   justify-content: center;
   gap: var(--spacing-xl);
-  margin-top: -28px;
+  margin-top: var(--spacing-md);
   position: relative;
   z-index: 2;
 }
@@ -261,7 +264,6 @@ nav {
 }
 
 @media (max-width: 768px) {
-  .ribbon-svg { height: 180px; }
-  .ribbon-logos { gap: var(--spacing-lg); margin-top: -16px; }
+  .ribbon-logos { gap: var(--spacing-lg); margin-top: -8px; }
   .ribbon-logo { font-size: 17px; }
 }
