@@ -20,9 +20,10 @@ const vertexShader = /* glsl */ `
   uniform float uAmp;
   uniform float uSpeed;
   uniform float uSeed;
+  uniform float uThick;
 
   varying vec2  vUv;
-  varying float vElev;
+  varying float vSlope;
 
   vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
   vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
@@ -70,28 +71,38 @@ const vertexShader = /* glsl */ `
     return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
   }
 
+  // vertical centre-line of the strand as a function of length
+  float centre(float x, float t) {
+    float a = snoise(vec3(x * 0.16 + t * 0.30, uSeed, 0.0));
+    float b = snoise(vec3(x * 0.34 - t * 0.22, uSeed + 4.0, 0.0)) * 0.45;
+    return (a + b) * uAmp;
+  }
+
   void main() {
     vUv = uv;
     vec3 pos = position;
     float t = uTime * uSpeed + uSeed;
 
-    // layered organic flow along the ribbon length
-    float w1 = snoise(vec3(pos.x * 0.16 + t * 0.55, pos.y * 0.35, uSeed));
-    float w2 = snoise(vec3(pos.x * 0.34 - t * 0.40, pos.y * 0.22 + 5.0, uSeed * 0.5 + t * 0.18));
-    float w3 = snoise(vec3(pos.x * 0.72 + t * 0.22, pos.y * 0.55, uSeed + 12.0));
-    float wave = w1 * 0.62 + w2 * 0.30 + w3 * 0.12;
+    // taper the strand thickness along its length so it reads like silk
+    float taper = 0.55 + 0.45 * snoise(vec3(pos.x * 0.22 + t * 0.2, uSeed + 8.0, 0.0));
+    pos.y *= uThick * clamp(taper, 0.25, 1.0);
 
-    // silk twist so the fabric folds over itself
-    float twist = sin(pos.x * 0.45 + t * 0.7) * 0.5;
+    // sweep the whole strand along a flowing vertical path
+    float c0 = centre(pos.x, t);
+    pos.y += c0;
 
-    pos.z += wave * uAmp + twist * 0.45;
-    pos.y += wave * 0.28;
+    // slope of the path -> used for shading the sheen
+    float c1 = centre(pos.x + 0.25, t);
+    vSlope = (c1 - c0) * 4.0;
+
+    // depth + silk fold (twist) in z
+    float fold = snoise(vec3(pos.x * 0.30 + t * 0.25, uSeed + 2.0, 0.0));
+    pos.z += fold * 0.6 + sin(pos.x * 0.4 + t * 0.8) * 0.25;
 
     // gentle mouse parallax
-    pos.z += uMouse.y * 0.45 * sin(pos.x * 0.3 + t);
-    pos.y += uMouse.x * 0.16 * cos(pos.x * 0.2 + t);
+    pos.y += uMouse.y * 0.30 * sin(pos.x * 0.25 + t);
+    pos.z += uMouse.x * 0.30 * cos(pos.x * 0.20 + t);
 
-    vElev = wave + twist * 0.3;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
   }
 `;
@@ -104,53 +115,61 @@ const fragmentShader = /* glsl */ `
   uniform vec3  uColorC;
   uniform float uOpacity;
   uniform float uTime;
+  uniform float uSpeed;
+  uniform float uSeed;
 
   varying vec2  vUv;
-  varying float vElev;
+  varying float vSlope;
 
   float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 
   void main() {
-    float m = smoothstep(-0.85, 0.85, vElev);
+    float across = vUv.y;            // 0..1 across the strand thickness
+    float along  = vUv.x;            // 0..1 along the strand length
+    float t = uTime * uSpeed + uSeed;
 
-    vec3 col = mix(uColorA, uColorB, m);
+    // base gradient across the strand width
+    vec3 col = mix(uColorA, uColorB, smoothstep(0.0, 1.0, across));
 
-    // silk sheen on the crests
-    float sheen = smoothstep(0.55, 1.0, m);
-    col = mix(col, uColorC, sheen * 0.7);
+    // bright travelling silk sheen (the white highlight line)
+    float sheenPos = 0.5 + 0.34 * sin(along * 5.5 + t * 0.9);
+    sheenPos += vSlope * 0.12;
+    float sheen = smoothstep(0.16, 0.0, abs(across - sheenPos));
+    col = mix(col, uColorC, sheen * 0.9);
 
-    // soft shadow in the troughs for depth
-    float shade = smoothstep(0.0, 0.4, m);
-    col *= mix(0.80, 1.04, shade);
+    // soft self-shadow on the far edge for roundness
+    float shade = mix(0.86, 1.06, smoothstep(0.0, 0.7, across));
+    col *= shade;
 
-    // feather the long edges of the strip
-    float edge = smoothstep(0.0, 0.26, vUv.y) * smoothstep(1.0, 0.74, vUv.y);
-    // fade the horizontal ends so it dissolves into the page
-    float ends = smoothstep(0.0, 0.10, vUv.x) * smoothstep(1.0, 0.90, vUv.x);
+    // DEFINED feathered edges (crisp, not blurred)
+    float edge = smoothstep(0.0, 0.10, across) * smoothstep(1.0, 0.90, across);
+    // dissolve the very ends into the page
+    float ends = smoothstep(0.0, 0.05, along) * smoothstep(1.0, 0.95, along);
 
-    // fine film grain
-    float g = (hash(vUv * vec2(920.0, 540.0) + floor(uTime * 24.0)) * 2.0 - 1.0) * 0.045;
+    // very subtle film grain
+    float g = (hash(vUv * vec2(640.0, 360.0) + floor(uTime * 18.0)) * 2.0 - 1.0) * 0.022;
     col += g;
 
     float alpha = uOpacity * edge * ends;
-    if (alpha < 0.002) discard;
+    if (alpha < 0.003) discard;
     gl_FragColor = vec4(col, alpha);
   }
 `;
 
-function Ribbon({ colorA, colorB, colorC, opacity, amp, speed, seed, z, mouse, renderOrder }) {
+function Strand({ cfg, mouse }) {
   const matRef = useRef();
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
       uMouse: { value: new THREE.Vector2(0, 0) },
-      uAmp: { value: amp },
-      uSpeed: { value: speed },
-      uSeed: { value: seed },
-      uColorA: { value: new THREE.Color(colorA) },
-      uColorB: { value: new THREE.Color(colorB) },
-      uColorC: { value: new THREE.Color(colorC) },
-      uOpacity: { value: opacity },
+      uAmp: { value: cfg.amp },
+      uSpeed: { value: cfg.speed },
+      uSeed: { value: cfg.seed },
+      uThick: { value: cfg.thick },
+      uColorA: { value: new THREE.Color(cfg.a) },
+      uColorB: { value: new THREE.Color(cfg.b) },
+      uColorC: { value: new THREE.Color(cfg.c) },
+      uOpacity: { value: cfg.opacity },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
@@ -163,8 +182,8 @@ function Ribbon({ colorA, colorB, colorC, opacity, amp, speed, seed, z, mouse, r
   });
 
   return (
-    <mesh position={[0, 0, z]} renderOrder={renderOrder}>
-      <planeGeometry args={[30, 3.6, 260, 52]} />
+    <mesh position={[0, cfg.y, cfg.z]} renderOrder={cfg.order}>
+      <planeGeometry args={[34, 2.2, 320, 16]} />
       <shaderMaterial
         ref={matRef}
         vertexShader={vertexShader}
@@ -179,41 +198,32 @@ function Ribbon({ colorA, colorB, colorC, opacity, amp, speed, seed, z, mouse, r
   );
 }
 
+// vivid-but-elegant silk palette: soft blue / warm gold-cream / bright off-white
+const STRANDS = [
+  { a: '#EBDFBE', b: '#F6ECCF', c: '#FFFFFF', y: 0.0,  z: -2.0, thick: 1.05, amp: 1.05, opacity: 0.5,  speed: 0.10, seed: 34.0, order: 0 },
+  { a: '#E7B84A', b: '#F6DF9E', c: '#FFFFFF', y: -0.4, z: -1.2, thick: 0.85, amp: 1.35, opacity: 0.85, speed: 0.12, seed: 2.0,  order: 1 },
+  { a: '#2E6BE6', b: '#8FB2F3', c: '#FFFFFF', y: 0.3,  z: -0.5, thick: 0.60, amp: 1.55, opacity: 0.92, speed: 0.15, seed: 7.0,  order: 2 },
+  { a: '#EFEFFA', b: '#FFFFFF', c: '#FFFFFF', y: 0.0,  z: 0.2,  thick: 0.26, amp: 1.70, opacity: 0.80, speed: 0.18, seed: 13.0, order: 3 },
+  { a: '#3B73E8', b: '#A6C2F6', c: '#FFFFFF', y: 0.45, z: 0.6,  thick: 0.40, amp: 1.55, opacity: 0.9,  speed: 0.17, seed: 29.0, order: 4 },
+  { a: '#E8C25A', b: '#F8E7AE', c: '#FFFFFF', y: -0.5, z: 0.9,  thick: 0.34, amp: 1.40, opacity: 0.88, speed: 0.14, seed: 21.0, order: 5 },
+];
+
 function Scene({ mouse }) {
   const group = useRef();
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (group.current) {
-      group.current.position.y = Math.sin(t * 0.22) * 0.12;
-      group.current.rotation.z = -0.05 + Math.sin(t * 0.13) * 0.025;
+      group.current.position.y = Math.sin(t * 0.20) * 0.10;
+      group.current.rotation.z = -0.03 + Math.sin(t * 0.12) * 0.018;
     }
   });
 
-  const blue = '#5E8DE6';
-  const cream = '#F1DCA7';
-  const off = '#FCFAF5';
-
   return (
-    <group ref={group} rotation={[-0.14, 0, -0.05]}>
-      {/* back, blurred translucent layer */}
-      <Ribbon
-        mouse={mouse} renderOrder={0} z={-1.6}
-        colorA={cream} colorB={off} colorC={off}
-        opacity={0.32} amp={1.25} speed={0.10} seed={3.0}
-      />
-      {/* mid layer */}
-      <Ribbon
-        mouse={mouse} renderOrder={1} z={-0.6}
-        colorA={blue} colorB={cream} colorC={off}
-        opacity={0.55} amp={1.0} speed={0.13} seed={9.0}
-      />
-      {/* crisp front layer */}
-      <Ribbon
-        mouse={mouse} renderOrder={2} z={0.4}
-        colorA={blue} colorB={cream} colorC={off}
-        opacity={0.92} amp={0.85} speed={0.16} seed={17.0}
-      />
+    <group ref={group} rotation={[-0.08, 0, -0.03]}>
+      {STRANDS.map((cfg) => (
+        <Strand key={cfg.seed} cfg={cfg} mouse={mouse} />
+      ))}
     </group>
   );
 }
@@ -240,7 +250,7 @@ export default function RibbonScene() {
 
   return (
     <Canvas
-      dpr={[1, 1.8]}
+      dpr={[1, 2]}
       gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
       camera={{ position: [0, 0, 8], fov: 30 }}
       style={{ width: '100%', height: '100%' }}
