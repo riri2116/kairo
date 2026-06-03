@@ -1,2 +1,3 @@
 - [Theming / dark mode](theming.md) — global theme via `data-theme` on <html> + `kairo-theme` localStorage; index.html bootstrap prevents flash; new UI must use semantic tokens or paired `[data-theme="dark"]` overrides, never raw hex.
+- [Gemini free-tier model](gemini-free-tier.md) — free Google AI Studio keys have NO quota for gemini-2.5-pro (instant 429); use gemini-2.5-flash, which supports JSON mode + systemInstruction.
 - [Auth flow (register/token/email casing)](auth-flow.md) — SPA uses bearer JWT from /api/auth/token (not cookies); register doesn't return a token so it auto-logs-in after; email MUST be trim+lowercased identically on every auth endpoint or mixed-case login breaks.

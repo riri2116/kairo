@@ -244,7 +244,7 @@ export async function runEmotionAnalysis(
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-pro",
+    model: "gemini-2.5-flash",
     config: {
       systemInstruction: SYSTEM_PROMPT,
       responseMimeType: "application/json",
