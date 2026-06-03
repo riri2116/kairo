@@ -716,6 +716,11 @@ nav {
   color: var(--text-primary);
 }
 
+/* ─────────────────────  BRAND LOGO  ─────────────────── */
+.nav-brand { display: inline-flex; align-items: center; text-decoration: none; }
+.brand-logo-img { height: 28px; width: auto; display: block; }
+[data-theme="dark"] .brand-logo-img { filter: brightness(0) invert(1); }
+
 /* ─────────────────────  LANDING DARK OVERRIDES  ─────────────────── */
 [data-theme="dark"] nav {
   background: rgba(10, 11, 16, 0.82);

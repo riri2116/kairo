@@ -31,7 +31,6 @@
 .db-sidebar-logo-mark {
   width: 28px;
   height: 28px;
-  background: var(--sidebar-text-active);
   border-radius: 7px;
   display: flex;
   align-items: center;
@@ -39,11 +38,11 @@
   flex-shrink: 0;
 }
 
-.db-sidebar-logo-mark span {
-  font-family: 'Instrument Serif', serif;
-  font-size: 16px;
-  color: var(--sidebar-bg);
-  line-height: 1;
+.db-sidebar-logo-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
 .db-sidebar-logo-text {
@@ -1182,20 +1181,14 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
 
 .login-brand-content { position: relative; z-index: 2; max-width: 460px; }
 
-.login-brand-mark {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Instrument Serif', serif;
-  font-size: 24px;
+.login-brand-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  display: block;
   margin-bottom: 34px;
-  transition: background 0.4s ease, color 0.4s ease;
 }
-.login-shell.light .login-brand-mark { background: #111; color: #fff; }
-.login-shell.dark  .login-brand-mark { background: #e8eaed; color: #0a0b10; }
+.login-shell.dark .login-brand-logo { filter: brightness(0) invert(1); }
 
 .login-brand-title {
   font-family: 'Instrument Serif', serif;

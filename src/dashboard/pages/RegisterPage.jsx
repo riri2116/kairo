@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Loader, Eye, EyeOff, Sun, Moon, Check } from 'lucide-react';
 import { useAuth } from '../lib/auth';
 import { useTheme } from '../../lib/theme';
+import kairoIcon from '../../assets/kairo-icon.png';
 
 const rules = [
   { label: 'At least 8 characters', test: (p) => p.length >= 8 },
@@ -66,7 +67,7 @@ export default function RegisterPage() {
         <span className="login-brand-orb o2" />
         <span className="login-brand-orb o3" />
         <div className="login-brand-content">
-          <div className="login-brand-mark">K</div>
+          <img src={kairoIcon} alt="Kairo" className="login-brand-logo" />
           <h2 className="login-brand-title">Start building<br />with confidence.</h2>
           <p className="login-brand-sub">
             Create your Kairo workspace and simulate user reactions, market shifts, and

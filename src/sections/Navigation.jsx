@@ -1,11 +1,14 @@
 import React from 'react';
 import ThemeToggle from '../components/ThemeToggle';
+import kairoLogo from '../assets/kairo-logo.png';
 
 export default function Navigation() {
   return (
     <nav>
       <div className="container nav-content">
-        <div className="serif text-xl">Kairo</div>
+        <a href="/" className="nav-brand" aria-label="Kairo home">
+          <img src={kairoLogo} alt="Kairo" className="brand-logo-img" />
+        </a>
         <div className="nav-links hide-mobile">
           <a href="#product">Product</a>
           <a href="#use-cases">Use Cases</a>

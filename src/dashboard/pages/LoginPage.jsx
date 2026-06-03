@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Loader, Eye, EyeOff, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../lib/auth';
 import { useTheme } from '../../lib/theme';
+import kairoIcon from '../../assets/kairo-icon.png';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -48,7 +49,7 @@ export default function LoginPage() {
         <span className="login-brand-orb o2" />
         <span className="login-brand-orb o3" />
         <div className="login-brand-content">
-          <div className="login-brand-mark">K</div>
+          <img src={kairoIcon} alt="Kairo" className="login-brand-logo" />
           <h2 className="login-brand-title">Product intelligence,<br />before you build.</h2>
           <p className="login-brand-sub">
             Kairo simulates user reactions, market shifts, and feature impact — so every

@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-react';
 import WorkspaceSwitcher from './WorkspaceSwitcher';
+import kairoIcon from '../../assets/kairo-icon.png';
 
 const NAV_ITEMS = [
   { label: 'Overview',                path: '/dashboard',                   icon: LayoutDashboard, exact: true },
@@ -38,7 +39,7 @@ export default function Sidebar({ open, onClose }) {
         {/* Logo */}
         <div className="db-sidebar-logo" style={{ justifyContent: 'flex-start' }}>
           <div className="db-sidebar-logo-mark">
-            <span>K</span>
+            <img src={kairoIcon} alt="" />
           </div>
           <span className="db-sidebar-logo-text">Kairo</span>
           {open && (
