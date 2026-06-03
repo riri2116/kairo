@@ -23,12 +23,49 @@ function toSVGPath(pts) {
 
 const pathD = toSVGPath(stages);
 
+const GLYPH_DASHES = [
+  { x: 40.5, y: 6 },
+  { x: 22.5, y: 18 }, { x: 40.5, y: 18 }, { x: 58.5, y: 18 },
+  { x: 9.5, y: 30 }, { x: 25, y: 30 }, { x: 40.5, y: 30 }, { x: 56, y: 30 }, { x: 71.5, y: 30 },
+  { x: 22.5, y: 42 }, { x: 40.5, y: 42 }, { x: 58.5, y: 42 },
+  { x: 40.5, y: 54 },
+];
+
+function DashGlyph() {
+  return (
+    <svg viewBox="0 0 90 60" fill="none" aria-hidden="true">
+      {GLYPH_DASHES.map((d, i) => (
+        <rect key={i} x={d.x} y={d.y} width="9" height="3.4" rx="1.7" fill="#1a1a1a" opacity="0.82" />
+      ))}
+    </svg>
+  );
+}
+
 export default function EmotionSimulator() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <section id="use-cases" ref={ref} style={{ padding: '140px 0', background: '#ffffff', scrollMarginTop: '90px' }}>
+      <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 40px 64px', textAlign: 'center' }}>
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 40, fontWeight: 500 }}
+        >
+          Use Cases
+        </motion.p>
+        <div className="usecase-orbs" aria-hidden="true">
+          <span className="usecase-pearl" style={{ top: '6%', left: '16%' }} />
+          <span className="usecase-pearl" style={{ top: '4%', left: '80%' }} />
+          <span className="usecase-pearl" style={{ bottom: '2%', left: '50%' }} />
+          <div className="usecase-sphere s-coral"><DashGlyph /></div>
+          <div className="usecase-sphere s-center"><DashGlyph /></div>
+          <div className="usecase-sphere s-green"><DashGlyph /></div>
+        </div>
+      </div>
+
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 40px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '100px', alignItems: 'center' }}>
 
         {/* Left: Copy */}

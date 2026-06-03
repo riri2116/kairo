@@ -220,6 +220,12 @@ nav {
   height: 440px;
   margin-top: -56px;
   pointer-events: none;
+  animation: ribbonFloat 9s ease-in-out infinite;
+}
+
+@keyframes ribbonFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
 }
 
 .ribbon-fallback {
@@ -402,4 +408,71 @@ nav {
   .aidemo-section { padding: 24px 14px 80px; }
   .aidemo-panel { min-height: 520px; padding: 56px 16px 48px; border-radius: 22px; }
   .aidemo-figure { width: 78%; }
+}
+
+/* Use Cases — floating gradient sphere cluster */
+.usecase-orbs {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 720px;
+  margin: 0 auto 96px;
+  min-height: 280px;
+}
+
+.usecase-sphere {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 30px 60px rgba(40, 40, 70, 0.13), inset 0 4px 12px rgba(255, 255, 255, 0.45);
+  animation: usecaseFloat 8s ease-in-out infinite;
+}
+
+.usecase-sphere svg { width: 46%; height: auto; display: block; }
+
+.usecase-sphere.s-coral {
+  width: 172px; height: 172px; z-index: 1; margin-right: -36px;
+  background: radial-gradient(circle at 32% 28%, #fdeee4 0%, #f4b6c6 46%, #c9c0ef 100%);
+  animation-delay: 0s;
+}
+.usecase-sphere.s-center {
+  width: 224px; height: 224px; z-index: 3;
+  background: linear-gradient(118deg, #aac3f5 0%, #f2ecd2 42%, #f3c43f 100%);
+  animation-delay: 0.7s;
+}
+.usecase-sphere.s-green {
+  width: 178px; height: 178px; z-index: 2; margin-left: -36px;
+  background: radial-gradient(circle at 34% 30%, #d8fbec 0%, #59e0b2 52%, #15b487 100%);
+  animation-delay: 1.3s;
+}
+
+.usecase-pearl {
+  position: absolute;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #ece4d6 60%, #d9c3a2 100%);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  z-index: 4;
+  animation: usecaseFloat 7s ease-in-out infinite;
+}
+
+@keyframes usecaseFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+@media (max-width: 768px) {
+  .usecase-orbs { margin-bottom: 64px; min-height: 220px; }
+  .usecase-sphere.s-center { width: 158px; height: 158px; }
+  .usecase-sphere.s-coral, .usecase-sphere.s-green { width: 120px; height: 120px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-canvas-wrap,
+  .usecase-sphere,
+  .usecase-pearl {
+    animation: none;
+  }
 }
