@@ -73,9 +73,10 @@ const vertexShader = /* glsl */ `
 
   // vertical centre-line of the strand as a function of length
   float centre(float x, float t) {
-    float a = snoise(vec3(x * 0.16 + t * 0.30, uSeed, 0.0));
-    float b = snoise(vec3(x * 0.34 - t * 0.22, uSeed + 4.0, 0.0)) * 0.45;
-    return (a + b) * uAmp;
+    float a = snoise(vec3(x * 0.26 + t * 0.30, uSeed, 0.0));
+    float b = snoise(vec3(x * 0.55 - t * 0.24, uSeed + 4.0, 0.0)) * 0.55;
+    float c = snoise(vec3(x * 0.95 + t * 0.18, uSeed + 9.0, 0.0)) * 0.30;
+    return (a + b + c) * uAmp;
   }
 
   void main() {
@@ -200,12 +201,12 @@ function Strand({ cfg, mouse }) {
 
 // vivid-but-elegant silk palette: soft blue / warm gold-cream / bright off-white
 const STRANDS = [
-  { a: '#EBDFBE', b: '#F6ECCF', c: '#FFFFFF', y: 0.0,   z: -2.0, thick: 0.78, amp: 0.46, opacity: 0.45, speed: 0.10, seed: 34.0, order: 0 },
-  { a: '#E7B84A', b: '#F6DF9E', c: '#FFFFFF', y: -0.08, z: -1.2, thick: 0.62, amp: 0.52, opacity: 0.7,  speed: 0.12, seed: 2.0,  order: 1 },
-  { a: '#2E6BE6', b: '#8FB2F3', c: '#FFFFFF', y: 0.05,  z: -0.5, thick: 0.50, amp: 0.58, opacity: 0.78, speed: 0.15, seed: 7.0,  order: 2 },
-  { a: '#EFEFFA', b: '#FFFFFF', c: '#FFFFFF', y: 0.0,   z: 0.2,  thick: 0.30, amp: 0.62, opacity: 0.62, speed: 0.18, seed: 13.0, order: 3 },
-  { a: '#3B73E8', b: '#A6C2F6', c: '#FFFFFF', y: 0.09,  z: 0.6,  thick: 0.40, amp: 0.56, opacity: 0.75, speed: 0.17, seed: 29.0, order: 4 },
-  { a: '#E8C25A', b: '#F8E7AE', c: '#FFFFFF', y: -0.10, z: 0.9,  thick: 0.36, amp: 0.50, opacity: 0.72, speed: 0.14, seed: 21.0, order: 5 },
+  { a: '#EBDFBE', b: '#F6ECCF', c: '#FFFFFF', y: 0.0,   z: -2.0, thick: 0.78, amp: 0.62, opacity: 0.45, speed: 0.10, seed: 34.0, order: 0 },
+  { a: '#E7B84A', b: '#F6DF9E', c: '#FFFFFF', y: -0.08, z: -1.2, thick: 0.62, amp: 0.70, opacity: 0.7,  speed: 0.12, seed: 2.0,  order: 1 },
+  { a: '#2E6BE6', b: '#8FB2F3', c: '#FFFFFF', y: 0.05,  z: -0.5, thick: 0.50, amp: 0.78, opacity: 0.78, speed: 0.15, seed: 7.0,  order: 2 },
+  { a: '#EFEFFA', b: '#FFFFFF', c: '#FFFFFF', y: 0.0,   z: 0.2,  thick: 0.30, amp: 0.84, opacity: 0.62, speed: 0.18, seed: 13.0, order: 3 },
+  { a: '#3B73E8', b: '#A6C2F6', c: '#FFFFFF', y: 0.09,  z: 0.6,  thick: 0.40, amp: 0.76, opacity: 0.75, speed: 0.17, seed: 29.0, order: 4 },
+  { a: '#E8C25A', b: '#F8E7AE', c: '#FFFFFF', y: -0.10, z: 0.9,  thick: 0.36, amp: 0.68, opacity: 0.72, speed: 0.14, seed: 21.0, order: 5 },
 ];
 
 function Scene({ mouse }) {
