@@ -41,7 +41,7 @@ export default function UserProfile() {
           }
         </div>
         <span className="db-user-name">{MOCK_USER.name.split(' ')[0]}</span>
-        <ChevronsUpDown size={13} style={{ color: '#aaa', flexShrink: 0 }} />
+        <ChevronsUpDown size={13} style={{ color: 'var(--text-tertiary)', flexShrink: 0 }} />
       </button>
 
       {open && (

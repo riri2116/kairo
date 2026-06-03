@@ -29,9 +29,9 @@ const RELATED_LINKS = [
 function DetailRow({ label, value }) {
   if (!value) return null;
   return (
-    <div style={{ paddingBottom: 16, borderBottom: '1px solid #F6F5F2' }}>
-      <div style={{ fontSize: 11, fontWeight: 600, color: '#bbb', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 5 }}>{label}</div>
-      <div style={{ fontSize: 13.5, color: '#333', lineHeight: 1.6 }}>{value}</div>
+    <div style={{ paddingBottom: 16, borderBottom: '1px solid var(--border)' }}>
+      <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 5 }}>{label}</div>
+      <div style={{ fontSize: 13.5, color: 'var(--text-secondary)', lineHeight: 1.6 }}>{value}</div>
     </div>
   );
 }
@@ -89,7 +89,7 @@ export default function ProductDetailPage() {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', gap: 10, color: '#aaa' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', gap: 10, color: 'var(--text-tertiary)' }}>
         <Loader size={18} className="db-spin" />
         <span style={{ fontSize: 14 }}>Loading product…</span>
       </div>
@@ -118,7 +118,7 @@ export default function ProductDetailPage() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 28 }}>
         <button
           onClick={() => navigate('/dashboard/products')}
-          style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#888', background: 'none', border: 'none', cursor: 'pointer', padding: '6px 0', fontFamily: 'inherit' }}
+          style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--text-tertiary)', background: 'none', border: 'none', cursor: 'pointer', padding: '6px 0', fontFamily: 'inherit' }}
         >
           <ArrowLeft size={14} /> Products
         </button>
@@ -148,11 +148,11 @@ export default function ProductDetailPage() {
               {stage.label}
             </span>
             {product.industry && (
-              <span style={{ fontSize: 12, color: '#888', background: '#F6F5F2', padding: '3px 10px', borderRadius: 100 }}>
+              <span style={{ fontSize: 12, color: 'var(--text-tertiary)', background: 'var(--bg)', padding: '3px 10px', borderRadius: 100 }}>
                 {product.industry}
               </span>
             )}
-            <span style={{ fontSize: 11.5, color: '#bbb' }}>
+            <span style={{ fontSize: 11.5, color: 'var(--text-tertiary)' }}>
               Updated {new Date(product.updatedAt).toLocaleDateString()}
             </span>
           </div>
@@ -172,9 +172,9 @@ export default function ProductDetailPage() {
               <DetailRow label="Business Goal"   value={product.businessGoal}   />
               <DetailRow label="Pricing Model"   value={product.pricingModel}   />
               {!product.description && !product.targetAudience && !product.businessGoal && !product.pricingModel && (
-                <div style={{ padding: '20px 0', color: '#bbb', fontSize: 13, textAlign: 'center' }}>
+                <div style={{ padding: '20px 0', color: 'var(--text-tertiary)', fontSize: 13, textAlign: 'center' }}>
                   No details added yet.{' '}
-                  <button onClick={() => setFormOpen(true)} style={{ color: '#111', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit' }}>
+                  <button onClick={() => setFormOpen(true)} style={{ color: 'var(--text-primary)', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', fontSize: 'inherit', fontFamily: 'inherit' }}>
                     Edit product
                   </button>
                 </div>
@@ -194,15 +194,15 @@ export default function ProductDetailPage() {
                 <button
                   key={key}
                   onClick={() => navigate(path)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 10px', borderRadius: 8, background: 'none', border: '1px solid #F0EFEB', cursor: 'pointer', textAlign: 'left', width: '100%', transition: 'border-color 0.15s', fontFamily: 'inherit' }}
-                  onMouseEnter={e => e.currentTarget.style.borderColor = '#E5E4E0'}
-                  onMouseLeave={e => e.currentTarget.style.borderColor = '#F0EFEB'}
+                  style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 10px', borderRadius: 8, background: 'none', border: '1px solid var(--border)', cursor: 'pointer', textAlign: 'left', width: '100%', transition: 'border-color 0.15s', fontFamily: 'inherit' }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--border-strong)'}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
                 >
                   <div style={{ width: 28, height: 28, borderRadius: 7, background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <Icon size={13} color={iconColor} />
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 500, color: '#333', flex: 1 }}>{label}</span>
-                  <span style={{ fontSize: 14, fontFamily: 'Instrument Serif, serif', color: '#111', lineHeight: 1, minWidth: 20, textAlign: 'right' }}>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', flex: 1 }}>{label}</span>
+                  <span style={{ fontSize: 14, fontFamily: 'Instrument Serif, serif', color: 'var(--text-primary)', lineHeight: 1, minWidth: 20, textAlign: 'right' }}>
                     {counts[key] ?? 0}
                   </span>
                 </button>

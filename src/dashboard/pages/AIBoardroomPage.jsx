@@ -34,7 +34,7 @@ function SessionModal({ onClose, onSubmit, loading }) {
             </div>
             <div>
               <h2 className="db-modal-title">New Boardroom Session</h2>
-              <p style={{ fontSize: 12, color: '#999', margin: 0 }}>5 AI executives will debate your question</p>
+              <p style={{ fontSize: 12, color: 'var(--text-tertiary)', margin: 0 }}>5 AI executives will debate your question</p>
             </div>
           </div>
           {!loading && <button className="db-modal-close" onClick={onClose}><X size={16} /></button>}
@@ -54,8 +54,8 @@ function SessionModal({ onClose, onSubmit, loading }) {
               <div className="brain-running-state">
                 <Loader2 size={20} className="brain-spin" color="#f97316" />
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>Convening the board…</div>
-                  <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>5 AI executives are reviewing your question</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>Convening the board…</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-tertiary)', marginTop: 2 }}>5 AI executives are reviewing your question</div>
                 </div>
               </div>
             )}
@@ -95,7 +95,7 @@ function SessionCard({ session, onDelete }) {
         <div className="brain-card-meta">
           <div className="brain-card-title">{session.topic}</div>
           {session.consensus && (
-            <div style={{ fontSize: 12, color: '#666', marginTop: 3, fontStyle: 'italic' }}>"{session.consensus}"</div>
+            <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 3, fontStyle: 'italic' }}>"{session.consensus}"</div>
           )}
           {totalVotes > 0 && (
             <div style={{ display: 'flex', gap: 10, marginTop: 5 }}>
@@ -119,7 +119,7 @@ function SessionCard({ session, onDelete }) {
       {expanded && (
         <div className="brain-card-body">
           {session.summary && (
-            <p style={{ fontSize: 13, color: '#555', lineHeight: 1.6, margin: '0 0 16px', padding: '12px 14px', background: '#FAFAF8', borderRadius: 8, border: '1px solid #ECEAE7' }}>
+            <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 16px', padding: '12px 14px', background: 'var(--surface-2)', borderRadius: 8, border: '1px solid var(--border)' }}>
               {session.summary}
             </p>
           )}
@@ -187,7 +187,7 @@ export default function AIBoardroomPage() {
       </div>
 
       <div className="brain-toolbar">
-        <span style={{ fontSize: 12, color: '#aaa' }}>{sessions.length} {sessions.length === 1 ? 'session' : 'sessions'}</span>
+        <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{sessions.length} {sessions.length === 1 ? 'session' : 'sessions'}</span>
         <button className="brain-refresh-btn" onClick={fetch}><RefreshCw size={13} /></button>
       </div>
 

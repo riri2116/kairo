@@ -1,4 +1,5 @@
 import React from 'react';
+import ThemeToggle from '../components/ThemeToggle';
 
 export default function Navigation() {
   return (
@@ -10,6 +11,7 @@ export default function Navigation() {
           <a href="#use-cases">Use Cases</a>
         </div>
         <div className="flex items-center gap-md">
+          <ThemeToggle className="hide-mobile" />
           <a href="/dashboard/login" className="btn btn-ghost hide-mobile">Log in</a>
           <a href="/dashboard/login" className="btn btn-primary">Start Free</a>
         </div>

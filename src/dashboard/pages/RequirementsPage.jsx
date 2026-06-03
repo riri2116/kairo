@@ -108,7 +108,7 @@ function ReqCard({ req, onDelete, onEdit, onStatusChange }) {
   return (
     <div className={`brain-card${expanded ? ' expanded' : ''}`}>
       <div className="brain-card-header" onClick={() => setExpanded(e => !e)}>
-        <div style={{ width: 34, height: 34, borderRadius: 8, background: '#F6F5F2', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <div style={{ width: 34, height: 34, borderRadius: 8, background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <FileText size={14} color="#888" />
         </div>
         <div className="brain-card-meta">
@@ -118,7 +118,7 @@ function ReqCard({ req, onDelete, onEdit, onStatusChange }) {
             <span className="brain-tag" style={{ color: PRIORITY_COLOR[req.priority], background: `${PRIORITY_COLOR[req.priority]}15` }}>{req.priority}</span>
             <span className="brain-tag" style={{ color: sc.color, background: sc.bg, cursor: 'pointer' }} onClick={e => { e.stopPropagation(); onStatusChange(req.id, nextStatus); }} title={`Move to ${STATUS_CONFIG[nextStatus]?.label}`}>{sc.label}</span>
             {(req.tags || []).map(t => (
-              <span key={t} style={{ fontSize: 11, color: '#aaa', background: '#F6F5F2', padding: '2px 7px', borderRadius: 100 }}>#{t}</span>
+              <span key={t} style={{ fontSize: 11, color: 'var(--text-tertiary)', background: 'var(--bg)', padding: '2px 7px', borderRadius: 100 }}>#{t}</span>
             ))}
           </div>
         </div>
@@ -136,20 +136,20 @@ function ReqCard({ req, onDelete, onEdit, onStatusChange }) {
 
       {expanded && (
         <div className="brain-card-body">
-          <p style={{ fontSize: 13, color: '#555', lineHeight: 1.7, margin: '0 0 14px' }}>{req.description}</p>
+          <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, margin: '0 0 14px' }}>{req.description}</p>
           {(req.acceptanceCriteria || []).length > 0 && (
             <div style={{ marginBottom: 12 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#888', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 8 }}>Acceptance Criteria</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-tertiary)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 8 }}>Acceptance Criteria</div>
               <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
                 {req.acceptanceCriteria.map((c, i) => (
-                  <li key={i} style={{ display: 'flex', gap: 8, fontSize: 13, color: '#444' }}>
-                    <span style={{ color: '#22c55e', flexShrink: 0 }}>✓</span>{c}
+                  <li key={i} style={{ display: 'flex', gap: 8, fontSize: 13, color: 'var(--text-secondary)' }}>
+                    <span style={{ color: 'var(--success)', flexShrink: 0 }}>✓</span>{c}
                   </li>
                 ))}
               </ul>
             </div>
           )}
-          {req.product && <div style={{ fontSize: 12, color: '#aaa' }}>Product: {req.product.name}</div>}
+          {req.product && <div style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Product: {req.product.name}</div>}
         </div>
       )}
     </div>
@@ -217,7 +217,7 @@ export default function RequirementsPage() {
       {/* Status filter tabs */}
       <div style={{ display: 'flex', gap: 6, marginBottom: 18, flexWrap: 'wrap' }}>
         {[['', 'All', reqs.length], ...Object.entries(STATUS_CONFIG).map(([k, v]) => [k, v.label, reqs.filter(r => r.status === k).length])].map(([k, label, count]) => (
-          <button key={k} onClick={() => setFilterStatus(k)} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 12px', borderRadius: 100, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', transition: 'all 0.12s', background: filterStatus === k ? '#111' : '#fff', color: filterStatus === k ? '#fff' : '#666', borderColor: filterStatus === k ? '#111' : '#E5E4E0', fontFamily: 'inherit' }}>
+          <button key={k} onClick={() => setFilterStatus(k)} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 12px', borderRadius: 100, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', transition: 'all 0.12s', background: filterStatus === k ? 'var(--inverse-surface)' : 'var(--surface)', color: filterStatus === k ? 'var(--inverse-text)' : 'var(--text-secondary)', borderColor: filterStatus === k ? 'var(--inverse-surface)' : 'var(--border)', fontFamily: 'inherit' }}>
             {label}
             <span style={{ fontSize: 11, fontWeight: 700, opacity: 0.7 }}>{count}</span>
           </button>
@@ -226,7 +226,7 @@ export default function RequirementsPage() {
       </div>
 
       {openCount > 0 && (
-        <div style={{ fontSize: 12, color: '#888', marginBottom: 14 }}>
+        <div style={{ fontSize: 12, color: 'var(--text-tertiary)', marginBottom: 14 }}>
           {openCount} open {openCount === 1 ? 'requirement' : 'requirements'} — click a status badge to advance it
         </div>
       )}

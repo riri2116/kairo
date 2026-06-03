@@ -1,7 +1,1 @@
-- [Kairo mock AI architecture](kairo-mock-ai.md) — MOCK_MODE=true in openai.ts; all AI calls route through mockAI.ts with deterministic hash-based variants
-- [Kairo schema workspace-id pattern](kairo-schema-workspaceid.md) — boardroom/competitors/sandboxes/roadmaps/requirements all have optional workspaceId added via migration; productId also optional
-- [Kairo auth endpoint](kairo-auth.md) — login is POST /api/auth/token (not /api/auth/login which is NextAuth-reserved); Bearer JWT stored as kairo_token
-- [Kairo pagination helpers](kairo-pagination.md) — paginationArgs + paginationMeta live in backend/src/lib/db.ts
-- [Kairo auth context workspaceSlug](kairo-auth-context.md) — auth.jsx exposes BOTH activeSlug AND workspaceSlug (alias); pages must destructure workspaceSlug
-- [Kairo CSS classes](kairo-css-classes.md) — modal forms need db-form-group/label/input/required/hint and db-modal-close; all defined in dashboard.css after line 985
-- [WebGL/R3F preview quirk](kairo-webgl-preview.md) — Three.js Canvas blanks the page in the GPU-less agent preview; always guard with webglSupported() + error boundary fallback
+- [Theming / dark mode](theming.md) — global theme via `data-theme` on <html> + `kairo-theme` localStorage; index.html bootstrap prevents flash; new UI must use semantic tokens or paired `[data-theme="dark"]` overrides, never raw hex.

@@ -123,15 +123,15 @@ export default function OverviewPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {QUICK_LINKS.map(({ label, sub, icon: Icon, path, color, iconColor }) => (
-              <NavLink key={path} to={path} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', borderRadius: 9, background: '#FAFAF8', border: '1px solid #F0EFEB', textDecoration: 'none', transition: 'border-color 0.15s' }}>
+              <NavLink key={path} to={path} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', borderRadius: 9, background: 'var(--surface-2)', border: '1px solid var(--border)', textDecoration: 'none', transition: 'border-color 0.15s' }}>
                 <div style={{ width: 34, height: 34, borderRadius: 8, background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <Icon size={16} color={iconColor} />
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 550, color: '#111', letterSpacing: '-0.01em' }}>{label}</div>
-                  <div style={{ fontSize: 12, color: '#999' }}>{sub}</div>
+                  <div style={{ fontSize: 13, fontWeight: 550, color: 'var(--text-primary)', letterSpacing: '-0.01em' }}>{label}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{sub}</div>
                 </div>
-                <ArrowUpRight size={13} style={{ marginLeft: 'auto', color: '#ccc' }} />
+                <ArrowUpRight size={13} style={{ marginLeft: 'auto', color: 'var(--text-tertiary)' }} />
               </NavLink>
             ))}
           </div>
@@ -144,10 +144,10 @@ export default function OverviewPage() {
           </div>
           {loading ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {[1,2,3,4].map(i => <div key={i} style={{ height: 44, borderRadius: 8, background: '#F6F5F2' }} className="brain-skeleton" />)}
+              {[1,2,3,4].map(i => <div key={i} style={{ height: 44, borderRadius: 8, background: 'var(--bg)' }} className="brain-skeleton" />)}
             </div>
           ) : recentItems.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '32px 16px', color: '#bbb', fontSize: 13 }}>
+            <div style={{ textAlign: 'center', padding: '32px 16px', color: 'var(--text-tertiary)', fontSize: 13 }}>
               No activity yet — start by running an analysis or creating a product.
             </div>
           ) : (
@@ -155,15 +155,15 @@ export default function OverviewPage() {
               {recentItems.map((item, i) => {
                 const Icon = item.icon;
                 return (
-                  <div key={i} style={{ display: 'flex', gap: 10, padding: '10px 0', borderBottom: i < recentItems.length - 1 ? '1px solid #F6F5F2' : 'none' }}>
+                  <div key={i} style={{ display: 'flex', gap: 10, padding: '10px 0', borderBottom: i < recentItems.length - 1 ? '1px solid var(--border)' : 'none' }}>
                     <div style={{ width: 30, height: 30, borderRadius: 7, background: `${item.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <Icon size={14} color={item.color} />
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 530, color: '#111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.label}</div>
-                      <div style={{ fontSize: 12, color: '#999', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.sub}</div>
+                      <div style={{ fontSize: 13, fontWeight: 530, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.label}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-tertiary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.sub}</div>
                     </div>
-                    <div style={{ fontSize: 11, color: '#bbb', flexShrink: 0, marginTop: 1 }}>{item.time}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-tertiary)', flexShrink: 0, marginTop: 1 }}>{item.time}</div>
                   </div>
                 );
               })}
@@ -180,17 +180,17 @@ export default function OverviewPage() {
           { icon: Package,  label: 'Products',     count: counts.products,     path: '/dashboard/products',     color: '#f97316', bg: '#FFF7ED' },
           { icon: TrendingUp,label:'Analytics',    count: null,                path: '/dashboard/analytics',    color: '#a855f7', bg: '#FDF4FF' },
         ].map(({ icon: Icon, label, count, path, color, bg }) => (
-          <NavLink key={path} to={path} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', background: '#fff', border: '1.5px solid #E5E4E0', borderRadius: 10, textDecoration: 'none', transition: 'border-color 0.15s, box-shadow 0.15s' }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = '#ccc'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)'; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = '#E5E4E0'; e.currentTarget.style.boxShadow = 'none'; }}>
+          <NavLink key={path} to={path} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 10, textDecoration: 'none', transition: 'border-color 0.15s, box-shadow 0.15s' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-strong)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}>
             <div style={{ width: 32, height: 32, borderRadius: 8, background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Icon size={15} color={color} />
             </div>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 550, color: '#111' }}>{label}</div>
-              {count != null && !loading && <div style={{ fontSize: 11.5, color: '#aaa' }}>{count} {label.toLowerCase()}</div>}
+              <div style={{ fontSize: 13, fontWeight: 550, color: 'var(--text-primary)' }}>{label}</div>
+              {count != null && !loading && <div style={{ fontSize: 11.5, color: 'var(--text-tertiary)' }}>{count} {label.toLowerCase()}</div>}
             </div>
-            <ArrowUpRight size={12} style={{ marginLeft: 'auto', color: '#ddd' }} />
+            <ArrowUpRight size={12} style={{ marginLeft: 'auto', color: 'var(--text-tertiary)' }} />
           </NavLink>
         ))}
       </div>

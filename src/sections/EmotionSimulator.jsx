@@ -46,7 +46,7 @@ export default function EmotionSimulator() {
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="use-cases" ref={ref} style={{ padding: '140px 0', background: '#ffffff', scrollMarginTop: '90px' }}>
+    <section id="use-cases" ref={ref} style={{ padding: '140px 0', background: 'var(--surface)', scrollMarginTop: '90px' }}>
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 40px 64px', textAlign: 'center' }}>
         <motion.p
           initial={{ opacity: 0, y: 16 }}
@@ -95,7 +95,7 @@ export default function EmotionSimulator() {
                 style={{ display: 'flex', alignItems: 'center', gap: 12 }}
               >
                 <div style={{ width: 18, height: 18, borderRadius: '50%', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="var(--text-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </div>
                 <span style={{ fontSize: 14, color: 'var(--text-primary)', fontWeight: 500 }}>{item}</span>
               </motion.div>

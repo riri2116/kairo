@@ -91,7 +91,7 @@ function AddItemForm({ roadmapId, onAdd, onCancel }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8, padding: '10px 0', borderTop: '1px solid #F6F5F2', flexWrap: 'wrap' }}>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8, padding: '10px 0', borderTop: '1px solid var(--border)', flexWrap: 'wrap' }}>
       <input className="db-form-input" style={{ flex: 1, minWidth: 180, padding: '7px 10px', fontSize: 13 }} placeholder="New item title…" value={form.title} onChange={e => set('title', e.target.value)} disabled={loading} autoFocus />
       <select className="db-form-input" style={{ width: 110, padding: '7px 10px', fontSize: 12 }} value={form.priority} onChange={e => set('priority', e.target.value)} disabled={loading}>
         {['CRITICAL','HIGH','MEDIUM','LOW'].map(p => <option key={p} value={p}>{p}</option>)}
@@ -123,24 +123,24 @@ function RoadmapCard({ roadmap, onDelete, onAddItem, onDeleteItem, onUpdateItem 
   return (
     <div className={`brain-card${expanded ? ' expanded' : ''}`}>
       <div className="brain-card-header" onClick={() => setExpanded(e => !e)}>
-        <div style={{ width: 36, height: 36, borderRadius: 9, background: '#F0FDF4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <div style={{ width: 36, height: 36, borderRadius: 9, background: 'var(--success-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <Map size={15} color="#22c55e" />
         </div>
         <div className="brain-card-meta">
           <div className="brain-card-title">{roadmap.title}</div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <span className="brain-tag" style={{ color: sc.color, background: sc.bg }}>{sc.label}</span>
-            {roadmap.quarter && <span style={{ fontSize: 11.5, color: '#aaa' }}>{roadmap.quarter}</span>}
-            <span style={{ fontSize: 11.5, color: '#aaa' }}>{items.length} items</span>
+            {roadmap.quarter && <span style={{ fontSize: 11.5, color: 'var(--text-tertiary)' }}>{roadmap.quarter}</span>}
+            <span style={{ fontSize: 11.5, color: 'var(--text-tertiary)' }}>{items.length} items</span>
           </div>
         </div>
         <div className="brain-card-right">
           {items.length > 0 && (
             <div style={{ width: 80, flexShrink: 0 }}>
-              <div style={{ height: 4, background: '#F0EFEC', borderRadius: 2, overflow: 'hidden' }}>
-                <div style={{ height: '100%', width: `${Math.round(items.filter(i => i.status === 'COMPLETED').length / items.length * 100)}%`, background: '#22c55e', borderRadius: 2 }} />
+              <div style={{ height: 4, background: 'var(--surface-3)', borderRadius: 2, overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: `${Math.round(items.filter(i => i.status === 'COMPLETED').length / items.length * 100)}%`, background: 'var(--success)', borderRadius: 2 }} />
               </div>
-              <div style={{ fontSize: 10, color: '#bbb', marginTop: 3, textAlign: 'right' }}>
+              <div style={{ fontSize: 10, color: 'var(--text-tertiary)', marginTop: 3, textAlign: 'right' }}>
                 {items.filter(i => i.status === 'COMPLETED').length}/{items.length} done
               </div>
             </div>
@@ -157,11 +157,11 @@ function RoadmapCard({ roadmap, onDelete, onAddItem, onDeleteItem, onUpdateItem 
 
       {expanded && (
         <div className="brain-card-body">
-          {roadmap.description && <p style={{ fontSize: 13, color: '#666', lineHeight: 1.6, margin: '0 0 14px' }}>{roadmap.description}</p>}
+          {roadmap.description && <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 14px' }}>{roadmap.description}</p>}
           {roadmap.goals?.length > 0 && (
             <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 14 }}>
               {roadmap.goals.map((g, i) => (
-                <span key={i} style={{ fontSize: 11.5, background: '#EEF2FF', color: '#6366f1', padding: '3px 10px', borderRadius: 100, fontWeight: 500 }}>◎ {g}</span>
+                <span key={i} style={{ fontSize: 11.5, background: '#EEF2FF', color: 'var(--indigo)', padding: '3px 10px', borderRadius: 100, fontWeight: 500 }}>◎ {g}</span>
               ))}
             </div>
           )}
@@ -170,13 +170,13 @@ function RoadmapCard({ roadmap, onDelete, onAddItem, onDeleteItem, onUpdateItem 
               const is = ITEM_STATUS[item.status] || ITEM_STATUS.PLANNED;
               const Icon = is.icon;
               return (
-                <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: i < items.length - 1 ? '1px solid #F6F5F2' : 'none' }}>
+                <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderBottom: i < items.length - 1 ? '1px solid var(--border)' : 'none' }}>
                   <button onClick={() => { const statuses = ['PLANNED','IN_PROGRESS','COMPLETED']; const next = statuses[(statuses.indexOf(item.status) + 1) % statuses.length]; onUpdateItem(roadmap.id, item.id, { status: next }); }} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center' }} title="Cycle status">
                     <Icon size={15} color={is.color} />
                   </button>
-                  <div style={{ flex: 1, fontSize: 13, color: item.status === 'COMPLETED' ? '#aaa' : '#111', textDecoration: item.status === 'COMPLETED' ? 'line-through' : 'none' }}>{item.title}</div>
+                  <div style={{ flex: 1, fontSize: 13, color: item.status === 'COMPLETED' ? 'var(--text-tertiary)' : 'var(--text-primary)', textDecoration: item.status === 'COMPLETED' ? 'line-through' : 'none' }}>{item.title}</div>
                   <span style={{ fontSize: 10.5, fontWeight: 700, color: PRIORITY_COLOR[item.priority], background: `${PRIORITY_COLOR[item.priority]}15`, padding: '2px 7px', borderRadius: 100, flexShrink: 0 }}>{item.priority}</span>
-                  <button onClick={() => onDeleteItem(roadmap.id, item.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ddd', padding: '2px', borderRadius: 4, display: 'flex', alignItems: 'center' }} className="brain-action-btn" title="Remove">
+                  <button onClick={() => onDeleteItem(roadmap.id, item.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-tertiary)', padding: '2px', borderRadius: 4, display: 'flex', alignItems: 'center' }} className="brain-action-btn" title="Remove">
                     <X size={12} />
                   </button>
                 </div>
@@ -256,7 +256,7 @@ export default function RoadmapsPage() {
       </div>
 
       <div className="brain-toolbar">
-        <span style={{ fontSize: 12, color: '#aaa' }}>{roadmaps.length} {roadmaps.length === 1 ? 'roadmap' : 'roadmaps'}</span>
+        <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{roadmaps.length} {roadmaps.length === 1 ? 'roadmap' : 'roadmaps'}</span>
         <button className="brain-refresh-btn" onClick={fetch}><RefreshCw size={13} /></button>
       </div>
 

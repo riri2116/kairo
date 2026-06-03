@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './dashboard/lib/auth';
+import { ThemeProvider } from './lib/theme';
 
 import Navigation from './sections/Navigation';
 import Hero from './sections/Hero';
@@ -58,6 +59,7 @@ function LandingPage() {
 
 export default function App() {
   return (
+    <ThemeProvider>
     <BrowserRouter>
       <AuthProvider>
         <Routes>
@@ -87,5 +89,6 @@ export default function App() {
         </Routes>
       </AuthProvider>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }

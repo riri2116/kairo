@@ -2,27 +2,18 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader, Eye, EyeOff, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../lib/auth';
+import { useTheme } from '../../lib/theme';
 
 export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { theme, toggle: toggleTheme } = useTheme();
 
   const [email, setEmail]         = useState('');
   const [password, setPassword]   = useState('');
   const [showPass, setShowPass]   = useState(false);
   const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState('');
-  const [theme, setTheme]         = useState(() => {
-    try { return localStorage.getItem('kairo-login-theme') || 'light'; } catch { return 'light'; }
-  });
-
-  function toggleTheme() {
-    setTheme(t => {
-      const next = t === 'light' ? 'dark' : 'light';
-      try { localStorage.setItem('kairo-login-theme', next); } catch { /* ignore */ }
-      return next;
-    });
-  }
 
   async function handleSubmit(e) {
     e.preventDefault();

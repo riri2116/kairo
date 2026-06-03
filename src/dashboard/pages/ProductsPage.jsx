@@ -158,8 +158,8 @@ export default function ProductsPage() {
                       <Package size={17} color={stage.color} />
                     </div>
                     <div>
-                      <div style={{ fontSize: 14.5, fontWeight: 600, color: '#111', letterSpacing: '-0.015em', lineHeight: 1.2 }}>{product.name}</div>
-                      {product.industry && <div style={{ fontSize: 11.5, color: '#aaa', marginTop: 1 }}>{product.industry}</div>}
+                      <div style={{ fontSize: 14.5, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.015em', lineHeight: 1.2 }}>{product.name}</div>
+                      {product.industry && <div style={{ fontSize: 11.5, color: 'var(--text-tertiary)', marginTop: 1 }}>{product.industry}</div>}
                     </div>
                   </div>
 
@@ -203,21 +203,21 @@ export default function ProductsPage() {
 
                 {/* Description */}
                 {product.description && (
-                  <p style={{ fontSize: 12.5, color: '#777', lineHeight: 1.6, marginBottom: 14, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                  <p style={{ fontSize: 12.5, color: 'var(--text-tertiary)', lineHeight: 1.6, marginBottom: 14, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                     {product.description}
                   </p>
                 )}
 
                 {/* Counts */}
-                <div style={{ display: 'flex', gap: 12, paddingTop: 12, borderTop: '1px solid #F0EFEB' }}>
+                <div style={{ display: 'flex', gap: 12, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
                   {[
                     ['Simulations', counts.simulations],
                     ['Requirements', counts.requirements],
                     ['Predictions', counts.predictions],
                   ].map(([label, count]) => (
                     <div key={label} style={{ textAlign: 'center' }}>
-                      <div style={{ fontSize: 15, fontFamily: 'Instrument Serif, serif', color: '#111', lineHeight: 1 }}>{count ?? 0}</div>
-                      <div style={{ fontSize: 10, color: '#bbb', fontWeight: 500, marginTop: 1 }}>{label}</div>
+                      <div style={{ fontSize: 15, fontFamily: 'Instrument Serif, serif', color: 'var(--text-primary)', lineHeight: 1 }}>{count ?? 0}</div>
+                      <div style={{ fontSize: 10, color: 'var(--text-tertiary)', fontWeight: 500, marginTop: 1 }}>{label}</div>
                     </div>
                   ))}
                 </div>

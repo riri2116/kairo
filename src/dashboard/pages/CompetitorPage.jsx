@@ -8,7 +8,7 @@ function ScoreRing({ score }) {
   return (
     <div style={{ textAlign: 'right', flexShrink: 0 }}>
       <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 32, color, lineHeight: 1 }}>{score}</div>
-      <div style={{ fontSize: 10, color: '#aaa', fontWeight: 600, letterSpacing: '0.05em' }}>THREAT SCORE</div>
+      <div style={{ fontSize: 10, color: 'var(--text-tertiary)', fontWeight: 600, letterSpacing: '0.05em' }}>THREAT SCORE</div>
     </div>
   );
 }
@@ -29,12 +29,12 @@ function CompetitorModal({ onClose, onSubmit, loading }) {
       <div className="db-modal" style={{ maxWidth: 480 }}>
         <div className="db-modal-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 38, height: 38, borderRadius: 10, background: '#F0FDF4', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 38, height: 38, borderRadius: 10, background: 'var(--success-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Target size={18} color="#22c55e" />
             </div>
             <div>
               <h2 className="db-modal-title">Analyze Competitor</h2>
-              <p style={{ fontSize: 12, color: '#999', margin: 0 }}>AI-generated SWOT analysis</p>
+              <p style={{ fontSize: 12, color: 'var(--text-tertiary)', margin: 0 }}>AI-generated SWOT analysis</p>
             </div>
           </div>
           {!loading && <button className="db-modal-close" onClick={onClose}><X size={16} /></button>}
@@ -60,8 +60,8 @@ function CompetitorModal({ onClose, onSubmit, loading }) {
               <div className="brain-running-state">
                 <Loader2 size={20} className="brain-spin" color="#22c55e" />
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>Analyzing competitor…</div>
-                  <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>Generating SWOT analysis</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>Analyzing competitor…</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-tertiary)', marginTop: 2 }}>Generating SWOT analysis</div>
                 </div>
               </div>
             )}
@@ -101,28 +101,28 @@ function CompetitorCard({ competitor, onDelete }) {
   return (
     <div className={`brain-card${expanded ? ' expanded' : ''}`}>
       <div className="brain-card-header" onClick={() => setExpanded(e => !e)}>
-        <div style={{ width: 40, height: 40, borderRadius: 10, background: '#F0FDF4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <div style={{ width: 40, height: 40, borderRadius: 10, background: 'var(--success-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <Target size={16} color="#22c55e" />
         </div>
         <div className="brain-card-meta">
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div className="brain-card-title" style={{ marginBottom: 0 }}>{competitor.competitorName}</div>
             {competitor.competitorUrl && (
-              <a href={competitor.competitorUrl} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} style={{ color: '#aaa', display: 'flex', alignItems: 'center' }}>
+              <a href={competitor.competitorUrl} target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()} style={{ color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center' }}>
                 <ExternalLink size={12} />
               </a>
             )}
           </div>
           <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
-            <span style={{ fontSize: 11.5, color: '#888' }}>{(competitor.strengths || []).length} strengths</span>
-            <span style={{ fontSize: 11.5, color: '#888' }}>{(competitor.weaknesses || []).length} weaknesses</span>
-            <span style={{ fontSize: 11.5, color: '#888' }}>Analyzed {new Date(competitor.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+            <span style={{ fontSize: 11.5, color: 'var(--text-tertiary)' }}>{(competitor.strengths || []).length} strengths</span>
+            <span style={{ fontSize: 11.5, color: 'var(--text-tertiary)' }}>{(competitor.weaknesses || []).length} weaknesses</span>
+            <span style={{ fontSize: 11.5, color: 'var(--text-tertiary)' }}>Analyzed {new Date(competitor.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
           </div>
         </div>
         <div className="brain-card-right">
           <div style={{ textAlign: 'right', flexShrink: 0 }}>
             <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 26, color: scoreColor, lineHeight: 1 }}>{score}</div>
-            <div style={{ fontSize: 10, color: '#bbb', fontWeight: 600, letterSpacing: '0.04em' }}>THREAT</div>
+            <div style={{ fontSize: 10, color: 'var(--text-tertiary)', fontWeight: 600, letterSpacing: '0.04em' }}>THREAT</div>
           </div>
           <div className="brain-card-actions" onClick={e => e.stopPropagation()}>
             <button className="brain-action-btn danger" onClick={handleDelete} disabled={deleting}>
@@ -141,7 +141,7 @@ function CompetitorCard({ competitor, onDelete }) {
                 <div style={{ fontSize: 11, fontWeight: 700, color, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 10 }}>{label}</div>
                 <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {(competitor[key] || []).map((item, i) => (
-                    <li key={i} style={{ fontSize: 12.5, color: '#333', lineHeight: 1.5, display: 'flex', gap: 7 }}>
+                    <li key={i} style={{ fontSize: 12.5, color: 'var(--text-secondary)', lineHeight: 1.5, display: 'flex', gap: 7 }}>
                       <span style={{ color, flexShrink: 0, marginTop: 2 }}>›</span>
                       {item}
                     </li>
@@ -209,7 +209,7 @@ export default function CompetitorPage() {
       )}
 
       <div className="brain-toolbar">
-        <span style={{ fontSize: 12, color: '#aaa' }}>{competitors.length} {competitors.length === 1 ? 'competitor' : 'competitors'}</span>
+        <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{competitors.length} {competitors.length === 1 ? 'competitor' : 'competitors'}</span>
         <button className="brain-refresh-btn" onClick={fetch}><RefreshCw size={13} /></button>
       </div>
 

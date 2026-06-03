@@ -3,6 +3,7 @@ import { Menu, Search, Bell, HelpCircle } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import UserProfile from './UserProfile';
 import NotificationsPanel from './NotificationsPanel';
+import ThemeToggle from '../../components/ThemeToggle';
 
 const PAGE_LABELS = {
   '/dashboard':              'Overview',
@@ -42,13 +43,15 @@ export default function Header({ onMenuClick }) {
 
         {/* Search */}
         <div className="db-header-search">
-          <Search size={13} style={{ color: '#aaa', flexShrink: 0 }} />
+          <Search size={13} style={{ color: 'var(--text-tertiary)', flexShrink: 0 }} />
           <span>Search...</span>
-          <span style={{ marginLeft: 'auto', fontSize: 11, color: '#ccc', fontFamily: 'monospace' }}>⌘K</span>
+          <span style={{ marginLeft: 'auto', fontSize: 11, color: 'var(--text-tertiary)', fontFamily: 'monospace' }}>⌘K</span>
         </div>
 
         {/* Actions */}
         <div className="db-header-actions">
+          <ThemeToggle variant="icon" />
+
           <button
             className="db-icon-btn"
             onClick={() => setNotifOpen(o => !o)}
@@ -62,7 +65,7 @@ export default function Header({ onMenuClick }) {
             <HelpCircle size={16} />
           </button>
 
-          <div style={{ width: 1, height: 20, background: '#E5E4E0', margin: '0 4px' }} />
+          <div style={{ width: 1, height: 20, background: 'var(--border)', margin: '0 4px' }} />
 
           <UserProfile />
         </div>

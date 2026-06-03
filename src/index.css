@@ -13,16 +13,80 @@ html {
 :root {
   --bg: #F6F5F2;
   --white: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #fafaf8;
+  --surface-3: #f0efeb;
   --text-primary: #111111;
   --text-secondary: #666666;
+  --text-tertiary: #999999;
   --border: #E5E4E0;
+  --border-strong: #d8d7d2;
+  --inverse-surface: #111111;
+  --inverse-text: #ffffff;
   --accent: #111111;
+
+  --sidebar-bg: #0F0F0F;
+  --sidebar-text: rgba(255, 255, 255, 0.55);
+  --sidebar-text-active: #ffffff;
+  --sidebar-active-bg: rgba(255, 255, 255, 0.08);
+
+  --danger: #ef4444;
+  --danger-strong: #e53935;
+  --danger-bg: #fff5f5;
+  --danger-border: #fecaca;
+  --success: #16a34a;
+  --success-bg: #f0fdf4;
+  --indigo: #6366f1;
+  --violet: #8b5cf6;
+
+  --shadow-color: rgba(30, 30, 50, 0.07);
+
   --radius: 12px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
   --spacing-lg: 32px;
   --spacing-xl: 64px;
   --spacing-2xl: 128px;
+}
+
+[data-theme="dark"] {
+  --bg: #0e0f13;
+  --white: #16181d;
+  --surface: #16181d;
+  --surface-2: #1b1e24;
+  --surface-3: #22262e;
+  --text-primary: #ececee;
+  --text-secondary: #a2a4ad;
+  --text-tertiary: #777b84;
+  --border: #2a2d35;
+  --border-strong: #353944;
+  --inverse-surface: #ececee;
+  --inverse-text: #14161b;
+  --accent: #ececee;
+
+  --sidebar-bg: #0a0b0e;
+  --sidebar-text: rgba(255, 255, 255, 0.5);
+  --sidebar-text-active: #ffffff;
+  --sidebar-active-bg: rgba(255, 255, 255, 0.1);
+
+  --danger: #f87171;
+  --danger-strong: #f87171;
+  --danger-bg: #2a1517;
+  --danger-border: #5b2527;
+  --success: #4ade80;
+  --success-bg: #112318;
+  --indigo: #818cf8;
+  --violet: #a78bfa;
+
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 body {
@@ -535,14 +599,14 @@ nav {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border);
-  background: var(--white);
-  color: #fff;
+  background: var(--surface);
+  color: var(--inverse-text);
   transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .aidemo-step.done .aidemo-step-icon {
-  background: #111;
-  border-color: #111;
+  background: var(--inverse-surface);
+  border-color: var(--inverse-surface);
 }
 
 .aidemo-spinner {
@@ -596,4 +660,70 @@ nav {
 
 @media (prefers-reduced-motion: reduce) {
   .aidemo-spinner { animation: none; }
+}
+
+/* ─────────────────────────  THEME TOGGLE  ───────────────────────── */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 15px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  color: var(--text-primary);
+}
+
+.theme-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.theme-toggle-icon:hover {
+  background: var(--surface-3);
+  color: var(--text-primary);
+}
+
+/* ─────────────────────  LANDING DARK OVERRIDES  ─────────────────── */
+[data-theme="dark"] nav {
+  background: rgba(14, 15, 19, 0.82);
+}
+[data-theme="dark"] .btn-primary:hover {
+  background: #d2d2d6;
+}
+[data-theme="dark"] .aidemo-panel {
+  background: radial-gradient(130% 110% at 50% 0%, #1b1e25 0%, #16181d 58%, #111318 100%);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.5);
+}
+[data-theme="dark"] .aidemo-input {
+  background: #1e2128;
+  border-color: #313640;
+  color: #ececee;
+}
+[data-theme="dark"] .aidemo-input::placeholder { color: #6b6f78; }
+[data-theme="dark"] .aidemo-send {
+  background: #262a32;
+  color: #ececee;
+}
+[data-theme="dark"] .aidemo-send:hover { background: #2f343d; }
+[data-theme="dark"] .aidemo-spinner {
+  border-color: rgba(255, 255, 255, 0.18);
+  border-top-color: #ececee;
 }

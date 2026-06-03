@@ -2,8 +2,8 @@ import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const segments = [
-  { name: 'Power Users',  count: '12,450', pct: 20, desc: 'Using 5+ features daily. Core loop locked.', dot: '#111', activity: [88,92,85,95,90,97,93,98] },
-  { name: 'Active Users', count: '45,800', pct: 74, desc: 'Engaged weekly. Strong retention signal.', dot: '#444', activity: [60,70,65,72,68,74,71,75] },
+  { name: 'Power Users',  count: '12,450', pct: 20, desc: 'Using 5+ features daily. Core loop locked.', dot: 'var(--text-primary)', activity: [88,92,85,95,90,97,93,98] },
+  { name: 'Active Users', count: '45,800', pct: 74, desc: 'Engaged weekly. Strong retention signal.', dot: 'var(--text-secondary)', activity: [60,70,65,72,68,74,71,75] },
   { name: 'At-Risk',      count: '3,200',  pct: 5,  desc: 'Drop in weekly sessions over 14 days.', dot: '#d97706', activity: [50,42,45,38,40,32,35,28] },
   { name: 'Churned',      count: '1,150',  pct: 2,  desc: 'No activity for 30+ days. Winback eligible.', dot: '#ef4444', activity: [30,25,20,18,15,10,8,5] },
 ];
@@ -24,7 +24,7 @@ export default function DigitalUserCity() {
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section ref={ref} style={{ padding: '140px 0', background: '#ffffff' }}>
+    <section ref={ref} style={{ padding: '140px 0', background: 'var(--surface)' }}>
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 40px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '100px', alignItems: 'center' }}>
 
         {/* Left: Copy */}
@@ -67,7 +67,7 @@ export default function DigitalUserCity() {
                 style={{ display: 'flex', alignItems: 'center', gap: 12 }}
               >
                 <div style={{ width: 18, height: 18, borderRadius: '50%', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="var(--text-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </div>
                 <span style={{ fontSize: 14, color: 'var(--text-primary)', fontWeight: 500 }}>{item}</span>
               </motion.div>

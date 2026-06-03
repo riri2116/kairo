@@ -12,6 +12,16 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('kairo-theme');
+          if (t === 'dark' || t === 'light') {
+            document.documentElement.setAttribute('data-theme', t);
+          }
+        } catch (e) { /* ignore */ }
+      })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

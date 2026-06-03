@@ -36,7 +36,7 @@ export default function SettingsPage() {
         <div style={{ width: 190, flexShrink: 0 }}>
           <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             {TABS.map(({ label, icon: Icon }) => (
-              <button key={label} onClick={() => setTab(label)} style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '9px 12px', borderRadius: 8, border: 'none', background: tab === label ? '#111' : 'none', color: tab === label ? '#fff' : '#666', fontSize: 13, fontWeight: 500, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s', fontFamily: 'inherit' }}>
+              <button key={label} onClick={() => setTab(label)} style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '9px 12px', borderRadius: 8, border: 'none', background: tab === label ? 'var(--inverse-surface)' : 'none', color: tab === label ? 'var(--inverse-text)' : 'var(--text-secondary)', fontSize: 13, fontWeight: 500, cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s', fontFamily: 'inherit' }}>
                 <Icon size={14} />
                 {label}
               </button>
@@ -50,14 +50,14 @@ export default function SettingsPage() {
               <div className="db-card-header"><span className="db-card-title">Profile</span></div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '4px 0 20px' }}>
-                <div style={{ width: 56, height: 56, borderRadius: 14, background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <span style={{ fontFamily: 'Instrument Serif, serif', fontSize: 24, color: '#fff' }}>
+                <div style={{ width: 56, height: 56, borderRadius: 14, background: 'var(--inverse-surface)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span style={{ fontFamily: 'Instrument Serif, serif', fontSize: 24, color: 'var(--inverse-text)' }}>
                     {(profile.name || profile.email || 'U')[0].toUpperCase()}
                   </span>
                 </div>
                 <div>
-                  <div style={{ fontSize: 15, fontWeight: 600, color: '#111' }}>{profile.name || '—'}</div>
-                  <div style={{ fontSize: 13, color: '#888' }}>{profile.email}</div>
+                  <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-primary)' }}>{profile.name || '—'}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-tertiary)' }}>{profile.email}</div>
                 </div>
               </div>
 
@@ -68,8 +68,8 @@ export default function SettingsPage() {
                   ['Job title', 'jobTitle', 'text', 'e.g. Head of Product'],
                 ].map(([label, key, type, placeholder]) => (
                   <div key={key}>
-                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: '#666', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</label>
-                    <input type={type} value={profile[key]} onChange={e => setProfile(p => ({ ...p, [key]: e.target.value }))} placeholder={placeholder} style={{ width: '100%', padding: '9px 12px', border: '1px solid #E5E4E0', borderRadius: 8, fontSize: 13.5, color: '#111', background: '#fff', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} onFocus={e => e.target.style.borderColor = '#111'} onBlur={e => e.target.style.borderColor = '#E5E4E0'} />
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</label>
+                    <input type={type} value={profile[key]} onChange={e => setProfile(p => ({ ...p, [key]: e.target.value }))} placeholder={placeholder} style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13.5, color: 'var(--text-primary)', background: 'var(--surface)', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} onFocus={e => e.target.style.borderColor = '#111'} onBlur={e => e.target.style.borderColor = '#E5E4E0'} />
                   </div>
                 ))}
                 <div>
@@ -90,9 +90,9 @@ export default function SettingsPage() {
                   ['Plan', 'FREE'],
                   ['Members', '1'],
                 ].map(([label, val]) => (
-                  <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid #F6F5F2' }}>
-                    <span style={{ fontSize: 13, color: '#555' }}>{label}</span>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>{val}</span>
+                  <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
+                    <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{label}</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{val}</span>
                   </div>
                 ))}
               </div>
@@ -113,8 +113,8 @@ export default function SettingsPage() {
                   { name: 'OpenAI GPT-4o', status: 'Mock mode', color: '#f59e0b' },
                   { name: 'PostgreSQL',    status: 'Connected',  color: '#22c55e' },
                 ].map(i => (
-                  <div key={i.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid #F6F5F2' }}>
-                    <span style={{ fontSize: 13, color: '#555' }}>{i.name}</span>
+                  <div key={i.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
+                    <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{i.name}</span>
                     <span style={{ fontSize: 12, fontWeight: 600, color: i.color, background: `${i.color}18`, padding: '3px 10px', borderRadius: 100 }}>{i.status}</span>
                   </div>
                 ))}
@@ -127,7 +127,7 @@ export default function SettingsPage() {
               <div className="db-card-header"><span className="db-card-title">{tab}</span></div>
               <div className="db-coming-soon" style={{ minHeight: 200 }}>
                 <div className="db-coming-soon-badge">{tab}</div>
-                <p style={{ fontSize: 13, color: '#aaa', marginTop: 8 }}>This section is coming soon.</p>
+                <p style={{ fontSize: 13, color: 'var(--text-tertiary)', marginTop: 8 }}>This section is coming soon.</p>
               </div>
             </div>
           )}

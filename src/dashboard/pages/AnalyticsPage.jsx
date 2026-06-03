@@ -8,7 +8,7 @@ function StatCard({ label, value, sub, color }) {
     <div className="db-stat-card">
       <div className="db-stat-label">{label}</div>
       <div className="db-stat-value" style={color ? { color } : {}}>{value}</div>
-      {sub && <div style={{ fontSize: 11.5, color: '#aaa', marginTop: 3 }}>{sub}</div>}
+      {sub && <div style={{ fontSize: 11.5, color: 'var(--text-tertiary)', marginTop: 3 }}>{sub}</div>}
     </div>
   );
 }
@@ -16,17 +16,17 @@ function StatCard({ label, value, sub, color }) {
 function MetricBar({ label, value, max, color, icon: Icon }) {
   const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0;
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: '1px solid #F6F5F2' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
       <div style={{ width: 30, height: 30, borderRadius: 7, background: `${color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
         <Icon size={14} color={color} />
       </div>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, fontWeight: 530, color: '#111', marginBottom: 5 }}>{label}</div>
-        <div style={{ height: 4, background: '#F0EFEC', borderRadius: 2, overflow: 'hidden' }}>
+        <div style={{ fontSize: 13, fontWeight: 530, color: 'var(--text-primary)', marginBottom: 5 }}>{label}</div>
+        <div style={{ height: 4, background: 'var(--surface-3)', borderRadius: 2, overflow: 'hidden' }}>
           <div style={{ height: '100%', width: `${pct}%`, background: color, borderRadius: 2, transition: 'width 0.6s ease' }} />
         </div>
       </div>
-      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 20, color: '#111', lineHeight: 1, flexShrink: 0, minWidth: 40, textAlign: 'right' }}>
+      <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 20, color: 'var(--text-primary)', lineHeight: 1, flexShrink: 0, minWidth: 40, textAlign: 'right' }}>
         {value}
       </div>
     </div>
@@ -98,8 +98,8 @@ export default function AnalyticsPage() {
             ['Open / in-progress', counts.openRequirements || 0, '#f59e0b'],
             ['Completed', (counts.requirements || 0) - (counts.openRequirements || 0), '#22c55e'],
           ].map(([label, val, color]) => (
-            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid #F6F5F2' }}>
-              <span style={{ fontSize: 13, color: '#555' }}>{label}</span>
+            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
+              <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{label}</span>
               <span style={{ fontFamily: 'Instrument Serif, serif', fontSize: 22, color, lineHeight: 1 }}>{val}</span>
             </div>
           ))}
@@ -111,9 +111,9 @@ export default function AnalyticsPage() {
               ['Completed', counts.completedSandboxes || 0],
               ['Avg retention uplift', metrics.avgRetentionImpact != null ? `+${metrics.avgRetentionImpact}%` : '—'],
             ].map(([label, val]) => (
-              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid #F6F5F2' }}>
-                <span style={{ fontSize: 13, color: '#555' }}>{label}</span>
-                <span style={{ fontFamily: 'Instrument Serif, serif', fontSize: 20, color: '#111', lineHeight: 1 }}>{val}</span>
+              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
+                <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{label}</span>
+                <span style={{ fontFamily: 'Instrument Serif, serif', fontSize: 20, color: 'var(--text-primary)', lineHeight: 1 }}>{val}</span>
               </div>
             ))}
           </div>

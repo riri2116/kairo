@@ -30,7 +30,7 @@ function SandboxModal({ onClose, onSubmit, loading }) {
             </div>
             <div>
               <h2 className="db-modal-title">Simulate Feature</h2>
-              <p style={{ fontSize: 12, color: '#999', margin: 0 }}>AI predicts impact before you build</p>
+              <p style={{ fontSize: 12, color: 'var(--text-tertiary)', margin: 0 }}>AI predicts impact before you build</p>
             </div>
           </div>
           {!loading && <button className="db-modal-close" onClick={onClose}><X size={16} /></button>}
@@ -50,8 +50,8 @@ function SandboxModal({ onClose, onSubmit, loading }) {
               <div className="brain-running-state">
                 <Loader2 size={20} className="brain-spin" color="#a855f7" />
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: '#111' }}>Running simulation…</div>
-                  <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>Modeling retention, revenue, and engagement impact</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>Running simulation…</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-tertiary)', marginTop: 2 }}>Modeling retention, revenue, and engagement impact</div>
                 </div>
               </div>
             )}
@@ -72,12 +72,12 @@ function ImpactBar({ label, value, color }) {
   return (
     <div style={{ flex: 1, minWidth: 80 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 3, marginBottom: 4 }}>
-        <span style={{ fontSize: 16, fontFamily: 'Instrument Serif, serif', color: color || '#22c55e', fontWeight: 600 }}>+{value}%</span>
+        <span style={{ fontSize: 16, fontFamily: 'Instrument Serif, serif', color: color || 'var(--success)', fontWeight: 600 }}>+{value}%</span>
       </div>
-      <div style={{ height: 3, background: '#F0EFEC', borderRadius: 2, overflow: 'hidden' }}>
-        <div style={{ height: '100%', width: `${Math.min(value * 2, 100)}%`, background: color || '#22c55e', borderRadius: 2 }} />
+      <div style={{ height: 3, background: 'var(--surface-3)', borderRadius: 2, overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${Math.min(value * 2, 100)}%`, background: color || 'var(--success)', borderRadius: 2 }} />
       </div>
-      <div style={{ fontSize: 11, color: '#999', marginTop: 3 }}>{label}</div>
+      <div style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 3 }}>{label}</div>
     </div>
   );
 }
@@ -106,7 +106,7 @@ function SandboxCard({ sandbox, onDelete }) {
           <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             <span className="brain-tag" style={{ color: rc.color, background: rc.bg }}>{rc.label}</span>
             {sandbox.effortEstimateDays && (
-              <span style={{ fontSize: 11.5, color: '#888', display: 'flex', alignItems: 'center', gap: 3 }}><Clock size={11} />{sandbox.effortEstimateDays}d est.</span>
+              <span style={{ fontSize: 11.5, color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center', gap: 3 }}><Clock size={11} />{sandbox.effortEstimateDays}d est.</span>
             )}
           </div>
         </div>
@@ -115,7 +115,7 @@ function SandboxCard({ sandbox, onDelete }) {
             {[['Retention', sandbox.retentionImpact, '#22c55e'], ['Revenue', sandbox.revenueImpact, '#6366f1'], ['Engagement', sandbox.engagementImpact, '#f97316']].map(([l, v, c]) => (
               <div key={l} style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: 15, fontFamily: 'Instrument Serif, serif', color: c, lineHeight: 1 }}>+{v}%</div>
-                <div style={{ fontSize: 10, color: '#bbb', marginTop: 1 }}>{l}</div>
+                <div style={{ fontSize: 10, color: 'var(--text-tertiary)', marginTop: 1 }}>{l}</div>
               </div>
             ))}
           </div>
@@ -132,16 +132,16 @@ function SandboxCard({ sandbox, onDelete }) {
       {expanded && (
         <div className="brain-card-body">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
-            <div style={{ background: '#fff', border: '1px solid #ECEAE7', borderRadius: 10, padding: '14px 15px' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#888', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 12 }}>Impact Projection</div>
+            <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '14px 15px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-tertiary)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 12 }}>Impact Projection</div>
               <div style={{ display: 'flex', gap: 14 }}>
                 <ImpactBar label="Retention" value={sandbox.retentionImpact} color="#22c55e" />
                 <ImpactBar label="Revenue" value={sandbox.revenueImpact} color="#6366f1" />
                 <ImpactBar label="Engagement" value={sandbox.engagementImpact} color="#f97316" />
               </div>
             </div>
-            <div style={{ background: '#fff', border: '1px solid #ECEAE7', borderRadius: 10, padding: '14px 15px' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#888', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 12 }}>Model Output</div>
+            <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '14px 15px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-tertiary)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 12 }}>Model Output</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {[
                   ['Projected DAU', results.projectedDAU],
@@ -150,8 +150,8 @@ function SandboxCard({ sandbox, onDelete }) {
                   ['Success probability', `${results.successProbability}%`],
                 ].map(([label, val]) => (
                   <div key={label} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 12, color: '#888' }}>{label}</span>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: '#111' }}>{val}</span>
+                    <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{label}</span>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>{val}</span>
                   </div>
                 ))}
               </div>
@@ -165,17 +165,17 @@ function SandboxCard({ sandbox, onDelete }) {
                 ['Time to value', params.timeToValue],
                 ['Confidence interval', params.confidenceInterval],
               ].map(([l, v]) => (
-                <div key={l} style={{ background: '#F6F5F2', borderRadius: 7, padding: '5px 10px' }}>
-                  <span style={{ fontSize: 11, color: '#aaa' }}>{l}: </span>
-                  <span style={{ fontSize: 11.5, fontWeight: 600, color: '#555' }}>{v}</span>
+                <div key={l} style={{ background: 'var(--bg)', borderRadius: 7, padding: '5px 10px' }}>
+                  <span style={{ fontSize: 11, color: 'var(--text-tertiary)' }}>{l}: </span>
+                  <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-secondary)' }}>{v}</span>
                 </div>
               ))}
             </div>
           )}
           {sandbox.description && (
-            <div style={{ background: '#111', borderRadius: 10, padding: '12px 14px' }}>
+            <div style={{ background: 'var(--inverse-surface)', borderRadius: 10, padding: '12px 14px' }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 7 }}>AI Summary</div>
-              <p style={{ fontSize: 13, color: '#fff', lineHeight: 1.6, margin: 0 }}>{sandbox.description}</p>
+              <p style={{ fontSize: 13, color: 'var(--inverse-text)', lineHeight: 1.6, margin: 0 }}>{sandbox.description}</p>
             </div>
           )}
         </div>
@@ -239,7 +239,7 @@ export default function FeatureSandboxPage() {
       )}
 
       <div className="brain-toolbar">
-        <span style={{ fontSize: 12, color: '#aaa' }}>{sandboxes.length} {sandboxes.length === 1 ? 'simulation' : 'simulations'}</span>
+        <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{sandboxes.length} {sandboxes.length === 1 ? 'simulation' : 'simulations'}</span>
         <button className="brain-refresh-btn" onClick={fetch}><RefreshCw size={13} /></button>
       </div>
 
