@@ -53,6 +53,10 @@ export async function apiLogin(email, password) {
   return data;
 }
 
+export async function apiRegister(name, email, password) {
+  return request('POST', '/auth/register', { name, email, password });
+}
+
 export function apiLogout() {
   ['kairo_token', 'kairo_user', 'kairo_workspaces', 'kairo_workspace_slug'].forEach(
     k => localStorage.removeItem(k)

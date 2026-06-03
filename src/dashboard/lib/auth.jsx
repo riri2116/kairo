@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { apiLogin, apiLogout, getStoredUser, getStoredWorkspaces, getActiveWorkspaceSlug, setActiveWorkspaceSlug } from './api';
+import { apiLogin, apiRegister, apiLogout, getStoredUser, getStoredWorkspaces, getActiveWorkspaceSlug, setActiveWorkspaceSlug } from './api';
 
 const AuthContext = createContext(null);
 
@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
     setLoading(true);
     setError(null);
     try {
-      const data = await apiLogin(email, password);
+      const data = await apiLogin(email.trim().toLowerCase(), password);
       setUser(data.user);
       setWorkspaces(data.workspaces);
       const slug = data.workspaces?.[0]?.slug || '';
@@ -24,6 +24,25 @@ export function AuthProvider({ children }) {
       return data;
     } catch (err) {
       setError(err.message || 'Login failed');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const register = useCallback(async (name, email, password) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const normalizedEmail = email.trim().toLowerCase();
+      await apiRegister(name, normalizedEmail, password);
+      const data = await apiLogin(normalizedEmail, password);
+      setUser(data.user);
+      setWorkspaces(data.workspaces);
+      setActiveSlug(data.workspaces?.[0]?.slug || '');
+      return data;
+    } catch (err) {
+      setError(err.message || 'Registration failed');
       throw err;
     } finally {
       setLoading(false);
@@ -42,7 +61,7 @@ export function AuthProvider({ children }) {
     setActiveSlug(slug);
   }, []);
 
-  const value = { user, workspaces, activeSlug, workspaceSlug: activeSlug, isAuthenticated, loading, error, login, logout, switchWorkspace };
+  const value = { user, workspaces, activeSlug, workspaceSlug: activeSlug, isAuthenticated, loading, error, login, register, logout, switchWorkspace };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

@@ -1,1 +1,2 @@
 - [Theming / dark mode](theming.md) — global theme via `data-theme` on <html> + `kairo-theme` localStorage; index.html bootstrap prevents flash; new UI must use semantic tokens or paired `[data-theme="dark"]` overrides, never raw hex.
+- [Auth flow (register/token/email casing)](auth-flow.md) — SPA uses bearer JWT from /api/auth/token (not cookies); register doesn't return a token so it auto-logs-in after; email MUST be trim+lowercased identically on every auth endpoint or mixed-case login breaks.

@@ -16,7 +16,7 @@ export default function Hero() {
       </FadeIn>
       <FadeIn delay={0.2}>
         <div className="flex justify-center gap-md" style={{ marginBottom: 'var(--spacing-md)' }}>
-          <a href="/dashboard/login" className="btn btn-primary">Start Free</a>
+          <a href="/dashboard/register" className="btn btn-primary">Sign up</a>
           <a href="#product" className="btn btn-ghost">Watch Demo</a>
         </div>
       </FadeIn>

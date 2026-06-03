@@ -13,7 +13,7 @@ export default function Navigation() {
         <div className="flex items-center gap-md">
           <ThemeToggle className="hide-mobile" />
           <a href="/dashboard/login" className="btn btn-ghost hide-mobile">Log in</a>
-          <a href="/dashboard/login" className="btn btn-primary">Start Free</a>
+          <a href="/dashboard/register" className="btn btn-primary">Sign up</a>
         </div>
       </div>
     </nav>

@@ -1140,7 +1140,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   transition: background 0.5s ease;
 }
 .login-shell.light { background: #F6F5F2; }
-.login-shell.dark  { background: #0e0f13; }
+.login-shell.dark  { background: #15111f; }
 
 .login-toggle {
   position: absolute;
@@ -1174,7 +1174,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   transition: background 0.5s ease;
 }
 .login-shell.light .login-brand { background: linear-gradient(150deg, #e9f0fb 0%, #f4ecdd 62%, #faf5ec 100%); }
-.login-shell.dark  .login-brand { background: linear-gradient(150deg, #161d2c 0%, #221d15 68%, #111217 100%); }
+.login-shell.dark  .login-brand { background: linear-gradient(150deg, #221a3c 0%, #1a1430 68%, #15111f 100%); }
 
 .login-brand-content { position: relative; z-index: 2; max-width: 460px; }
 
@@ -1191,7 +1191,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   transition: background 0.4s ease, color 0.4s ease;
 }
 .login-shell.light .login-brand-mark { background: #111; color: #fff; }
-.login-shell.dark  .login-brand-mark { background: #fff; color: #111; }
+.login-shell.dark  .login-brand-mark { background: #eceaf4; color: #181225; }
 
 .login-brand-title {
   font-family: 'Instrument Serif', serif;
@@ -1203,7 +1203,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   transition: color 0.4s ease;
 }
 .login-shell.light .login-brand-title { color: #1a1a1a; }
-.login-shell.dark  .login-brand-title { color: #f3f3f5; }
+.login-shell.dark  .login-brand-title { color: #f3f1f8; }
 
 .login-brand-sub {
   font-size: 15.5px;
@@ -1213,7 +1213,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   transition: color 0.4s ease;
 }
 .login-shell.light .login-brand-sub { color: #6a6a66; }
-.login-shell.dark  .login-brand-sub { color: #9a9ba2; }
+.login-shell.dark  .login-brand-sub { color: #a7a1bd; }
 
 .login-brand-orb {
   position: absolute;
@@ -1275,25 +1275,48 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
 
 /* Dark theme — card + form fields */
 .login-shell.dark .db-login-card {
-  background: #16181d;
-  border-color: #292c33;
-  box-shadow: 0 8px 50px rgba(0,0,0,0.5);
+  background: #1d1730;
+  border-color: #322a4a;
+  box-shadow: 0 8px 50px rgba(0,0,0,0.55);
 }
-.login-shell.dark .login-card-title { color: #f2f2f4; }
-.login-shell.dark .login-card-sub  { color: #9a9ba2; }
-.login-shell.dark .login-card-foot { color: #6e7079; }
-.login-shell.dark .login-card-foot a { color: #f2f2f4; }
-.login-shell.dark .db-label { color: #b8bac1; }
+.login-shell.dark .login-card-title { color: #f3f1f8; }
+.login-shell.dark .login-card-sub  { color: #a7a1bd; }
+.login-shell.dark .login-card-foot { color: #7c7691; }
+.login-shell.dark .login-card-foot a { color: #c4b5fd; }
+.login-shell.dark .db-label { color: #bcb6cf; }
 .login-shell.dark .db-input {
-  background: #1e2128;
-  border-color: #313640;
-  color: #ececee;
+  background: #251e3b;
+  border-color: #3f3659;
+  color: #eceaf4;
 }
-.login-shell.dark .db-input::placeholder { color: #6b6f78; }
-.login-shell.dark .db-input:focus { border-color: #8fa6e0; }
-.login-shell.dark .db-btn-primary { background: #fff; color: #111; border-color: #fff; }
-.login-shell.dark .db-btn-primary:hover:not(:disabled) { background: #e8e8ec; }
-.login-shell.dark .login-eye { color: #777b84; }
+.login-shell.dark .db-input::placeholder { color: #7c7691; }
+.login-shell.dark .db-input:focus { border-color: #a78bfa; }
+.login-shell.dark .db-btn-primary { background: #eceaf4; color: #181225; border-color: #eceaf4; }
+.login-shell.dark .db-btn-primary:hover:not(:disabled) { background: #d8d4e6; }
+.login-shell.dark .login-eye { color: #7c7691; }
+
+.login-pass-rules {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.login-pass-rules li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  transition: color 0.2s ease;
+}
+.login-pass-rules li svg { opacity: 0.5; transition: opacity 0.2s ease, color 0.2s ease; }
+.login-pass-rules li.ok { color: var(--success); }
+.login-pass-rules li.ok svg { opacity: 1; color: var(--success); }
+.login-shell.dark .login-pass-rules li { color: #7c7691; }
+.login-shell.dark .login-pass-rules li.ok { color: #4ade80; }
+.login-shell.dark .login-pass-rules li.ok svg { color: #4ade80; }
 
 @media (max-width: 900px) {
   .login-brand { display: none; }

@@ -21,6 +21,7 @@ import Footer from './sections/Footer';
 
 import DashboardLayout from './dashboard/DashboardLayout';
 import LoginPage from './dashboard/pages/LoginPage';
+import RegisterPage from './dashboard/pages/RegisterPage';
 import OverviewPage from './dashboard/pages/OverviewPage';
 import ProductBrainPage from './dashboard/pages/ProductBrainPage';
 import AIBoardroomPage from './dashboard/pages/AIBoardroomPage';
@@ -68,6 +69,7 @@ export default function App() {
 
           {/* Dashboard auth */}
           <Route path="/dashboard/login" element={<LoginPage />} />
+          <Route path="/dashboard/register" element={<RegisterPage />} />
 
           {/* Dashboard (protected) */}
           <Route path="/dashboard" element={<DashboardLayout />}>

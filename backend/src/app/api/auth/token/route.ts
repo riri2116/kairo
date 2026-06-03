@@ -29,9 +29,10 @@ export async function POST(req: NextRequest) {
     }
 
     const { email, password } = parsed.data;
+    const normalizedEmail = email.trim().toLowerCase();
 
     const user = await prisma.user.findUnique({
-      where: { email, deletedAt: null },
+      where: { email: normalizedEmail, deletedAt: null },
     });
 
     if (!user?.passwordHash) {
