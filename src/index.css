@@ -189,3 +189,54 @@ nav {
   padding: var(--spacing-md) 0;
   cursor: pointer;
 }
+
+/* ===== Trust Ribbon ===== */
+.ribbon-demo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 100px;
+  padding: 12px 22px;
+}
+
+.ribbon-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.ribbon-svg {
+  display: block;
+  width: 100%;
+  height: 220px;
+}
+
+.ribbon-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xl);
+  margin-top: -36px;
+  position: relative;
+  z-index: 2;
+}
+
+.ribbon-logo {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+.ribbon-logo:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .ribbon-svg { height: 160px; }
+  .ribbon-logos { gap: var(--spacing-lg); margin-top: -20px; }
+  .ribbon-logo { font-size: 17px; }
+}
