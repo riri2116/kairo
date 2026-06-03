@@ -7,7 +7,6 @@ import Hero from './sections/Hero';
 import AITerminal from './sections/AITerminal';
 import AIDemo from './sections/AIDemo';
 import ProductBrain from './sections/ProductBrain';
-import Boardroom from './sections/Boardroom';
 import EmotionSimulator from './sections/EmotionSimulator';
 import TimeMachine from './sections/TimeMachine';
 import DigitalUserCity from './sections/DigitalUserCity';
@@ -43,7 +42,6 @@ function LandingPage() {
         <AIDemo />
         <AITerminal />
         <ProductBrain />
-        <Boardroom />
         <EmotionSimulator />
         <TimeMachine />
         <DigitalUserCity />

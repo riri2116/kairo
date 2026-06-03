@@ -28,7 +28,7 @@ export default function EmotionSimulator() {
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section ref={ref} style={{ padding: '140px 0', background: '#ffffff' }}>
+    <section id="use-cases" ref={ref} style={{ padding: '140px 0', background: '#ffffff', scrollMarginTop: '90px' }}>
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 40px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '100px', alignItems: 'center' }}>
 
         {/* Left: Copy */}
