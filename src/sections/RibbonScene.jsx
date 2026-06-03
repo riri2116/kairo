@@ -137,12 +137,12 @@ const fragmentShader = /* glsl */ `
     float sheen = smoothstep(0.16, 0.0, abs(across - sheenPos));
     col = mix(col, uColorC, sheen * 0.9);
 
-    // soft self-shadow on the far edge for roundness
-    float shade = mix(0.86, 1.06, smoothstep(0.0, 0.7, across));
+    // gentle roundness shading (low contrast so strands blend in tone)
+    float shade = mix(0.94, 1.04, smoothstep(0.0, 0.7, across));
     col *= shade;
 
-    // DEFINED feathered edges (crisp, not blurred)
-    float edge = smoothstep(0.0, 0.10, across) * smoothstep(1.0, 0.90, across);
+    // soft feathered edges so neighbouring strands melt into one another
+    float edge = smoothstep(0.0, 0.42, across) * smoothstep(1.0, 0.58, across);
     // dissolve the very ends into the page
     float ends = smoothstep(0.0, 0.05, along) * smoothstep(1.0, 0.95, along);
 
@@ -200,12 +200,12 @@ function Strand({ cfg, mouse }) {
 
 // vivid-but-elegant silk palette: soft blue / warm gold-cream / bright off-white
 const STRANDS = [
-  { a: '#EBDFBE', b: '#F6ECCF', c: '#FFFFFF', y: 0.0,   z: -2.0, thick: 0.62, amp: 0.50, opacity: 0.5,  speed: 0.10, seed: 34.0, order: 0 },
-  { a: '#E7B84A', b: '#F6DF9E', c: '#FFFFFF', y: -0.12, z: -1.2, thick: 0.48, amp: 0.56, opacity: 0.85, speed: 0.12, seed: 2.0,  order: 1 },
-  { a: '#2E6BE6', b: '#8FB2F3', c: '#FFFFFF', y: 0.08,  z: -0.5, thick: 0.34, amp: 0.62, opacity: 0.92, speed: 0.15, seed: 7.0,  order: 2 },
-  { a: '#EFEFFA', b: '#FFFFFF', c: '#FFFFFF', y: 0.0,   z: 0.2,  thick: 0.16, amp: 0.66, opacity: 0.80, speed: 0.18, seed: 13.0, order: 3 },
-  { a: '#3B73E8', b: '#A6C2F6', c: '#FFFFFF', y: 0.13,  z: 0.6,  thick: 0.24, amp: 0.60, opacity: 0.9,  speed: 0.17, seed: 29.0, order: 4 },
-  { a: '#E8C25A', b: '#F8E7AE', c: '#FFFFFF', y: -0.15, z: 0.9,  thick: 0.20, amp: 0.54, opacity: 0.88, speed: 0.14, seed: 21.0, order: 5 },
+  { a: '#EBDFBE', b: '#F6ECCF', c: '#FFFFFF', y: 0.0,   z: -2.0, thick: 0.78, amp: 0.46, opacity: 0.45, speed: 0.10, seed: 34.0, order: 0 },
+  { a: '#E7B84A', b: '#F6DF9E', c: '#FFFFFF', y: -0.08, z: -1.2, thick: 0.62, amp: 0.52, opacity: 0.7,  speed: 0.12, seed: 2.0,  order: 1 },
+  { a: '#2E6BE6', b: '#8FB2F3', c: '#FFFFFF', y: 0.05,  z: -0.5, thick: 0.50, amp: 0.58, opacity: 0.78, speed: 0.15, seed: 7.0,  order: 2 },
+  { a: '#EFEFFA', b: '#FFFFFF', c: '#FFFFFF', y: 0.0,   z: 0.2,  thick: 0.30, amp: 0.62, opacity: 0.62, speed: 0.18, seed: 13.0, order: 3 },
+  { a: '#3B73E8', b: '#A6C2F6', c: '#FFFFFF', y: 0.09,  z: 0.6,  thick: 0.40, amp: 0.56, opacity: 0.75, speed: 0.17, seed: 29.0, order: 4 },
+  { a: '#E8C25A', b: '#F8E7AE', c: '#FFFFFF', y: -0.10, z: 0.9,  thick: 0.36, amp: 0.50, opacity: 0.72, speed: 0.14, seed: 21.0, order: 5 },
 ];
 
 function Scene({ mouse }) {
