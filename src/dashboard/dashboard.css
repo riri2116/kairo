@@ -1106,7 +1106,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   border-color: transparent !important;
 }
 [data-theme="dark"] .db-skeleton {
-  background: linear-gradient(90deg, #1b1e24 25%, #262a32 50%, #1b1e24 75%);
+  background: linear-gradient(90deg, #161922 25%, #20242f 50%, #161922 75%);
   background-size: 200% 100%;
 }
 @keyframes db-shimmer {
@@ -1140,7 +1140,11 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   transition: background 0.5s ease;
 }
 .login-shell.light { background: #F6F5F2; }
-.login-shell.dark  { background: #15111f; }
+.login-shell.dark  {
+  background:
+    radial-gradient(ellipse 82% 72% at 50% 42%, rgba(45, 88, 170, 0.30) 0%, rgba(10, 11, 16, 0) 60%),
+    #0a0b10;
+}
 
 .login-toggle {
   position: absolute;
@@ -1174,7 +1178,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   transition: background 0.5s ease;
 }
 .login-shell.light .login-brand { background: linear-gradient(150deg, #e9f0fb 0%, #f4ecdd 62%, #faf5ec 100%); }
-.login-shell.dark  .login-brand { background: linear-gradient(150deg, #221a3c 0%, #1a1430 68%, #15111f 100%); }
+.login-shell.dark  .login-brand { background: linear-gradient(150deg, #14233f 0%, #0d1426 68%, #0a0b10 100%); }
 
 .login-brand-content { position: relative; z-index: 2; max-width: 460px; }
 
@@ -1191,7 +1195,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   transition: background 0.4s ease, color 0.4s ease;
 }
 .login-shell.light .login-brand-mark { background: #111; color: #fff; }
-.login-shell.dark  .login-brand-mark { background: #eceaf4; color: #181225; }
+.login-shell.dark  .login-brand-mark { background: #e8eaed; color: #0a0b10; }
 
 .login-brand-title {
   font-family: 'Instrument Serif', serif;
@@ -1203,7 +1207,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   transition: color 0.4s ease;
 }
 .login-shell.light .login-brand-title { color: #1a1a1a; }
-.login-shell.dark  .login-brand-title { color: #f3f1f8; }
+.login-shell.dark  .login-brand-title { color: #eef0f3; }
 
 .login-brand-sub {
   font-size: 15.5px;
@@ -1213,7 +1217,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   transition: color 0.4s ease;
 }
 .login-shell.light .login-brand-sub { color: #6a6a66; }
-.login-shell.dark  .login-brand-sub { color: #a7a1bd; }
+.login-shell.dark  .login-brand-sub { color: #9aa0ac; }
 
 .login-brand-orb {
   position: absolute;
@@ -1275,25 +1279,26 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
 
 /* Dark theme — card + form fields */
 .login-shell.dark .db-login-card {
-  background: #1d1730;
-  border-color: #322a4a;
-  box-shadow: 0 8px 50px rgba(0,0,0,0.55);
+  background: rgba(18, 21, 29, 0.92);
+  border-color: #262b39;
+  box-shadow: 0 8px 50px rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
 }
-.login-shell.dark .login-card-title { color: #f3f1f8; }
-.login-shell.dark .login-card-sub  { color: #a7a1bd; }
-.login-shell.dark .login-card-foot { color: #7c7691; }
-.login-shell.dark .login-card-foot a { color: #c4b5fd; }
-.login-shell.dark .db-label { color: #bcb6cf; }
+.login-shell.dark .login-card-title { color: #eef0f3; }
+.login-shell.dark .login-card-sub  { color: #9aa0ac; }
+.login-shell.dark .login-card-foot { color: #6b7280; }
+.login-shell.dark .login-card-foot a { color: #8ab4f8; }
+.login-shell.dark .db-label { color: #aeb3bd; }
 .login-shell.dark .db-input {
-  background: #251e3b;
-  border-color: #3f3659;
-  color: #eceaf4;
+  background: #1c2030;
+  border-color: #333a4b;
+  color: #e8eaed;
 }
-.login-shell.dark .db-input::placeholder { color: #7c7691; }
-.login-shell.dark .db-input:focus { border-color: #a78bfa; }
-.login-shell.dark .db-btn-primary { background: #eceaf4; color: #181225; border-color: #eceaf4; }
-.login-shell.dark .db-btn-primary:hover:not(:disabled) { background: #d8d4e6; }
-.login-shell.dark .login-eye { color: #7c7691; }
+.login-shell.dark .db-input::placeholder { color: #6b7280; }
+.login-shell.dark .db-input:focus { border-color: #5b9bff; }
+.login-shell.dark .db-btn-primary { background: #e8eaed; color: #0a0b10; border-color: #e8eaed; }
+.login-shell.dark .db-btn-primary:hover:not(:disabled) { background: #d6d8dd; }
+.login-shell.dark .login-eye { color: #6b7280; }
 
 .login-pass-rules {
   list-style: none;
@@ -1532,7 +1537,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   margin-top: 4px;
 }
 [data-theme="dark"] .brain-running-state {
-  background: rgba(167, 139, 250, 0.12); border-color: rgba(167, 139, 250, 0.4);
+  background: rgba(91, 155, 255, 0.12); border-color: rgba(91, 155, 255, 0.4);
 }
 .brain-submit-btn { display: flex; align-items: center; gap: 7px; }
 
@@ -1545,7 +1550,7 @@ select.db-form-input { cursor: pointer; background-image: url("data:image/svg+xm
   border-radius: 12px;
 }
 [data-theme="dark"] .brain-skeleton {
-  background: linear-gradient(90deg, #1b1e24 25%, #262a32 50%, #1b1e24 75%);
+  background: linear-gradient(90deg, #161922 25%, #20242f 50%, #161922 75%);
   background-size: 200% 100%;
 }
 @keyframes brain-shimmer {

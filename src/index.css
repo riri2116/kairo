@@ -50,35 +50,35 @@ html {
 }
 
 [data-theme="dark"] {
-  --bg: #15111f;
-  --white: #1d1730;
-  --surface: #1d1730;
-  --surface-2: #251e3b;
-  --surface-3: #2e2748;
-  --text-primary: #eceaf4;
-  --text-secondary: #a7a1bd;
-  --text-tertiary: #7c7691;
-  --border: #322a4a;
-  --border-strong: #3f3659;
-  --inverse-surface: #eceaf4;
-  --inverse-text: #181225;
-  --accent: #eceaf4;
+  --bg: #0a0b10;
+  --white: #161922;
+  --surface: #161922;
+  --surface-2: #1c2030;
+  --surface-3: #232839;
+  --text-primary: #e8eaed;
+  --text-secondary: #9aa0ac;
+  --text-tertiary: #6b7280;
+  --border: #262b39;
+  --border-strong: #333a4b;
+  --inverse-surface: #e8eaed;
+  --inverse-text: #0a0b10;
+  --accent: #e8eaed;
 
-  --sidebar-bg: #110c1c;
+  --sidebar-bg: #07080c;
   --sidebar-text: rgba(255, 255, 255, 0.52);
   --sidebar-text-active: #ffffff;
-  --sidebar-active-bg: rgba(167, 139, 250, 0.14);
+  --sidebar-active-bg: rgba(91, 155, 255, 0.14);
 
   --danger: #f87171;
   --danger-strong: #f87171;
-  --danger-bg: #2c1622;
-  --danger-border: #5b2540;
+  --danger-bg: #2a1517;
+  --danger-border: #5b2527;
   --success: #4ade80;
-  --success-bg: #142a20;
-  --indigo: #a5b4fc;
-  --violet: #c4b5fd;
+  --success-bg: #112318;
+  --indigo: #5b9bff;
+  --violet: #8ab4f8;
 
-  --shadow-color: rgba(0, 0, 0, 0.55);
+  --shadow-color: rgba(0, 0, 0, 0.6);
 }
 
 html {
@@ -87,6 +87,21 @@ html {
 
 body {
   transition: background 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] html {
+  background: #0a0b10;
+}
+[data-theme="dark"] body {
+  background-color: #0a0b10;
+  background-image: radial-gradient(
+    ellipse 92% 62% at 50% 36%,
+    rgba(45, 88, 170, 0.42) 0%,
+    rgba(24, 47, 96, 0.20) 30%,
+    rgba(10, 11, 16, 0) 62%
+  );
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 body {
@@ -703,27 +718,27 @@ nav {
 
 /* ─────────────────────  LANDING DARK OVERRIDES  ─────────────────── */
 [data-theme="dark"] nav {
-  background: rgba(21, 17, 31, 0.82);
+  background: rgba(10, 11, 16, 0.82);
 }
 [data-theme="dark"] .btn-primary:hover {
-  background: #d8d4e6;
+  background: #d6d8dd;
 }
 [data-theme="dark"] .aidemo-panel {
-  background: radial-gradient(130% 110% at 50% 0%, #251e3b 0%, #1d1730 58%, #15111f 100%);
-  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55);
+  background: radial-gradient(130% 110% at 50% 0%, #1c2030 0%, #141722 58%, #0a0b10 100%);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.6);
 }
 [data-theme="dark"] .aidemo-input {
-  background: #251e3b;
-  border-color: #3f3659;
-  color: #eceaf4;
+  background: #1c2030;
+  border-color: #333a4b;
+  color: #e8eaed;
 }
-[data-theme="dark"] .aidemo-input::placeholder { color: #7c7691; }
+[data-theme="dark"] .aidemo-input::placeholder { color: #6b7280; }
 [data-theme="dark"] .aidemo-send {
-  background: #2e2748;
-  color: #eceaf4;
+  background: #232839;
+  color: #e8eaed;
 }
-[data-theme="dark"] .aidemo-send:hover { background: #382f55; }
+[data-theme="dark"] .aidemo-send:hover { background: #2c3242; }
 [data-theme="dark"] .aidemo-spinner {
   border-color: rgba(255, 255, 255, 0.18);
-  border-top-color: #eceaf4;
+  border-top-color: #e8eaed;
 }
