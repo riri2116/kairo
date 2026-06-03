@@ -212,6 +212,13 @@ nav {
   margin-top: -28px;
 }
 
+.ribbon-filter-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 .ribbon-img {
   display: block;
   width: 110%;
@@ -220,22 +227,13 @@ nav {
   height: auto;
   transform: rotate(-4deg);
   transform-origin: center;
-  animation: ribbonFloat 6s ease-in-out infinite;
+  filter: url(#ribbonWave);
   pointer-events: none;
   user-select: none;
 }
 
-@keyframes ribbonFloat {
-  0%, 100% {
-    transform: rotate(-4deg) translateY(0);
-  }
-  50% {
-    transform: rotate(-4deg) translateY(-16px);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .ribbon-img { animation: none; }
+  .ribbon-img { filter: none; }
 }
 
 .ribbon-logos {

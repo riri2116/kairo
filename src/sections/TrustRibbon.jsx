@@ -24,6 +24,16 @@ export default function TrustRibbon() {
       </FadeIn>
 
       <div className="ribbon-wrap">
+        <svg className="ribbon-filter-defs" aria-hidden="true" focusable="false">
+          <defs>
+            <filter id="ribbonWave" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.008 0.016" numOctaves="2" seed="4" result="noise">
+                <animate attributeName="baseFrequency" dur="16s" values="0.008 0.016; 0.013 0.011; 0.008 0.016" repeatCount="indefinite" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" />
+              </feTurbulence>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+          </defs>
+        </svg>
         <img src="/ribbon-wave.png" alt="" aria-hidden="true" className="ribbon-img" />
 
         <div className="ribbon-logos">
