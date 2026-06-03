@@ -47,14 +47,21 @@ waitForPort = 3001
 outputType = "console"
 
 [[ports]]
-localPort = 5000
-externalPort = 80
-
-[[ports]]
 localPort = 3001
 externalPort = 3001
+
+[[ports]]
+localPort = 5000
+externalPort = 80
 
 [deployment]
 deploymentTarget = "static"
 build = ["npm", "run", "build"]
 publicDir = "dist"
+
+[userenv]
+
+[userenv.shared]
+NEXTAUTH_SECRET = "Zwtrx2SBWlOFSyPP7mEMqNGaQeDuwoDS0NFT+W6Sy78="
+NEXTAUTH_URL = "http://localhost:3001"
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = ""
