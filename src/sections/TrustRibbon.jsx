@@ -12,7 +12,7 @@ function Band({ d, stroke, width, opacity, duration, delay, blur = 0 }) {
       strokeLinecap="round"
       opacity={opacity}
       style={{ filter: blur ? `blur(${blur}px)` : 'none' }}
-      animate={{ y: [0, -10, 0], x: [0, 14, 0] }}
+      animate={{ y: [0, -8, 0] }}
       transition={{ repeat: Infinity, duration, delay, ease: 'easeInOut' }}
     />
   );
