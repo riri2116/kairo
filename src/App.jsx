@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './dashboard/lib/auth';
 
 import Navigation from './sections/Navigation';
 import Hero from './sections/Hero';
@@ -18,6 +19,7 @@ import CTA from './sections/CTA';
 import Footer from './sections/Footer';
 
 import DashboardLayout from './dashboard/DashboardLayout';
+import LoginPage from './dashboard/pages/LoginPage';
 import OverviewPage from './dashboard/pages/OverviewPage';
 import ProductBrainPage from './dashboard/pages/ProductBrainPage';
 import AIBoardroomPage from './dashboard/pages/AIBoardroomPage';
@@ -27,6 +29,8 @@ import RoadmapsPage from './dashboard/pages/RoadmapsPage';
 import RequirementsPage from './dashboard/pages/RequirementsPage';
 import AnalyticsPage from './dashboard/pages/AnalyticsPage';
 import SettingsPage from './dashboard/pages/SettingsPage';
+import ProductsPage from './dashboard/pages/ProductsPage';
+import ProductDetailPage from './dashboard/pages/ProductDetailPage';
 
 function LandingPage() {
   return (
@@ -55,26 +59,33 @@ function LandingPage() {
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Landing page */}
-        <Route path="/" element={<LandingPage />} />
+      <AuthProvider>
+        <Routes>
+          {/* Landing page */}
+          <Route path="/" element={<LandingPage />} />
 
-        {/* Dashboard */}
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<OverviewPage />} />
-          <Route path="product-brain"  element={<ProductBrainPage />} />
-          <Route path="boardroom"      element={<AIBoardroomPage />} />
-          <Route path="competitors"    element={<CompetitorPage />} />
-          <Route path="sandbox"        element={<FeatureSandboxPage />} />
-          <Route path="roadmaps"       element={<RoadmapsPage />} />
-          <Route path="requirements"   element={<RequirementsPage />} />
-          <Route path="analytics"      element={<AnalyticsPage />} />
-          <Route path="settings"       element={<SettingsPage />} />
-        </Route>
+          {/* Dashboard auth */}
+          <Route path="/dashboard/login" element={<LoginPage />} />
 
-        {/* Catch-all */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          {/* Dashboard (protected) */}
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<OverviewPage />} />
+            <Route path="products"              element={<ProductsPage />} />
+            <Route path="products/:id"          element={<ProductDetailPage />} />
+            <Route path="product-brain"         element={<ProductBrainPage />} />
+            <Route path="boardroom"             element={<AIBoardroomPage />} />
+            <Route path="competitors"           element={<CompetitorPage />} />
+            <Route path="sandbox"               element={<FeatureSandboxPage />} />
+            <Route path="roadmaps"              element={<RoadmapsPage />} />
+            <Route path="requirements"          element={<RequirementsPage />} />
+            <Route path="analytics"             element={<AnalyticsPage />} />
+            <Route path="settings"              element={<SettingsPage />} />
+          </Route>
+
+          {/* Catch-all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

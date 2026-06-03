@@ -9,6 +9,9 @@ const createSchema = z.object({
   workspaceSlug: z.string().min(1),
   name: z.string().min(1).max(120),
   description: z.string().max(2000).optional(),
+  targetAudience: z.string().max(500).optional(),
+  businessGoal: z.string().max(500).optional(),
+  pricingModel: z.string().max(200).optional(),
   industry: z.string().max(100).optional(),
   stage: z.nativeEnum(ProductStage).default(ProductStage.IDEA),
 });
@@ -29,16 +32,14 @@ export async function GET(req: NextRequest) {
 
     const { workspace } = await requireWorkspaceAccessBySlug(userId, workspaceSlug);
 
-    const pagination = paginationArgs({
-      page: Number(searchParams.get("page") ?? 1),
-      limit: Number(searchParams.get("limit") ?? 20),
-    });
+    const page  = Number(searchParams.get("page")  ?? 1);
+    const limit = Number(searchParams.get("limit") ?? 20);
 
     const where = { workspaceId: workspace.id, deletedAt: null };
     const [products, total] = await Promise.all([
       prisma.product.findMany({
         where,
-        ...pagination,
+        ...paginationArgs({ page, limit }),
         orderBy: { createdAt: "desc" },
         include: {
           _count: {
@@ -58,7 +59,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       success: true,
       data: products,
-      pagination: paginationMeta(total, pagination),
+      pagination: paginationMeta(total, { page, limit }),
     });
   } catch (error) {
     return handleRouteError(error);

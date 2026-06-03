@@ -7,6 +7,9 @@ import { ProductStage, WorkspaceRole } from "@prisma/client";
 const updateSchema = z.object({
   name: z.string().min(1).max(120).optional(),
   description: z.string().max(2000).nullable().optional(),
+  targetAudience: z.string().max(500).nullable().optional(),
+  businessGoal: z.string().max(500).nullable().optional(),
+  pricingModel: z.string().max(200).nullable().optional(),
   industry: z.string().max(100).nullable().optional(),
   stage: z.nativeEnum(ProductStage).optional(),
 });
