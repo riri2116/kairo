@@ -219,9 +219,14 @@ model Workspace {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  members          WorkspaceMember[]
-  products         Product[]
-  brainAnalyses    ProductBrainAnalysis[]
+  members              WorkspaceMember[]
+  products             Product[]
+  brainAnalyses        ProductBrainAnalysis[]
+  boardroomSessions    BoardroomSession[]
+  competitorAnalyses   CompetitorAnalysis[]
+  featureSandboxes     FeatureSandbox[]
+  roadmaps             Roadmap[]
+  requirements         ProductRequirement[]
 
   @@index([slug])
   @@index([deletedAt])
@@ -319,21 +324,24 @@ model Simulation {
 // ─────────────────────────────────────────────────────────────────────────────
 
 model BoardroomSession {
-  id         String        @id @default(uuid()) @db.Uuid
-  productId  String        @db.Uuid
-  topic      String
-  summary    String?
-  consensus  String?
-  status     SessionStatus @default(PENDING)
-  votes      Json?
-  transcript Json?
+  id          String        @id @default(uuid()) @db.Uuid
+  workspaceId String?       @db.Uuid
+  productId   String?       @db.Uuid
+  topic       String
+  summary     String?
+  consensus   String?
+  status      SessionStatus @default(PENDING)
+  votes       Json?
+  transcript  Json?
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  product   Product?   @relation(fields: [productId],   references: [id], onDelete: SetNull)
 
+  @@index([workspaceId])
   @@index([productId])
   @@index([status])
   @@index([deletedAt])
@@ -345,8 +353,9 @@ model BoardroomSession {
 // ─────────────────────────────────────────────────────────────────────────────
 
 model CompetitorAnalysis {
-  id             String   @id @default(uuid()) @db.Uuid
-  productId      String   @db.Uuid
+  id             String    @id @default(uuid()) @db.Uuid
+  workspaceId    String?   @db.Uuid
+  productId      String?   @db.Uuid
   competitorName String
   competitorUrl  String?
   strengths      String[]
@@ -361,8 +370,10 @@ model CompetitorAnalysis {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  product   Product?   @relation(fields: [productId],   references: [id], onDelete: SetNull)
 
+  @@index([workspaceId])
   @@index([productId])
   @@index([deletedAt])
   @@map("competitor_analyses")
@@ -373,25 +384,28 @@ model CompetitorAnalysis {
 // ─────────────────────────────────────────────────────────────────────────────
 
 model FeatureSandbox {
-  id                String        @id @default(uuid()) @db.Uuid
-  productId         String        @db.Uuid
-  featureName       String
-  description       String?
-  retentionImpact   Float?
-  revenueImpact     Float?
-  engagementImpact  Float?
+  id                 String        @id @default(uuid()) @db.Uuid
+  workspaceId        String?       @db.Uuid
+  productId          String?       @db.Uuid
+  featureName        String
+  description        String?
+  retentionImpact    Float?
+  revenueImpact      Float?
+  engagementImpact   Float?
   effortEstimateDays Int?
-  riskLevel         RiskLevel?
-  status            SandboxStatus @default(DRAFT)
-  parameters        Json?
-  results           Json?
+  riskLevel          RiskLevel?
+  status             SandboxStatus @default(DRAFT)
+  parameters         Json?
+  results            Json?
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  product   Product?   @relation(fields: [productId],   references: [id], onDelete: SetNull)
 
+  @@index([workspaceId])
   @@index([productId])
   @@index([status])
   @@index([deletedAt])
@@ -434,7 +448,8 @@ model Prediction {
 
 model Roadmap {
   id          String        @id @default(uuid()) @db.Uuid
-  productId   String        @db.Uuid
+  workspaceId String?       @db.Uuid
+  productId   String?       @db.Uuid
   title       String
   description String?
   quarter     String?
@@ -445,9 +460,11 @@ model Roadmap {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  product Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
-  items   RoadmapItem[]
+  workspace Workspace?  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  product   Product?    @relation(fields: [productId],   references: [id], onDelete: SetNull)
+  items     RoadmapItem[]
 
+  @@index([workspaceId])
   @@index([productId])
   @@index([status])
   @@index([deletedAt])
@@ -486,7 +503,8 @@ model RoadmapItem {
 
 model ProductRequirement {
   id                 String            @id @default(uuid()) @db.Uuid
-  productId          String            @db.Uuid
+  workspaceId        String?           @db.Uuid
+  productId          String?           @db.Uuid
   title              String
   description        String
   type               RequirementType   @default(FEATURE)
@@ -499,8 +517,10 @@ model ProductRequirement {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  product   Product?   @relation(fields: [productId],   references: [id], onDelete: SetNull)
 
+  @@index([workspaceId])
   @@index([productId])
   @@index([type])
   @@index([priority])

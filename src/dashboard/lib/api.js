@@ -112,11 +112,72 @@ export const brainApi = {
     if (type) params.set('type', type);
     return api.get(`/brain?${params}`);
   },
-
-  get: (id) => api.get(`/brain/${id}`),
-
-  create: (workspaceSlug, data) =>
-    api.post('/brain', { workspaceSlug, ...data }),
-
+  get:    (id) => api.get(`/brain/${id}`),
+  create: (workspaceSlug, data) => api.post('/brain', { workspaceSlug, ...data }),
   delete: (id) => api.delete(`/brain/${id}`),
+};
+
+// ─── Boardroom ────────────────────────────────────────────────────────────────
+
+export const boardroomApi = {
+  list: (workspaceSlug, { page = 1, limit = 20 } = {}) =>
+    api.get(`/boardroom?workspaceSlug=${encodeURIComponent(workspaceSlug)}&page=${page}&limit=${limit}`),
+  get:    (id) => api.get(`/boardroom/${id}`),
+  create: (workspaceSlug, data) => api.post('/boardroom', { workspaceSlug, ...data }),
+  delete: (id) => api.delete(`/boardroom/${id}`),
+};
+
+// ─── Competitors ──────────────────────────────────────────────────────────────
+
+export const competitorsApi = {
+  list: (workspaceSlug, { page = 1, limit = 20 } = {}) =>
+    api.get(`/competitors?workspaceSlug=${encodeURIComponent(workspaceSlug)}&page=${page}&limit=${limit}`),
+  get:    (id) => api.get(`/competitors/${id}`),
+  create: (workspaceSlug, data) => api.post('/competitors', { workspaceSlug, ...data }),
+  delete: (id) => api.delete(`/competitors/${id}`),
+};
+
+// ─── Feature Sandbox ──────────────────────────────────────────────────────────
+
+export const sandboxApi = {
+  list: (workspaceSlug, { page = 1, limit = 20 } = {}) =>
+    api.get(`/sandboxes?workspaceSlug=${encodeURIComponent(workspaceSlug)}&page=${page}&limit=${limit}`),
+  get:    (id) => api.get(`/sandboxes/${id}`),
+  create: (workspaceSlug, data) => api.post('/sandboxes', { workspaceSlug, ...data }),
+  delete: (id) => api.delete(`/sandboxes/${id}`),
+};
+
+// ─── Roadmaps ─────────────────────────────────────────────────────────────────
+
+export const roadmapsApi = {
+  list: (workspaceSlug, { page = 1, limit = 20 } = {}) =>
+    api.get(`/roadmaps?workspaceSlug=${encodeURIComponent(workspaceSlug)}&page=${page}&limit=${limit}`),
+  get:    (id) => api.get(`/roadmaps/${id}`),
+  create: (workspaceSlug, data) => api.post('/roadmaps', { workspaceSlug, ...data }),
+  update: (id, data) => api.patch(`/roadmaps/${id}`, data),
+  delete: (id) => api.delete(`/roadmaps/${id}`),
+  addItem:    (roadmapId, data) => api.post(`/roadmaps/${roadmapId}/items`, data),
+  updateItem: (roadmapId, itemId, data) => api.patch(`/roadmaps/${roadmapId}/items/${itemId}`, data),
+  deleteItem: (roadmapId, itemId) => api.delete(`/roadmaps/${roadmapId}/items/${itemId}`),
+};
+
+// ─── Requirements ─────────────────────────────────────────────────────────────
+
+export const requirementsApi = {
+  list: (workspaceSlug, { page = 1, limit = 50, status, type } = {}) => {
+    const params = new URLSearchParams({ workspaceSlug, page, limit });
+    if (status) params.set('status', status);
+    if (type)   params.set('type', type);
+    return api.get(`/requirements?${params}`);
+  },
+  get:    (id) => api.get(`/requirements/${id}`),
+  create: (workspaceSlug, data) => api.post('/requirements', { workspaceSlug, ...data }),
+  update: (id, data) => api.patch(`/requirements/${id}`, data),
+  delete: (id) => api.delete(`/requirements/${id}`),
+};
+
+// ─── Stats ────────────────────────────────────────────────────────────────────
+
+export const statsApi = {
+  get: (workspaceSlug) => api.get(`/stats?workspaceSlug=${encodeURIComponent(workspaceSlug)}`),
 };

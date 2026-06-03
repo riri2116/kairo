@@ -1,6 +1,10 @@
 {
-  "/page": "app/page.js",
+  "/api/stats/route": "app/api/stats/route.js",
+  "/api/sandboxes/route": "app/api/sandboxes/route.js",
   "/api/auth/token/route": "app/api/auth/token/route.js",
-  "/api/brain/route": "app/api/brain/route.js",
-  "/api/brain/[id]/route": "app/api/brain/[id]/route.js"
+  "/api/boardroom/route": "app/api/boardroom/route.js",
+  "/api/competitors/route": "app/api/competitors/route.js",
+  "/api/roadmaps/route": "app/api/roadmaps/route.js",
+  "/api/requirements/route": "app/api/requirements/route.js",
+  "/api/roadmaps/[id]/items/route": "app/api/roadmaps/[id]/items/route.js"
 }
