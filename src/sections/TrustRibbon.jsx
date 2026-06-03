@@ -2,14 +2,17 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FadeIn } from '../components/FadeIn';
 
-function Wave({ d, gradient, opacity, duration, delay, blur }) {
+function Band({ d, stroke, width, opacity, duration, delay, blur = 0 }) {
   return (
     <motion.path
       d={d}
-      fill={gradient}
+      fill="none"
+      stroke={stroke}
+      strokeWidth={width}
+      strokeLinecap="round"
       opacity={opacity}
       style={{ filter: blur ? `blur(${blur}px)` : 'none' }}
-      animate={{ x: [0, 20, 0], y: [0, -6, 0] }}
+      animate={{ y: [0, -10, 0], x: [0, 14, 0] }}
       transition={{ repeat: Infinity, duration, delay, ease: 'easeInOut' }}
     />
   );
@@ -19,7 +22,7 @@ export default function TrustRibbon() {
   const logos = ['aikido', 'Parim', 'LIVEFORCE', 'finbite', 'Parcel Tracker'];
 
   return (
-    <section className="section container" style={{ paddingTop: 'var(--spacing-xl)', paddingBottom: 'var(--spacing-xl)' }}>
+    <section className="section container ribbon-section">
       <FadeIn>
         <p className="text-center color-secondary" style={{ fontSize: 14, marginBottom: 'var(--spacing-md)' }}>
           AI agents running tailored demos &amp; onboarding 24/7
@@ -27,7 +30,7 @@ export default function TrustRibbon() {
       </FadeIn>
 
       <FadeIn delay={0.1}>
-        <div className="flex justify-center" style={{ marginBottom: '-12px', position: 'relative', zIndex: 3 }}>
+        <div className="flex justify-center" style={{ position: 'relative', zIndex: 3 }}>
           <a href="/dashboard/login" className="btn btn-primary ribbon-demo-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 3l4 4-4 4M11 7h8M19 13l-4 4 4 4M13 17H5" />
@@ -38,60 +41,52 @@ export default function TrustRibbon() {
       </FadeIn>
 
       <div className="ribbon-wrap">
-        <svg viewBox="0 0 1200 220" preserveAspectRatio="none" className="ribbon-svg" aria-hidden="true">
+        <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMid meet" className="ribbon-svg" aria-hidden="true">
           <defs>
-            <linearGradient id="ribbonBlue" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#1e63ff" stopOpacity="0" />
-              <stop offset="20%" stopColor="#2f7bff" stopOpacity="0.9" />
-              <stop offset="55%" stopColor="#7fb0ff" stopOpacity="0.55" />
-              <stop offset="100%" stopColor="#1e63ff" stopOpacity="0" />
+            <linearGradient id="rbBlue" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#2563EB" stopOpacity="0" />
+              <stop offset="22%" stopColor="#2563EB" stopOpacity="1" />
+              <stop offset="50%" stopColor="#60A5FA" stopOpacity="0.95" />
+              <stop offset="78%" stopColor="#3B82F6" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
             </linearGradient>
-            <linearGradient id="ribbonGold" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#ffd36b" stopOpacity="0" />
-              <stop offset="35%" stopColor="#ffc24a" stopOpacity="0.85" />
-              <stop offset="70%" stopColor="#ffe6a8" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#ffd36b" stopOpacity="0" />
+            <linearGradient id="rbGold" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#F59E0B" stopOpacity="0" />
+              <stop offset="28%" stopColor="#FBBF24" stopOpacity="1" />
+              <stop offset="60%" stopColor="#FCD34D" stopOpacity="0.95" />
+              <stop offset="100%" stopColor="#F59E0B" stopOpacity="0" />
             </linearGradient>
-            <linearGradient id="ribbonBlend" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#2f7bff" stopOpacity="0" />
-              <stop offset="30%" stopColor="#5fa0ff" stopOpacity="0.6" />
-              <stop offset="50%" stopColor="#ffd98a" stopOpacity="0.7" />
-              <stop offset="70%" stopColor="#2f7bff" stopOpacity="0.55" />
-              <stop offset="100%" stopColor="#2f7bff" stopOpacity="0" />
+            <linearGradient id="rbMix" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
+              <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.9" />
+              <stop offset="52%" stopColor="#FCD34D" stopOpacity="0.95" />
+              <stop offset="74%" stopColor="#3B82F6" stopOpacity="0.85" />
+              <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
             </linearGradient>
           </defs>
 
-          <Wave
-            d="M-50 150 Q 200 40, 420 120 T 820 90 Q 1050 60, 1250 140 L 1250 220 L -50 220 Z"
-            gradient="url(#ribbonGold)"
-            opacity={0.9}
-            duration={9}
-            delay={0}
-            blur={6}
+          {/* soft glow underlay */}
+          <Band
+            d="M-40 150 C 200 60, 360 70, 540 140 S 860 210, 1040 120 S 1200 70, 1260 110"
+            stroke="url(#rbGold)" width={70} opacity={0.4} duration={11} delay={0.2} blur={14}
           />
-          <Wave
-            d="M-50 120 Q 220 30, 460 110 T 880 80 Q 1080 50, 1250 120 L 1250 200 L -50 200 Z"
-            gradient="url(#ribbonBlend)"
-            opacity={0.85}
-            duration={11}
-            delay={0.4}
-            blur={3}
+          <Band
+            d="M-40 120 C 220 200, 380 200, 560 120 S 880 50, 1060 130 S 1220 180, 1260 130"
+            stroke="url(#rbBlue)" width={70} opacity={0.4} duration={12} delay={0.5} blur={14}
           />
-          <Wave
-            d="M-50 100 Q 180 180, 440 110 T 860 130 Q 1060 160, 1250 100 L 1250 180 L -50 180 Z"
-            gradient="url(#ribbonBlue)"
-            opacity={0.95}
-            duration={8}
-            delay={0.2}
-            blur={2}
+
+          {/* crisp ribbon bands */}
+          <Band
+            d="M-40 150 C 200 60, 360 70, 540 140 S 860 210, 1040 120 S 1200 70, 1260 110"
+            stroke="url(#rbGold)" width={34} opacity={0.95} duration={9} delay={0} blur={1}
           />
-          <Wave
-            d="M-50 90 Q 240 10, 500 90 T 900 70 Q 1090 40, 1250 95 L 1250 130 L -50 130 Z"
-            gradient="url(#ribbonBlue)"
-            opacity={0.6}
-            duration={13}
-            delay={0.8}
-            blur={0}
+          <Band
+            d="M-40 120 C 220 200, 380 200, 560 120 S 880 50, 1060 130 S 1220 180, 1260 130"
+            stroke="url(#rbBlue)" width={38} opacity={0.95} duration={10} delay={0.3} blur={1}
+          />
+          <Band
+            d="M-40 135 C 210 110, 380 150, 560 130 S 880 120, 1060 125 S 1220 130, 1260 120"
+            stroke="url(#rbMix)" width={20} opacity={0.9} duration={8} delay={0.15} blur={0}
           />
         </svg>
 

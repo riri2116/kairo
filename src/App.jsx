@@ -39,6 +39,7 @@ function LandingPage() {
       <Navigation />
       <main>
         <Hero />
+        <TrustRibbon />
         <AITerminal />
         <ProductBrain />
         <Boardroom />
@@ -48,7 +49,6 @@ function LandingPage() {
         <CompetitorIntelligence />
         <FeatureImpactSandbox />
         <Workflow />
-        <TrustRibbon />
         <Testimonials />
         <FAQ />
         <CTA />
