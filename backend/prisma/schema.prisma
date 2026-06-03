@@ -219,8 +219,9 @@ model Workspace {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  members  WorkspaceMember[]
-  products Product[]
+  members          WorkspaceMember[]
+  products         Product[]
+  brainAnalyses    ProductBrainAnalysis[]
 
   @@index([slug])
   @@index([deletedAt])
@@ -277,6 +278,7 @@ model Product {
   featureSandboxes   FeatureSandbox[]
   roadmaps           Roadmap[]
   requirements       ProductRequirement[]
+  brainAnalyses      ProductBrainAnalysis[]
 
   @@index([workspaceId])
   @@index([stage])
@@ -505,6 +507,60 @@ model ProductRequirement {
   @@index([status])
   @@index([deletedAt])
   @@map("product_requirements")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ProductBrain — AI-powered idea / feature / pricing / experiment analysis
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum BrainSubmissionType {
+  PRODUCT_IDEA
+  FEATURE_IDEA
+  PRICING_CHANGE
+  GROWTH_EXPERIMENT
+}
+
+enum BrainStatus {
+  PENDING
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+model ProductBrainAnalysis {
+  id             String               @id @default(uuid()) @db.Uuid
+  workspaceId    String               @db.Uuid
+  productId      String?              @db.Uuid
+  submissionType BrainSubmissionType
+  title          String
+  input          String               @db.Text
+  status         BrainStatus          @default(PENDING)
+
+  impactAnalysis      String?  @db.Text
+  riskAssessment      String?  @db.Text
+  technicalComplexity String?  @db.Text
+  revenueImpact       String?  @db.Text
+  retentionImpact     String?  @db.Text
+  recommendation      String?  @db.Text
+
+  confidenceScore Float?
+  riskLevel       RiskLevel?
+  rawResponse     Json?
+
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  product   Product?  @relation(fields: [productId],   references: [id], onDelete: SetNull)
+
+  @@index([workspaceId])
+  @@index([productId])
+  @@index([status])
+  @@index([submissionType])
+  @@index([deletedAt])
+  @@map("product_brain_analyses")
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

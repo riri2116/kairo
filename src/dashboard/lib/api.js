@@ -103,3 +103,20 @@ export const productsApi = {
 export const workspacesApi = {
   list: () => api.get('/workspaces'),
 };
+
+// ─── Product Brain ────────────────────────────────────────────────────────────
+
+export const brainApi = {
+  list: (workspaceSlug, { page = 1, limit = 20, type } = {}) => {
+    const params = new URLSearchParams({ workspaceSlug, page, limit });
+    if (type) params.set('type', type);
+    return api.get(`/brain?${params}`);
+  },
+
+  get: (id) => api.get(`/brain/${id}`),
+
+  create: (workspaceSlug, data) =>
+    api.post('/brain', { workspaceSlug, ...data }),
+
+  delete: (id) => api.delete(`/brain/${id}`),
+};
