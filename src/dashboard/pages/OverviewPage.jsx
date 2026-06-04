@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Brain, Users, Target, FlaskConical, TrendingUp, ArrowUpRight, Map, FileText, Package } from 'lucide-react';
+import {
+  Brain, Users, Target, FlaskConical, TrendingUp, ArrowUpRight,
+  Map, FileText, Package, Zap, Sparkles, Activity, ChevronRight,
+} from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { statsApi } from '../lib/api';
 import { useAuth } from '../lib/auth';
@@ -10,7 +13,6 @@ const TYPE_LABELS = {
 };
 const TYPE_COLOR = { PRODUCT_IDEA: '#6366f1', FEATURE_IDEA: '#8b5cf6', PRICING_CHANGE: '#10b981', GROWTH_EXPERIMENT: '#f59e0b' };
 const RISK_COLOR = { LOW: '#22c55e', MEDIUM: '#f59e0b', HIGH: '#ef4444', CRITICAL: '#7c2d12' };
-const PRIORITY_COLOR = { CRITICAL: '#ef4444', HIGH: '#f97316', MEDIUM: '#6366f1', LOW: '#888' };
 
 function timeAgo(iso) {
   const diff = Date.now() - new Date(iso).getTime();
@@ -22,12 +24,65 @@ function timeAgo(iso) {
   return `${Math.floor(h / 24)}d ago`;
 }
 
-const QUICK_LINKS = [
-  { label: 'Product Brain',           sub: 'AI-powered idea analysis',     icon: Brain,        path: '/dashboard/product-brain', color: '#EEF2FF', iconColor: '#6366f1' },
-  { label: 'AI Boardroom',            sub: 'Debate with 5 AI executives',  icon: Users,        path: '/dashboard/boardroom',     color: '#FFF7ED', iconColor: '#f97316' },
-  { label: 'Competitor Intelligence', sub: 'AI SWOT analysis',             icon: Target,       path: '/dashboard/competitors',   color: '#F0FDF4', iconColor: '#22c55e' },
-  { label: 'Feature Sandbox',         sub: 'Predict feature impact',       icon: FlaskConical, path: '/dashboard/sandbox',       color: '#FDF4FF', iconColor: '#a855f7' },
+const ANALYSIS_TOOLS = [
+  {
+    label: 'Product Brain',
+    sub: 'Simulate ideas & predict outcomes',
+    icon: Brain,
+    path: '/dashboard/product-brain',
+    gradient: 'linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%)',
+    iconBg: 'rgba(99,102,241,0.12)',
+    iconColor: '#6366f1',
+    accentColor: '#6366f1',
+  },
+  {
+    label: 'AI Boardroom',
+    sub: 'Debate with 5 AI executives',
+    icon: Users,
+    path: '/dashboard/boardroom',
+    gradient: 'linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%)',
+    iconBg: 'rgba(249,115,22,0.12)',
+    iconColor: '#f97316',
+    accentColor: '#f97316',
+  },
+  {
+    label: 'Emotion Simulator',
+    sub: 'Map your user emotional journey',
+    icon: Activity,
+    path: '/dashboard/emotion-simulator',
+    gradient: 'linear-gradient(135deg, #FDF4FF 0%, #FAE8FF 100%)',
+    iconBg: 'rgba(168,85,247,0.12)',
+    iconColor: '#a855f7',
+    accentColor: '#a855f7',
+  },
+  {
+    label: 'Feature Sandbox',
+    sub: 'Assess impact before you build',
+    icon: FlaskConical,
+    path: '/dashboard/sandbox',
+    gradient: 'linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%)',
+    iconBg: 'rgba(34,197,94,0.12)',
+    iconColor: '#22c55e',
+    accentColor: '#22c55e',
+  },
 ];
+
+const STAT_ACCENTS = ['#6366f1', '#f97316', '#10b981', '#a855f7'];
+
+function MiniBar({ pct, color }) {
+  const heights = [0.4, 0.6, 0.5, 0.75, 0.65, 0.85, 0.8, 1.0].map(h => Math.round(h * pct));
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 2, height: 24 }}>
+      {heights.map((h, i) => (
+        <div key={i} style={{
+          width: 3, height: `${Math.max(4, h)}%`, maxHeight: 24,
+          minHeight: 4, background: i === 7 ? color : `${color}30`,
+          borderRadius: 2, transition: 'height 0.4s ease',
+        }} />
+      ))}
+    </div>
+  );
+}
 
 export default function OverviewPage() {
   const { user, workspaceSlug } = useAuth();
@@ -51,119 +106,174 @@ export default function OverviewPage() {
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
 
   const statCards = [
-    { label: 'Products',           value: loading ? '—' : counts.products ?? 0 },
-    { label: 'Brain Analyses',     value: loading ? '—' : counts.brainAnalyses ?? 0 },
-    { label: 'Avg AI Confidence',  value: loading ? '—' : metrics.avgConfidence != null ? `${metrics.avgConfidence}%` : '—' },
-    { label: 'Open Requirements',  value: loading ? '—' : counts.openRequirements ?? 0 },
+    {
+      label: 'Products',
+      value: loading ? '—' : counts.products ?? 0,
+      sub: 'in workspace',
+      color: STAT_ACCENTS[0],
+      pct: Math.min(100, (counts.products ?? 0) * 20),
+    },
+    {
+      label: 'Brain Analyses',
+      value: loading ? '—' : counts.brainAnalyses ?? 0,
+      sub: `${loading ? '—' : counts.completedBrain ?? 0} completed`,
+      color: STAT_ACCENTS[1],
+      pct: Math.min(100, (counts.brainAnalyses ?? 0) * 15),
+    },
+    {
+      label: 'AI Confidence',
+      value: loading ? '—' : metrics.avgConfidence != null ? `${metrics.avgConfidence}%` : '—',
+      sub: 'average score',
+      color: STAT_ACCENTS[2],
+      pct: metrics.avgConfidence ?? 0,
+    },
+    {
+      label: 'Open Requirements',
+      value: loading ? '—' : counts.openRequirements ?? 0,
+      sub: `${loading ? '—' : counts.requirements ?? 0} total`,
+      color: STAT_ACCENTS[3],
+      pct: Math.min(100, (counts.openRequirements ?? 0) * 10),
+    },
   ];
 
-  // Merge recent activity into a flat list with type info
   const recentItems = [
     ...(activity.brain || []).map(a => ({
       icon: Brain, color: TYPE_COLOR[a.submissionType] || '#6366f1',
-      label: `Brain analysis: ${a.title}`,
+      label: a.title,
       sub: TYPE_LABELS[a.submissionType] || a.submissionType,
-      time: timeAgo(a.createdAt),
+      time: timeAgo(a.createdAt), badge: 'Brain',
     })),
     ...(activity.boardroom || []).map(a => ({
       icon: Users, color: '#f97316',
-      label: `Boardroom: ${a.topic}`,
-      sub: a.consensus || 'Session completed',
-      time: timeAgo(a.createdAt),
+      label: a.topic, sub: a.consensus || 'Session completed',
+      time: timeAgo(a.createdAt), badge: 'Boardroom',
     })),
     ...(activity.competitors || []).map(a => ({
       icon: Target, color: '#22c55e',
-      label: `Competitor: ${a.competitorName}`,
-      sub: `Threat score ${a.score}/100`,
-      time: timeAgo(a.createdAt),
+      label: a.competitorName, sub: `Threat score ${a.score}/100`,
+      time: timeAgo(a.createdAt), badge: 'Competitor',
     })),
     ...(activity.sandboxes || []).map(a => ({
       icon: FlaskConical, color: '#a855f7',
-      label: `Sandbox: ${a.featureName}`,
-      sub: `+${a.retentionImpact}% retention · ${RISK_COLOR[a.riskLevel] ? a.riskLevel + ' risk' : ''}`,
-      time: timeAgo(a.createdAt),
+      label: a.featureName,
+      sub: `+${a.retentionImpact}% retention · ${a.riskLevel?.toLowerCase() ?? ''} risk`,
+      time: timeAgo(a.createdAt), badge: 'Sandbox',
     })),
     ...(activity.requirements || []).map(a => ({
-      icon: FileText, color: PRIORITY_COLOR[a.priority] || '#6366f1',
-      label: a.title,
-      sub: `${a.priority} priority · ${a.status}`,
-      time: timeAgo(a.createdAt),
+      icon: FileText, color: '#6366f1',
+      label: a.title, sub: `${a.priority} priority · ${a.status}`,
+      time: timeAgo(a.createdAt), badge: 'Req',
     })),
-  ].sort((a, b) => 0).slice(0, 6);
+  ].slice(0, 8);
+
+  const hasData = !loading && (counts.brainAnalyses > 0 || counts.products > 0);
 
   return (
     <>
-      <div className="db-page-header">
-        <div>
-          <h1 className="db-page-title">{greeting}, {firstName}</h1>
-          <p className="db-page-subtitle">
-            {loading ? 'Loading your workspace…' :
-              counts.brainAnalyses > 0
-                ? `${counts.brainAnalyses} analyses · ${counts.competitors || 0} competitors · ${counts.sandboxes || 0} simulations`
-                : 'Your product intelligence workspace is ready'}
+      {/* ── Hero header ──────────────────────────────────────────────── */}
+      <div className="ov-hero">
+        <div className="ov-hero-left">
+          <div className="ov-hero-eyebrow">
+            <Sparkles size={12} />
+            Intelligence workspace
+          </div>
+          <h1 className="ov-hero-title">{greeting}, {firstName}</h1>
+          <p className="ov-hero-sub">
+            {loading
+              ? 'Loading your workspace…'
+              : hasData
+                ? `${counts.brainAnalyses ?? 0} analyses · ${counts.boardroomSessions ?? 0} boardroom sessions · ${counts.sandboxes ?? 0} simulations`
+                : 'Your product intelligence workspace is ready — run your first analysis below.'
+            }
           </p>
         </div>
+        <NavLink to="/dashboard/product-brain" className="ov-hero-cta">
+          <Zap size={14} />
+          New analysis
+        </NavLink>
       </div>
 
-      {/* Stats */}
-      <div className="db-stats-grid">
-        {statCards.map(s => (
-          <div key={s.label} className="db-stat-card">
-            <div className="db-stat-label">{s.label}</div>
-            <div className="db-stat-value">{s.value}</div>
+      {/* ── Stat cards ───────────────────────────────────────────────── */}
+      <div className="ov-stats">
+        {statCards.map((s, i) => (
+          <div key={s.label} className="ov-stat-card" style={{ '--accent': s.color }}>
+            <div className="ov-stat-top">
+              <div className="ov-stat-label">{s.label}</div>
+              <MiniBar pct={s.pct} color={s.color} />
+            </div>
+            <div className="ov-stat-value">{s.value}</div>
+            <div className="ov-stat-sub">{s.sub}</div>
           </div>
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-        {/* Quick Actions */}
+      {/* ── Main grid ────────────────────────────────────────────────── */}
+      <div className="ov-grid">
+
+        {/* Analysis tools */}
         <div className="db-card" style={{ marginBottom: 0 }}>
           <div className="db-card-header">
-            <span className="db-card-title">Quick actions</span>
+            <span className="db-card-title">Start an analysis</span>
+            <span className="db-card-action">AI-powered tools</span>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {QUICK_LINKS.map(({ label, sub, icon: Icon, path, color, iconColor }) => (
-              <NavLink key={path} to={path} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', borderRadius: 9, background: 'var(--surface-2)', border: '1px solid var(--border)', textDecoration: 'none', transition: 'border-color 0.15s' }}>
-                <div style={{ width: 34, height: 34, borderRadius: 8, background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <div className="ov-tools-grid">
+            {ANALYSIS_TOOLS.map(({ label, sub, icon: Icon, path, gradient, iconBg, iconColor, accentColor }) => (
+              <NavLink
+                key={path}
+                to={path}
+                className="ov-tool-card"
+                style={{ '--tool-gradient': gradient, '--tool-accent': accentColor }}
+              >
+                <div className="ov-tool-icon" style={{ background: iconBg }}>
                   <Icon size={16} color={iconColor} />
                 </div>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 550, color: 'var(--text-primary)', letterSpacing: '-0.01em' }}>{label}</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{sub}</div>
+                <div className="ov-tool-body">
+                  <div className="ov-tool-label">{label}</div>
+                  <div className="ov-tool-sub">{sub}</div>
                 </div>
-                <ArrowUpRight size={13} style={{ marginLeft: 'auto', color: 'var(--text-tertiary)' }} />
+                <ChevronRight size={14} className="ov-tool-arrow" />
               </NavLink>
             ))}
           </div>
         </div>
 
-        {/* Recent Activity */}
+        {/* Recent activity */}
         <div className="db-card" style={{ marginBottom: 0 }}>
           <div className="db-card-header">
             <span className="db-card-title">Recent activity</span>
+            {recentItems.length > 0 && (
+              <span className="db-card-action" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                {recentItems.length} events
+              </span>
+            )}
           </div>
           {loading ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {[1,2,3,4].map(i => <div key={i} style={{ height: 44, borderRadius: 8, background: 'var(--bg)' }} className="brain-skeleton" />)}
+              {[1,2,3,4].map(i => <div key={i} className="brain-skeleton" style={{ height: 52 }} />)}
             </div>
           ) : recentItems.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '32px 16px', color: 'var(--text-tertiary)', fontSize: 13 }}>
-              No activity yet — start by running an analysis or creating a product.
+            <div className="ov-empty-activity">
+              <div className="ov-empty-icon"><Brain size={20} /></div>
+              <p className="ov-empty-title">No activity yet</p>
+              <p className="ov-empty-sub">Run your first analysis to populate the feed.</p>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <div className="ov-activity-list">
               {recentItems.map((item, i) => {
                 const Icon = item.icon;
                 return (
-                  <div key={i} style={{ display: 'flex', gap: 10, padding: '10px 0', borderBottom: i < recentItems.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                    <div style={{ width: 30, height: 30, borderRadius: 7, background: `${item.color}18`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Icon size={14} color={item.color} />
+                  <div key={i} className="ov-activity-item" style={{ '--item-color': item.color }}>
+                    <div className="ov-activity-icon">
+                      <Icon size={13} />
                     </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 530, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.label}</div>
-                      <div style={{ fontSize: 12, color: 'var(--text-tertiary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.sub}</div>
+                    <div className="ov-activity-body">
+                      <div className="ov-activity-label">{item.label}</div>
+                      <div className="ov-activity-sub">{item.sub}</div>
                     </div>
-                    <div style={{ fontSize: 11, color: 'var(--text-tertiary)', flexShrink: 0, marginTop: 1 }}>{item.time}</div>
+                    <div className="ov-activity-right">
+                      <span className="ov-activity-badge">{item.badge}</span>
+                      <span className="ov-activity-time">{item.time}</span>
+                    </div>
                   </div>
                 );
               })}
@@ -172,25 +282,24 @@ export default function OverviewPage() {
         </div>
       </div>
 
-      {/* Feature area tiles */}
-      <div style={{ marginTop: 20, display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12 }}>
+      {/* ── Feature tiles ────────────────────────────────────────────── */}
+      <div className="ov-tiles">
         {[
-          { icon: Map,      label: 'Roadmaps',     count: counts.roadmaps,     path: '/dashboard/roadmaps',     color: '#22c55e', bg: '#F0FDF4' },
-          { icon: FileText, label: 'Requirements', count: counts.requirements, path: '/dashboard/requirements', color: '#6366f1', bg: '#EEF2FF' },
-          { icon: Package,  label: 'Products',     count: counts.products,     path: '/dashboard/products',     color: '#f97316', bg: '#FFF7ED' },
-          { icon: TrendingUp,label:'Analytics',    count: null,                path: '/dashboard/analytics',    color: '#a855f7', bg: '#FDF4FF' },
-        ].map(({ icon: Icon, label, count, path, color, bg }) => (
-          <NavLink key={path} to={path} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', background: 'var(--surface)', border: '1.5px solid var(--border)', borderRadius: 10, textDecoration: 'none', transition: 'border-color 0.15s, box-shadow 0.15s' }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-strong)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.06)'; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none'; }}>
-            <div style={{ width: 32, height: 32, borderRadius: 8, background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Icon size={15} color={color} />
+          { icon: Map,        label: 'Roadmaps',     count: counts.roadmaps,     path: '/dashboard/roadmaps',     color: '#22c55e' },
+          { icon: FileText,   label: 'Requirements', count: counts.requirements, path: '/dashboard/requirements', color: '#6366f1' },
+          { icon: Package,    label: 'Products',     count: counts.products,     path: '/dashboard/products',     color: '#f97316' },
+          { icon: Target,     label: 'Competitors',  count: counts.competitors,  path: '/dashboard/competitors',  color: '#ec4899' },
+          { icon: TrendingUp, label: 'Analytics',    count: null,                path: '/dashboard/analytics',    color: '#a855f7' },
+        ].map(({ icon: Icon, label, count, path, color }) => (
+          <NavLink key={path} to={path} className="ov-tile" style={{ '--tile-color': color }}>
+            <div className="ov-tile-icon">
+              <Icon size={14} color={color} />
             </div>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 550, color: 'var(--text-primary)' }}>{label}</div>
-              {count != null && !loading && <div style={{ fontSize: 11.5, color: 'var(--text-tertiary)' }}>{count} {label.toLowerCase()}</div>}
-            </div>
-            <ArrowUpRight size={12} style={{ marginLeft: 'auto', color: 'var(--text-tertiary)' }} />
+            <div className="ov-tile-label">{label}</div>
+            {count != null && !loading && (
+              <div className="ov-tile-count">{count}</div>
+            )}
+            <ArrowUpRight size={11} className="ov-tile-arrow" />
           </NavLink>
         ))}
       </div>

@@ -34,7 +34,17 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      await register(name.trim(), email.trim(), password);
+      const data = await register(name.trim(), email.trim(), password);
+      // Seed demo workspace data for new users (fire-and-forget)
+      const slug = data?.workspaces?.[0]?.slug;
+      if (slug) {
+        const token = localStorage.getItem('kairo_token');
+        fetch('/api/seed-demo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ workspaceSlug: slug }),
+        }).catch(() => {});
+      }
       navigate('/dashboard', { replace: true });
     } catch (err) {
       const issues = err?.data?.issues;

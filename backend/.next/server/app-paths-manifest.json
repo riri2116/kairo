@@ -1,3 +1,5 @@
 {
-  "/api/journeys/[id]/analyze/route": "app/api/journeys/[id]/analyze/route.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/stats/route": "app/api/stats/route.js",
+  "/api/auth/token/route": "app/api/auth/token/route.js"
 }
