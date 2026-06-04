@@ -1,1 +1,8 @@
-{}
+{
+  "/api/requirements/route": "app/api/requirements/route.js",
+  "/api/boardroom/route": "app/api/boardroom/route.js",
+  "/api/roadmaps/route": "app/api/roadmaps/route.js",
+  "/api/sandboxes/route": "app/api/sandboxes/route.js",
+  "/api/journeys/[id]/analyze/route": "app/api/journeys/[id]/analyze/route.js",
+  "/page": "app/page.js"
+}
