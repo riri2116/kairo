@@ -1,7 +1,8 @@
-modules = ["nodejs-20", "postgresql-16", "python-3.11"]
+modules = ["nodejs-20", "web"]
 [agent]
 expertMode = true
-stack = "BEST_EFFORT_FALLBACK"
+stack = "GAMESTACK_JS"
+integrations = ["javascript_gemini_ai_integrations:2.0.0"]
 
 [nix]
 channel = "stable-25_05"
@@ -59,13 +60,14 @@ localPort = 5001
 externalPort = 3002
 
 [deployment]
-deploymentTarget = "static"
+deploymentTarget = "autoscale"
 build = ["npm", "run", "build"]
 publicDir = "dist"
+run = ["node", "./dist/index.cjs"]
 
 [userenv]
 
 [userenv.shared]
-NEXTAUTH_SECRET = "Zwtrx2SBWlOFSyPP7mEMqNGaQeDuwoDS0NFT+W6Sy78="
 NEXTAUTH_URL = "http://localhost:3001"
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = ""
+NEXT_TELEMETRY_DISABLED = "1"
+NEXTAUTH_SECRET = "wvUQppmzGS2WxTnHPG0VYHJ4/kDmmwshvyFURXrxzsc="
