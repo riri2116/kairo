@@ -11,9 +11,7 @@ class RibbonBoundary extends Component {
   static getDerivedStateFromError() {
     return { failed: true };
   }
-  componentDidCatch() {
-    /* WebGL unavailable — silently fall back */
-  }
+  componentDidCatch() {}
   render() {
     if (this.state.failed) return this.props.fallback;
     return this.props.children;
@@ -25,8 +23,8 @@ export default function TrustRibbon() {
     <section className="ribbon-section">
       <div className="container">
         <FadeIn>
-          <p className="text-center color-secondary" style={{ fontSize: 14, marginBottom: 'var(--spacing-md)' }}>
-            AI agents running tailored demos &amp; onboarding 24/7
+          <p className="text-center color-secondary" style={{ fontSize: 15, marginBottom: 'var(--spacing-md)', lineHeight: 1.7 }}>
+            See what Kairo looks like for your kind of product
           </p>
         </FadeIn>
 
@@ -36,7 +34,7 @@ export default function TrustRibbon() {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 3l4 4-4 4M11 7h8M19 13l-4 4 4 4M13 17H5" />
               </svg>
-              See AI demo
+              See a live demo
             </a>
           </div>
         </FadeIn>

@@ -4,23 +4,25 @@ import { FadeIn } from '../components/FadeIn';
 
 export default function Workflow() {
   const steps = [
-    { label: "Idea", icon: "💡" },
-    { label: "Simulation", icon: "🧠" },
-    { label: "Debate", icon: "💬" },
-    { label: "Risk Analysis", icon: "🛡️" },
-    { label: "Launch", icon: "🚀" }
+    { label: "Your idea",    icon: "💡" },
+    { label: "Simulation",   icon: "🧠" },
+    { label: "Debate it",    icon: "💬" },
+    { label: "Risk check",   icon: "🛡️" },
+    { label: "Ship it",      icon: "🚀" }
   ];
 
   return (
     <section className="section container">
       <FadeIn>
         <div style={{ textAlign: 'center', marginBottom: 'var(--spacing-2xl)' }}>
-          <h2 className="text-3xl" style={{ marginBottom: 'var(--spacing-md)' }}>The Intelligence Workflow</h2>
+          <h2 className="text-3xl" style={{ marginBottom: 'var(--spacing-md)' }}>How it works</h2>
+          <p className="color-secondary" style={{ fontSize: 16, maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
+            From a rough idea to a confident decision — usually in a few minutes.
+          </p>
         </div>
       </FadeIn>
       
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', maxWidth: 900, margin: '0 auto', padding: '0 var(--spacing-lg)' }}>
-        {/* Connecting line */}
         <div style={{ position: 'absolute', top: 32, left: '50px', right: '50px', height: 1, background: 'var(--border)', zIndex: 0 }} />
         <motion.div 
           initial={{ width: 0 }}

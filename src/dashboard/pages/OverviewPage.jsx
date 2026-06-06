@@ -175,15 +175,15 @@ export default function OverviewPage() {
         <div className="ov-hero-left">
           <div className="ov-hero-eyebrow">
             <Sparkles size={12} />
-            Intelligence workspace
+            Your workspace
           </div>
           <h1 className="ov-hero-title">{greeting}, {firstName}</h1>
           <p className="ov-hero-sub">
             {loading
               ? 'Loading your workspace…'
               : hasData
-                ? `${counts.brainAnalyses ?? 0} analyses · ${counts.boardroomSessions ?? 0} boardroom sessions · ${counts.sandboxes ?? 0} simulations`
-                : 'Your product intelligence workspace is ready — run your first analysis below.'
+                ? `${counts.brainAnalyses ?? 0} ${counts.brainAnalyses === 1 ? 'analysis' : 'analyses'} · ${counts.boardroomSessions ?? 0} boardroom ${counts.boardroomSessions === 1 ? 'session' : 'sessions'} · ${counts.sandboxes ?? 0} ${counts.sandboxes === 1 ? 'simulation' : 'simulations'}`
+                : 'Ready when you are — pick a tool below and run your first analysis.'
             }
           </p>
         </div>
