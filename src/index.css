@@ -25,10 +25,10 @@ html {
   --inverse-text: #ffffff;
   --accent: #111111;
 
-  --sidebar-bg: #0F0F0F;
-  --sidebar-text: rgba(255, 255, 255, 0.55);
+  --sidebar-bg: #0d1117;
+  --sidebar-text: rgba(255, 255, 255, 0.58);
   --sidebar-text-active: #ffffff;
-  --sidebar-active-bg: rgba(255, 255, 255, 0.08);
+  --sidebar-active-bg: rgba(255, 255, 255, 0.09);
 
   --danger: #ef4444;
   --danger-strong: #e53935;
