@@ -14,11 +14,11 @@ const STEPS = [
   { label: 'Reading your product context', desc: 'Kairo frames the question against your goals and constraints.' },
   { label: 'Simulating user reactions', desc: 'Synthetic users respond the way your real segments would.' },
   { label: 'Mapping the emotional journey', desc: 'Pinpointing where delight turns to friction across the flow.' },
-  { label: 'Scoring impact & risk', desc: 'Weighing retention lift, effort, and downside together.' },
+  { label: 'Scoring impact and risk', desc: 'Weighing retention lift, effort, and downside together.' },
   { label: 'Drafting the recommendation', desc: 'A clear call — with the reasoning behind it.' },
 ];
 
-const SAMPLE_PROMPT = 'Should we add AI onboarding to cut new-user drop-off?';
+const SAMPLE_PROMPT = 'Should we add onboarding walkthroughs to cut new-user drop-off?';
 
 export default function AIDemo() {
   const [value, setValue] = useState('');
@@ -93,8 +93,8 @@ export default function AIDemo() {
           {!started ? (
             <>
               <FadeIn>
-                <p className="aidemo-eyebrow">AI Demo</p>
-                <h2 className="aidemo-title">See Kairo simulate<br />your product decisions</h2>
+                <p className="aidemo-eyebrow">Try it live</p>
+                <h2 className="aidemo-title">See Kairo work through<br />a real product question</h2>
               </FadeIn>
 
               <FadeIn delay={0.1}>
@@ -103,7 +103,7 @@ export default function AIDemo() {
                     className="aidemo-input"
                     type="text"
                     aria-label="Ask Kairo anything about your product"
-                    placeholder="Ask Kairo anything about your product…"
+                    placeholder="Ask anything about your product…"
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                   />
@@ -118,13 +118,13 @@ export default function AIDemo() {
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M8 5v14l11-7z" />
                   </svg>
-                  Start demo
+                  Run the demo
                 </button>
               </FadeIn>
             </>
           ) : (
             <div className="aidemo-run">
-              <p className="aidemo-run-label">Kairo is thinking</p>
+              <p className="aidemo-run-label">Working through it</p>
               <p className="aidemo-run-prompt">&ldquo;{prompt}&rdquo;</p>
 
               <div className="aidemo-steps">
@@ -155,11 +155,11 @@ export default function AIDemo() {
               {complete && (
                 <div className="aidemo-cta">
                   <p className="aidemo-cta-note">
-                    That&rsquo;s the shape of every Kairo run. Sign in to run the full simulation on your real product — with the data, charts, and recommendation in full.
+                    That&rsquo;s how every Kairo run works. Sign in to run the full simulation on your real product — with the data, charts, and recommendation in full.
                   </p>
                   <div className="aidemo-cta-row">
                     <button className="btn btn-primary aidemo-start" type="button" onClick={() => navigate('/dashboard/login')}>
-                      Run the full simulation
+                      Run on my product
                     </button>
                     <button className="aidemo-reset" type="button" onClick={reset}>
                       Ask something else

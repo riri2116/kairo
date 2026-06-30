@@ -5,7 +5,7 @@ const horizons = [
   {
     range: '30 Days',
     title: 'Immediate signal',
-    desc: 'Which user segments respond first, where activation friction lives, and what early retention tells you about product-market fit.',
+    desc: 'Which user segments respond first, where activation friction lives, and what early retention tells you about fit.',
   },
   {
     range: '90 Days',
@@ -15,12 +15,12 @@ const horizons = [
   {
     range: '1 Year',
     title: 'Strategic inflection',
-    desc: 'When you reach category tipping points, how competitive pressure shifts, and which bets compound into a durable moat.',
+    desc: 'When you reach category tipping points, how competitive pressure shifts, and which bets compound into lasting advantages.',
   },
   {
     range: '3 Years',
     title: 'Long-run compounding',
-    desc: 'How today\'s roadmap decisions accumulate — and which paths lead to leadership versus commoditization.',
+    desc: 'How today\'s roadmap decisions accumulate — and which paths lead to leadership versus being left behind.',
   },
 ];
 
@@ -37,8 +37,8 @@ const howItWorks = [
   },
   {
     step: '03',
-    title: 'See compounding effects',
-    detail: 'Understand how each choice ripples through retention, acquisition, and revenue over time.',
+    title: 'See the ripple effects',
+    detail: 'Understand how each choice plays out through retention, acquisition, and revenue over time.',
   },
 ];
 
@@ -50,14 +50,12 @@ export default function TimeMachine() {
     <section ref={ref} style={{ padding: '140px 0', background: 'var(--bg)' }}>
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 40px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '100px', alignItems: 'start' }}>
 
-        {/* Left: Horizon cards */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 20, overflow: 'hidden', boxShadow: '0 32px 72px rgba(0,0,0,0.07)' }}>
-            {/* Header */}
             <div style={{ padding: '28px 32px', borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
               <div style={{ fontSize: 11, color: 'var(--text-secondary)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>What Kairo models</div>
               <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0 }}>
@@ -65,7 +63,6 @@ export default function TimeMachine() {
               </p>
             </div>
 
-            {/* Horizon rows */}
             {horizons.map((h, i) => (
               <motion.div
                 key={i}
@@ -101,7 +98,6 @@ export default function TimeMachine() {
               </motion.div>
             ))}
 
-            {/* How it works */}
             <div style={{ padding: '24px 32px', background: 'var(--surface)', borderTop: '1px solid var(--border)' }}>
               <div style={{ fontSize: 11, color: 'var(--text-secondary)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>How it works</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -119,25 +115,24 @@ export default function TimeMachine() {
           </div>
         </motion.div>
 
-        {/* Right: Copy */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}
           style={{ paddingTop: 8 }}
         >
-          <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 28, fontWeight: 500 }}>05 — Product Time Machine</div>
+          <div style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 28, fontWeight: 500 }}>Plan ahead</div>
           <h2 style={{ fontFamily: 'Instrument Serif, serif', fontSize: 'clamp(38px, 3.8vw, 54px)', fontWeight: 400, lineHeight: 1.08, color: 'var(--text-primary)', marginBottom: 28 }}>
-            Fast-forward<br />to see how today's<br />decisions compound.
+            Fast-forward to see<br />how today's decisions<br />play out over time.
           </h2>
           <p style={{ fontSize: 17, color: 'var(--text-secondary)', lineHeight: 1.8, maxWidth: 400, marginBottom: 44 }}>
             Every product decision has a ripple effect. Kairo models those ripples across 30 days, 90 days, one year, and beyond — so you make choices that compound in your favour, not against it.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             {[
-              { label: 'Compounding scenario modeling', detail: 'See how small decisions stack into large outcomes over time.' },
-              { label: 'Milestone & inflection tracking', detail: 'Know when your next growth break is likely to hit.' },
-              { label: 'Divergent path comparison', detail: 'Compare the long-run outcomes of Build A vs. Build B.' },
+              { label: 'See how small decisions stack into large outcomes', detail: 'Understand the compounding effects of your choices before you make them.' },
+              { label: 'Know when your next meaningful shift is likely', detail: 'Kairo marks the inflection points in your growth model.' },
+              { label: 'Compare two paths side by side before committing', detail: 'Run Build A vs. Build B and see which one you\'d rather be on in a year.' },
             ].map((item, i) => (
               <motion.div
                 key={i}

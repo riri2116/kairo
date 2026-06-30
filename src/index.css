@@ -41,6 +41,12 @@ html {
 
   --shadow-color: rgba(30, 30, 50, 0.07);
 
+  --surface-invert: #0f0f0f;
+  --border-invert: #252525;
+  --text-invert: #f0f0f0;
+  --text-invert-muted: #888888;
+  --elevated-invert: #1a1a1a;
+
   --radius: 12px;
   --spacing-sm: 8px;
   --spacing-md: 16px;
@@ -79,6 +85,12 @@ html {
   --violet: #8ab4f8;
 
   --shadow-color: rgba(0, 0, 0, 0.6);
+
+  --surface-invert: #1c2030;
+  --border-invert: #2d3348;
+  --text-invert: #e8eaed;
+  --text-invert-muted: #8090a4;
+  --elevated-invert: #232839;
 }
 
 html {
@@ -152,7 +164,7 @@ h1, h2, h3, h4, h5, h6, .serif {
 }
 
 .btn-primary:hover {
-  background: #333;
+  opacity: 0.85;
 }
 
 .btn-ghost {
@@ -162,7 +174,7 @@ h1, h2, h3, h4, h5, h6, .serif {
 }
 
 .btn-ghost:hover {
-  background: rgba(0,0,0,0.05);
+  background: var(--surface);
 }
 
 .grid {
@@ -215,10 +227,15 @@ nav {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(246, 245, 242, 0.8);
-  backdrop-filter: blur(12px);
+  background: rgba(246, 245, 242, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
   padding: var(--spacing-md) 0;
+}
+
+[data-theme="dark"] nav {
+  background: rgba(10, 11, 16, 0.88);
 }
 
 .nav-content {

@@ -23,17 +23,14 @@ function toSVGPath(pts) {
 
 const pathD = toSVGPath(stages);
 
-// Continuous "breathing" frames — small offsets around the base emotional arc
-// so the line keeps drifting up and down while preserving its shape.
 const STAGE_X = stages.map(s => s.x);
 const FRAME_YS = [
-  stages.map(s => s.y),          // base
+  stages.map(s => s.y),
   [58, 27, 80, 13, 33],
   [66, 37, 70, 23, 23],
   [60, 30, 78, 16, 30],
 ];
 const buildPath = ys => toSVGPath(STAGE_X.map((x, i) => ({ x, y: ys[i] })));
-// Loop the first frame onto the end for a seamless cycle.
 const LOOP_YS    = [...FRAME_YS, FRAME_YS[0]];
 const LINE_FRAMES = LOOP_YS.map(buildPath);
 const AREA_FRAMES = LOOP_YS.map(ys => buildPath(ys) + ' L 85 100 L 5 100 Z');
@@ -52,7 +49,7 @@ function DashGlyph() {
   return (
     <svg viewBox="0 0 90 60" fill="none" aria-hidden="true">
       {GLYPH_DASHES.map((d, i) => (
-        <rect key={i} x={d.x} y={d.y} width="9" height="3.4" rx="1.7" fill="#1a1a1a" opacity="0.82" />
+        <rect key={i} x={d.x} y={d.y} width="9" height="3.4" rx="1.7" fill="currentColor" opacity="0.35" />
       ))}
     </svg>
   );
@@ -71,7 +68,7 @@ export default function EmotionSimulator() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 40, fontWeight: 500 }}
         >
-          Use Cases
+          How teams use it
         </motion.p>
         <div className="usecase-orbs" aria-hidden="true">
           <span className="usecase-pearl" style={{ top: '6%', left: '16%' }} />
@@ -85,24 +82,23 @@ export default function EmotionSimulator() {
 
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 40px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '100px', alignItems: 'center' }}>
 
-        {/* Left: Copy */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 28, fontWeight: 500 }}>04 — Emotion Simulator</div>
+          <div style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 28, fontWeight: 500 }}>Understand your users</div>
           <h2 style={{ fontFamily: 'Instrument Serif, serif', fontSize: 'clamp(38px, 3.8vw, 54px)', fontWeight: 400, lineHeight: 1.08, color: 'var(--text-primary)', marginBottom: 28 }}>
-            See how users<br />feel before they<br />ever touch your product.
+            See how users feel<br />before they ever touch<br />your product.
           </h2>
           <p style={{ fontSize: 17, color: 'var(--text-secondary)', lineHeight: 1.8, maxWidth: 400, marginBottom: 44 }}>
-            Map the emotional arc of every user journey. Identify where delight turns to frustration — and fix it before a single line of UX is designed.
+            Map the emotional arc of every user journey. Find the exact moments where delight turns to frustration — and fix them before a single line of UX is designed.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {[
               'Pinpoint drop-off moments before launch',
-              'Compare emotional journeys across personas',
-              'Annotate friction points with AI-generated fixes',
+              'Compare how different users experience the same flow',
+              'Spot friction points before users hit them',
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -120,7 +116,6 @@ export default function EmotionSimulator() {
           </div>
         </motion.div>
 
-        {/* Right: Emotion chart */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -132,10 +127,9 @@ export default function EmotionSimulator() {
                 <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 4 }}>Emotional Journey</div>
                 <div style={{ fontFamily: 'Instrument Serif, serif', fontSize: 20, color: 'var(--text-primary)' }}>New User · Onboarding Flow</div>
               </div>
-              <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 100, padding: '6px 14px', fontSize: 11, fontWeight: 500, color: '#16a34a' }}>5 stages</div>
+              <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 100, padding: '6px 14px', fontSize: 11, fontWeight: 500, color: '#16a34a' }}>5 stages</div>
             </div>
 
-            {/* Y-axis labels */}
             <div style={{ display: 'flex', gap: 0 }}>
               <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end', paddingRight: 12, fontSize: 10, color: 'var(--text-secondary)', height: 160, flexShrink: 0 }}>
                 <span>Delighted</span>
@@ -143,15 +137,12 @@ export default function EmotionSimulator() {
                 <span>Frustrated</span>
               </div>
 
-              {/* Chart area */}
               <div style={{ flex: 1, position: 'relative' }}>
                 <svg width="100%" height="160" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ overflow: 'visible', display: 'block' }}>
-                  {/* Grid lines */}
                   {[20, 50, 80].map(y => (
                     <line key={y} x1="0" y1={y} x2="100" y2={y} stroke="var(--border)" strokeWidth="0.5" strokeDasharray="2,2" />
                   ))}
 
-                  {/* Filled area */}
                   <motion.path
                     d={AREA_FRAMES[0]}
                     fill="rgba(0,0,0,0.03)"
@@ -163,7 +154,6 @@ export default function EmotionSimulator() {
                     }}
                   />
 
-                  {/* Main line */}
                   <motion.path
                     d={LINE_FRAMES[0]}
                     fill="none"
@@ -178,14 +168,13 @@ export default function EmotionSimulator() {
                     }}
                   />
 
-                  {/* Points */}
                   {stages.map((p, i) => (
                     <motion.circle
                       key={i}
                       cx={p.x}
                       cy={p.y}
                       r="2.2"
-                      fill="var(--white)"
+                      fill="var(--bg)"
                       stroke="var(--text-primary)"
                       strokeWidth="1.5"
                       initial={{ scale: 0 }}
@@ -200,7 +189,6 @@ export default function EmotionSimulator() {
               </div>
             </div>
 
-            {/* Stage labels */}
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 20, paddingLeft: 60 }}>
               {stages.map((p, i) => (
                 <motion.div

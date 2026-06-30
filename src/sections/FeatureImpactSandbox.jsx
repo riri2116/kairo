@@ -50,7 +50,7 @@ const outputs = [
   },
   {
     label: 'Risk level',
-    detail: 'Technical complexity, user adoption risk, and cannibalization of existing features.',
+    detail: 'Technical complexity, user adoption risk, and potential impact on existing features.',
     color: '#dc2626',
   },
 ];
@@ -63,14 +63,13 @@ export default function FeatureImpactSandbox() {
     <section className="section container" ref={ref}>
       <div className="grid grid-cols-2 gap-2xl items-start">
 
-        {/* Left: What you put in */}
         <FadeIn>
-          <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 20, fontWeight: 500 }}>06 — Feature Impact Sandbox</div>
-          <h2 className="text-3xl" style={{ marginBottom: 'var(--spacing-md)' }}>
+          <div style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 20, fontWeight: 500 }}>Before you commit</div>
+          <h2 className="text-3xl" style={{ marginBottom: 'var(--spacing-md)', fontFamily: 'Instrument Serif, serif', fontWeight: 400, lineHeight: 1.1 }}>
             Test any feature idea<br />before a sprint begins.
           </h2>
           <p className="color-secondary text-lg" style={{ marginBottom: 'var(--spacing-lg)' }}>
-            Describe a feature, tell Kairo who it's for and what you're optimising for — and get a structured impact assessment across retention, revenue, effort, and risk.
+            Describe a feature, tell Kairo who it's for and what you're trying to achieve — and get a structured read across retention, revenue, effort, and risk.
           </p>
 
           <div className="card" style={{ marginBottom: 'var(--spacing-md)', padding: '24px 28px' }}>
@@ -106,10 +105,14 @@ export default function FeatureImpactSandbox() {
           </div>
         </FadeIn>
 
-        {/* Right: What you get back */}
         <FadeIn delay={0.15}>
-          <div className="card" style={{ background: '#111', color: 'white', padding: '28px 32px' }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#666', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 20 }}>What Kairo returns</div>
+          <div style={{
+            background: 'var(--surface-invert, #0f0f0f)',
+            border: '1px solid var(--border-invert, #262626)',
+            borderRadius: 16,
+            padding: '28px 32px',
+          }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-invert-muted, #666)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 20 }}>What Kairo returns</div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
               {outputs.map((o, i) => (
@@ -121,7 +124,7 @@ export default function FeatureImpactSandbox() {
                   style={{
                     display: 'flex', gap: 14, alignItems: 'flex-start',
                     padding: '18px 0',
-                    borderBottom: i < outputs.length - 1 ? '1px solid #222' : 'none',
+                    borderBottom: i < outputs.length - 1 ? '1px solid var(--border-invert, #232323)' : 'none',
                   }}
                 >
                   <div style={{
@@ -129,17 +132,17 @@ export default function FeatureImpactSandbox() {
                     background: o.color, flexShrink: 0, marginTop: 5,
                   }} />
                   <div>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: '#f5f5f5', marginBottom: 4 }}>{o.label}</div>
-                    <div style={{ fontSize: 13, color: '#888', lineHeight: 1.65 }}>{o.detail}</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-invert, #f0f0f0)', marginBottom: 4 }}>{o.label}</div>
+                    <div style={{ fontSize: 13, color: 'var(--text-invert-muted, #888)', lineHeight: 1.65 }}>{o.detail}</div>
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            <div style={{ marginTop: 24, padding: '16px 20px', background: '#1a1a1a', borderRadius: 10, border: '1px solid #2a2a2a' }}>
-              <div style={{ fontSize: 12, color: '#555', marginBottom: 6 }}>No spreadsheets. No guesswork.</div>
-              <p style={{ fontSize: 13, color: '#888', lineHeight: 1.7, margin: 0 }}>
-                Every assessment is grounded in your product's specific context — not generic industry averages or hand-wavy estimates.
+            <div style={{ marginTop: 24, padding: '16px 20px', background: 'var(--elevated-invert, #1a1a1a)', borderRadius: 10, border: '1px solid var(--border-invert, #2a2a2a)' }}>
+              <div style={{ fontSize: 12, color: 'var(--text-invert-muted, #666)', marginBottom: 6 }}>No spreadsheets. No guesswork.</div>
+              <p style={{ fontSize: 13, color: 'var(--text-invert-muted, #888)', lineHeight: 1.7, margin: 0 }}>
+                Every assessment is grounded in your product's specific context — not generic benchmarks or hand-wavy estimates.
               </p>
             </div>
           </div>
@@ -150,7 +153,7 @@ export default function FeatureImpactSandbox() {
                 <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
               </svg>
               <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0 }}>
-                Results are saved to your workspace so your team can review, comment, and compare assessments across different feature ideas.
+                Results are saved to your workspace so your team can review, comment, and compare across different feature ideas.
               </p>
             </div>
           </div>

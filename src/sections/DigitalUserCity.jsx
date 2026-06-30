@@ -27,22 +27,21 @@ export default function DigitalUserCity() {
     <section ref={ref} style={{ padding: '140px 0', background: 'var(--surface)' }}>
       <div style={{ maxWidth: 1160, margin: '0 auto', padding: '0 40px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '100px', alignItems: 'center' }}>
 
-        {/* Left: Copy */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 28, fontWeight: 500 }}>06 — Digital User City</div>
+          <div style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 28, fontWeight: 500 }}>Know your users</div>
           <h2 style={{ fontFamily: 'Instrument Serif, serif', fontSize: 'clamp(38px, 3.8vw, 54px)', fontWeight: 400, lineHeight: 1.08, color: 'var(--text-primary)', marginBottom: 28 }}>
-            Your users,<br />visualized as a<br />living ecosystem.
+            See who's thriving,<br />who's at risk, and<br />what to do about it.
           </h2>
           <p style={{ fontSize: 17, color: 'var(--text-secondary)', lineHeight: 1.8, maxWidth: 400, marginBottom: 44 }}>
-            Don't just count users. Understand them. Kairo segments your user base in real-time and shows how each group shifts when you simulate a product decision.
+            Don't just count users — understand them. Kairo segments your user base and shows you how each group shifts when you simulate a product change.
           </p>
 
           <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 14, padding: '24px 28px', marginBottom: 36 }}>
-            <div style={{ fontSize: 11, color: 'var(--text-secondary)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>Simulated Post-Launch Shift</div>
+            <div style={{ fontSize: 11, color: 'var(--text-secondary)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>Simulated post-launch shift</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[
                 { label: 'Power Users', change: '+12%', positive: true },
@@ -58,7 +57,11 @@ export default function DigitalUserCity() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {['Real-time segment health monitoring', 'Simulate feature impact per segment', 'Winback playbooks for churned users'].map((item, i) => (
+            {[
+              'Always know which segments are growing or slipping',
+              'Simulate how a feature change affects each group',
+              'Playbooks for bringing back users who\'ve gone quiet',
+            ].map((item, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -10 }}
@@ -75,7 +78,6 @@ export default function DigitalUserCity() {
           </div>
         </motion.div>
 
-        {/* Right: Segment cards */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}

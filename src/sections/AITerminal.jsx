@@ -4,9 +4,9 @@ import { motion, useInView } from 'framer-motion';
 const RESPONSE = [
   { id: 0, delay: 400,  type: 'status', text: 'Running 14,200 session simulations...' },
   { id: 1, delay: 1200, type: 'metric', label: 'Retention Impact', value: '+23%',  sub: 'vs. baseline cohort', good: true },
-  { id: 2, delay: 1700, type: 'metric', label: 'Risk Score',       value: 'Medium', sub: 'Onboarding friction detected', good: null },
-  { id: 3, delay: 2200, type: 'metric', label: 'Confidence',       value: '82%',   sub: 'High-signal data available', good: true },
-  { id: 4, delay: 3000, type: 'rec',    text: 'Launch as a phased beta. Power users show strong intent — but first-session drop-off could cap adoption. Pair with an in-app tutorial before full rollout.' },
+  { id: 2, delay: 1700, type: 'metric', label: 'Risk Level',       value: 'Medium', sub: 'Onboarding friction detected', good: null },
+  { id: 3, delay: 2200, type: 'metric', label: 'Confidence',       value: '82%',   sub: 'Strong signal in the data', good: true },
+  { id: 4, delay: 3000, type: 'rec',    text: 'Launch as a phased beta. Power users show strong intent — but first-session drop-off could cap adoption. Pair with an in-app walkthrough before full rollout.' },
 ];
 
 function AnimatedResponse({ active }) {
@@ -34,13 +34,13 @@ function AnimatedResponse({ active }) {
                 transition={{ repeat: 3, duration: 0.6 }}
                 style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', flexShrink: 0 }}
               />
-              <span style={{ fontSize: 12, color: '#888', fontFamily: 'monospace' }}>{item.text}</span>
+              <span style={{ fontSize: 12, color: '#777', fontFamily: 'monospace' }}>{item.text}</span>
             </div>
           )}
           {item.type === 'metric' && (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#161616', border: '1px solid #252525', borderRadius: 10, padding: '14px 18px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 10, padding: '14px 18px' }}>
               <div>
-                <div style={{ fontSize: 11, color: '#666', letterSpacing: '0.05em', marginBottom: 4 }}>{item.label}</div>
+                <div style={{ fontSize: 11, color: '#777', letterSpacing: '0.05em', marginBottom: 4 }}>{item.label}</div>
                 <div style={{ fontSize: 11, color: '#555' }}>{item.sub}</div>
               </div>
               <div style={{ fontSize: 22, fontWeight: 600, fontFamily: 'monospace', color: item.good === true ? '#4ade80' : item.good === false ? '#f87171' : '#f59e0b' }}>
@@ -49,7 +49,7 @@ function AnimatedResponse({ active }) {
             </div>
           )}
           {item.type === 'rec' && (
-            <div style={{ background: '#111', border: '1px solid #252525', borderLeft: '2px solid #555', borderRadius: '0 10px 10px 10px', padding: '16px 18px' }}>
+            <div style={{ background: '#141414', border: '1px solid #2a2a2a', borderLeft: '2px solid #444', borderRadius: '0 10px 10px 10px', padding: '16px 18px' }}>
               <div style={{ fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#555', marginBottom: 10, fontWeight: 600 }}>Kairo · Recommendation</div>
               <p style={{ fontSize: 13, color: '#bbb', lineHeight: 1.75 }}>{item.text}</p>
             </div>
@@ -73,15 +73,19 @@ export default function AITerminal() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 28, fontWeight: 500 }}>01 — Decision Intelligence</div>
+          <div style={{ fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 28, fontWeight: 500 }}>Ask a question</div>
           <h2 style={{ fontFamily: 'Instrument Serif, serif', fontSize: 'clamp(38px, 3.8vw, 54px)', fontWeight: 400, lineHeight: 1.08, color: 'var(--text-primary)', marginBottom: 28 }}>
-            Ask anything.<br />Get boardroom-<br />grade answers.
+            Ask anything.<br />Get a real answer,<br />not a best guess.
           </h2>
           <p style={{ fontSize: 17, color: 'var(--text-secondary)', lineHeight: 1.8, maxWidth: 400, marginBottom: 44 }}>
-            Type a product question. Kairo simulates thousands of scenarios against your live data and returns structured predictions — not opinions.
+            Type a product question. Kairo checks it against your live data, runs through hundreds of scenarios, and gives you a clear recommendation — with the reasoning behind it.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {['Simulates across 100+ outcome variables', 'Surfaces risks before they become blockers', 'Updates live as your data changes'].map((item, i) => (
+            {[
+              'Checks your idea against dozens of real-world scenarios',
+              'Flags the problems you haven\'t thought of yet',
+              'Stays in sync with your product as it evolves',
+            ].map((item, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -12 }}
@@ -103,19 +107,19 @@ export default function AITerminal() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div style={{ background: '#0c0c0c', borderRadius: 20, overflow: 'hidden', border: '1px solid #1e1e1e', boxShadow: '0 48px 96px rgba(0,0,0,0.22), 0 12px 32px rgba(0,0,0,0.12)' }}>
-            <div style={{ padding: '13px 20px', borderBottom: '1px solid #1a1a1a', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ background: '#0d0d0d', borderRadius: 20, overflow: 'hidden', border: '1px solid #1e1e1e', boxShadow: '0 48px 96px rgba(0,0,0,0.28), 0 12px 32px rgba(0,0,0,0.14)' }}>
+            <div style={{ padding: '13px 20px', borderBottom: '1px solid #1c1c1c', display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{ display: 'flex', gap: 6 }}>
                 {['#ff5f56','#ffbd2e','#27c93f'].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', background: c }} />)}
               </div>
-              <span style={{ flex: 1, textAlign: 'center', fontSize: 11, color: '#444', fontFamily: 'monospace' }}>kairo — simulation engine</span>
+              <span style={{ flex: 1, textAlign: 'center', fontSize: 11, color: '#444', fontFamily: 'monospace' }}>kairo — simulation</span>
             </div>
             <div style={{ padding: '28px 22px' }}>
               <div style={{ display: 'flex', gap: 12, marginBottom: 24, alignItems: 'flex-start' }}>
                 <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#1e1e1e', border: '1px solid #2a2a2a', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <span style={{ fontSize: 9, color: '#666', fontWeight: 700 }}>PM</span>
                 </div>
-                <div style={{ background: '#181818', border: '1px solid #252525', borderRadius: '2px 12px 12px 12px', padding: '12px 16px' }}>
+                <div style={{ background: '#1a1a1a', border: '1px solid #272727', borderRadius: '2px 12px 12px 12px', padding: '12px 16px' }}>
                   <p style={{ fontSize: 14, color: '#ddd', margin: 0 }}>Should we launch AI flashcards?</p>
                 </div>
               </div>
