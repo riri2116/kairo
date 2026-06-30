@@ -51,7 +51,11 @@ export async function POST(req: NextRequest) {
     }
 
     // Sign a JWT with the same secret NextAuth uses
-    const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET!);
+    if (!process.env.NEXTAUTH_SECRET) {
+      console.error("[POST /api/auth/token] NEXTAUTH_SECRET is not set");
+      return NextResponse.json({ success: false, error: "Server configuration error" }, { status: 500 });
+    }
+    const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET);
     const token = await new SignJWT({ email: user.email })
       .setProtectedHeader({ alg: "HS256" })
       .setSubject(user.id)

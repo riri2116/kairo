@@ -17,7 +17,10 @@ export async function getSessionUserId(): Promise<string | null> {
 }
 
 function jwtSecret() {
-  return new TextEncoder().encode(process.env.NEXTAUTH_SECRET!);
+  if (!process.env.NEXTAUTH_SECRET) {
+    throw new Error("NEXTAUTH_SECRET environment variable is not set");
+  }
+  return new TextEncoder().encode(process.env.NEXTAUTH_SECRET);
 }
 
 /**

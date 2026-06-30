@@ -70,4 +70,4 @@ run = ["node", "./dist/index.cjs"]
 [userenv.shared]
 NEXTAUTH_URL = "http://localhost:3001"
 NEXT_TELEMETRY_DISABLED = "1"
-NEXTAUTH_SECRET = "wvUQppmzGS2WxTnHPG0VYHJ4/kDmmwshvyFURXrxzsc="
+NEXTAUTH_SECRET = "vzMbhoIFfQ5Z61/mZR8GGBi9rswKKVEltkHYOTNepDM="
