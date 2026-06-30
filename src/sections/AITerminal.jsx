@@ -2,11 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 const RESPONSE = [
-  { id: 0, delay: 400,  type: 'status', text: 'Running 14,200 session simulations...' },
-  { id: 1, delay: 1200, type: 'metric', label: 'Retention Impact', value: '+23%',  sub: 'vs. baseline cohort', good: true },
-  { id: 2, delay: 1700, type: 'metric', label: 'Risk Level',       value: 'Medium', sub: 'Onboarding friction detected', good: null },
-  { id: 3, delay: 2200, type: 'metric', label: 'Confidence',       value: '82%',   sub: 'Strong signal in the data', good: true },
-  { id: 4, delay: 3000, type: 'rec',    text: 'Launch as a phased beta. Power users show strong intent — but first-session drop-off could cap adoption. Pair with an in-app walkthrough before full rollout.' },
+  { id: 0, delay: 400,  type: 'status', text: 'Running 9,600 merchant simulations...' },
+  { id: 1, delay: 1200, type: 'metric', label: 'Retention Impact', value: '+21%',  sub: 'vs. baseline merchant cohort', good: true },
+  { id: 2, delay: 1700, type: 'metric', label: 'Risk Level',       value: 'Medium', sub: 'NACH mandate rejection rate elevated', good: null },
+  { id: 3, delay: 2200, type: 'metric', label: 'Confidence',       value: '86%',   sub: 'Strong signal from payment data', good: true },
+  { id: 4, delay: 3000, type: 'rec',    text: 'Launch to beta merchants on Razorpay-integrated plans first. Tier-2 city merchants show strong UPI adoption — but NACH setup drop-off at step 3 could cap growth. Add a one-click mandate setup via eSigning before full rollout.' },
 ];
 
 function AnimatedResponse({ active }) {
@@ -120,7 +120,7 @@ export default function AITerminal() {
                   <span style={{ fontSize: 9, color: '#666', fontWeight: 700 }}>PM</span>
                 </div>
                 <div style={{ background: '#1a1a1a', border: '1px solid #272727', borderRadius: '2px 12px 12px 12px', padding: '12px 16px' }}>
-                  <p style={{ fontSize: 14, color: '#ddd', margin: 0 }}>Should we launch AI flashcards?</p>
+                  <p style={{ fontSize: 14, color: '#ddd', margin: 0 }}>Should we add UPI AutoPay for subscription renewals?</p>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>

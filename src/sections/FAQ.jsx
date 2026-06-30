@@ -5,7 +5,7 @@ export default function FAQ() {
   const faqs = [
     {
       q: "How is this different from user research tools?",
-      a: "Research tools ask users what they think. Kairo simulates what users will actually do — based on behaviour patterns, not self-reported surveys. It's the difference between asking someone if they'd pay $50 for something and watching whether they reach for their wallet."
+      a: "Research tools ask users what they think. Kairo simulates what users will actually do — based on behaviour patterns, not self-reported surveys. It's the difference between asking someone if they'd pay ₹4,000 for something and watching whether they reach for their phone to pay."
     },
     {
       q: "Can it connect to our existing tools?",
@@ -21,7 +21,11 @@ export default function FAQ() {
     },
     {
       q: "What's free?",
-      a: "The free plan gives you 5 feature simulations per month and access to the AI Boardroom for one product. Plenty to get a feel for whether it fits how your team works."
+      a: "The free plan gives you 5 feature simulations per month and access to the Boardroom for one product. Plenty to get a feel for whether Kairo fits how your team works."
+    },
+    {
+      q: "Is Kairo built for Indian products?",
+      a: "Yes. Kairo is built in India, for Indian product teams. Examples, benchmarks, and market context are all grounded in the Indian internet ecosystem — from UPI-first fintechs to vernacular EdTech to tier-2 SaaS."
     }
   ];
 
@@ -30,7 +34,7 @@ export default function FAQ() {
       <FadeIn>
         <h2 className="text-3xl text-center" style={{ marginBottom: 16 }}>A few questions we hear a lot</h2>
         <p className="text-center color-secondary" style={{ marginBottom: 'var(--spacing-xl)', fontSize: 16, lineHeight: 1.7 }}>
-          If yours isn't here, just reach out — we're pretty quick to reply.
+          If yours isn't here, just reach out — we reply quickly.
         </p>
       </FadeIn>
       <div className="card" style={{ padding: '0 var(--spacing-lg)' }}>

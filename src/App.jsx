@@ -15,6 +15,7 @@ import CompetitorIntelligence from './sections/CompetitorIntelligence';
 import FeatureImpactSandbox from './sections/FeatureImpactSandbox';
 import Workflow from './sections/Workflow';
 import TrustRibbon from './sections/TrustRibbon';
+import Testimonials from './sections/Testimonials';
 import FAQ from './sections/FAQ';
 import CTA from './sections/CTA';
 import Footer from './sections/Footer';
@@ -51,6 +52,7 @@ function LandingPage() {
         <CompetitorIntelligence />
         <FeatureImpactSandbox />
         <Workflow />
+        <Testimonials />
         <FAQ />
         <CTA />
       </main>

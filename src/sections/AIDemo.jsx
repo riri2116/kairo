@@ -18,7 +18,7 @@ const STEPS = [
   { label: 'Drafting the recommendation', desc: 'A clear call — with the reasoning behind it.' },
 ];
 
-const SAMPLE_PROMPT = 'Should we add onboarding walkthroughs to cut new-user drop-off?';
+const SAMPLE_PROMPT = 'Should we add vernacular language support to reach tier-2 and tier-3 cities?';
 
 export default function AIDemo() {
   const [value, setValue] = useState('');
